@@ -3,7 +3,9 @@ import dataService from './services/dataService';
 import SmartCoachOnboarding from './components/SmartCoachOnboarding';
 
 function App() {
-  const [view, setView] = useState('home');
+  // Check URL hash for direct navigation
+  const initialView = window.location.hash === '#smart-onboarding' ? 'smart-onboarding' : 'home';
+  const [view, setView] = useState(initialView);
   const [isListening, setIsListening] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [completedVideos, setCompletedVideos] = useState(new Set());

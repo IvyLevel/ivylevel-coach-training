@@ -5,6 +5,7 @@ import SmartCoachOnboarding from './components/SmartCoachOnboarding';
 function App() {
   // Check URL hash for direct navigation
   const initialView = window.location.hash === '#smart-onboarding' ? 'smart-onboarding' : 'home';
+  console.log('URL hash:', window.location.hash, 'Initial view:', initialView);
   const [view, setView] = useState(initialView);
   const [isListening, setIsListening] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -352,7 +353,17 @@ function App() {
 
   // Smart Coach Onboarding View
   if (view === 'smart-onboarding') {
-    return <SmartCoachOnboarding />;
+    return (
+      <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', padding: '20px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', textAlign: 'center' }}>
+            <h1>🎯 Smart Coach Onboarding Loading...</h1>
+            <p>If you see this message, the routing is working!</p>
+          </div>
+          <SmartCoachOnboarding />
+        </div>
+      </div>
+    );
   }
 
   // Onboarding View with Real Training Videos

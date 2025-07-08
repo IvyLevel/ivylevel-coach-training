@@ -182,6 +182,9 @@ function App() {
                 <p style={{ color: '#6b7280', margin: 0 }}>
                   Welcome back, Admin
                 </p>
+                <p style={{ color: '#9ca3af', fontSize: '0.75rem', marginTop: '4px' }}>
+                  Version: Smart Onboarding Enabled
+                </p>
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
                 <button onClick={() => setView('smart-onboarding')} style={{ padding: '8px 16px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>

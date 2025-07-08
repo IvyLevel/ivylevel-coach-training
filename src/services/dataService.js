@@ -95,8 +95,16 @@ export const dataService = {
   async getIndexedVideos() {
     try {
       const videosRef = collection(db, 'indexed_videos');
-      const q = query(videosRef, orderBy('date', 'desc'), limit(100));
-      const snapshot = await getDocs(q);
+      // Try without orderBy first in case 'date' field doesn't exist
+      let snapshot;
+      try {
+        const q = query(videosRef, orderBy('date', 'desc'), limit(100));
+        snapshot = await getDocs(q);
+      } catch (orderError) {
+        console.log('Order by date failed, trying without order:', orderError);
+        const q = query(videosRef, limit(100));
+        snapshot = await getDocs(q);
+      }
       
       console.log(`Found ${snapshot.size} videos in database`);
       

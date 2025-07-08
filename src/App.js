@@ -280,17 +280,6 @@ function App() {
                   ))}
                 </div>
                 
-                {/* Debug Info */}
-                <div style={{ marginTop: '24px', padding: '16px', backgroundColor: '#fef3c7', borderRadius: '8px' }}>
-                  <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '8px' }}>🔍 DEBUG INFO</h3>
-                  <p style={{ fontSize: '0.875rem', color: '#92400e' }}>
-                    Status: {loading ? 'Loading...' : 'Loaded'}<br/>
-                    Coaches: {coaches.length}<br/>
-                    Videos: {indexedVideos.length}<br/>
-                    Stats: {JSON.stringify(platformStats)}<br/>
-                    Loaded: {coaches.length} coaches, {indexedVideos.length} videos
-                  </p>
-                </div>
               </div>
             )}
 

@@ -308,6 +308,10 @@
                 
                 window.allVideos = snapshot.docs.map(doc => {
                     const data = doc.data();
+                    // Log first video to see structure
+                    if (window.allVideos.length === 0) {
+                        console.log('Sample video data:', data);
+                    }
                     return {
                         id: doc.id,
                         title: data.title || data.name || 'Untitled Video',
@@ -316,8 +320,8 @@
                         duration: data.duration || '30:00',
                         date: data.date || data.uploadDate,
                         category: data.category || 'General',
-                        webViewLink: data.webViewLink || data.driveLink,
-                        fileId: data.id || data.googleDriveId,
+                        webViewLink: data.webViewLink || data.driveLink || data.link,
+                        fileId: data.fileId || data.googleDriveId || data.driveId,
                         relevance: 0 // Will be calculated
                     };
                 });
@@ -363,7 +367,7 @@
                 }
                 
                 // Recent videos get bonus
-                if (video.date && video.date.includes('2024')) {
+                if (video.date && typeof video.date === 'string' && video.date.includes('2024')) {
                     score += 10;
                 }
                 
@@ -385,7 +389,7 @@
             } else if (window.currentFilter === 'recommended') {
                 videosToShow = videosToShow.filter(v => v.relevance >= 30 && v.relevance < 50);
             } else if (window.currentFilter === 'recent') {
-                videosToShow = videosToShow.filter(v => v.date && v.date.includes('2024'));
+                videosToShow = videosToShow.filter(v => v.date && typeof v.date === 'string' && v.date.includes('2024'));
             }
             
             // Update title
@@ -429,13 +433,36 @@
             
             // Extract Google Drive file ID from various URL formats
             let fileId = null;
-            if (video.webViewLink) {
-                // Try to extract file ID from URL
-                const match = video.webViewLink.match(/[-\w]{25,}(?!.*[-\w]{25,})/);
+            
+            // First try the fileId field
+            if (video.fileId && video.fileId.length > 20) {
+                fileId = video.fileId;
+            }
+            // Then try webViewLink
+            else if (video.webViewLink) {
+                console.log('WebViewLink:', video.webViewLink);
+                
+                // Try different patterns
+                // Pattern 1: /d/{fileId}/
+                let match = video.webViewLink.match(/\/d\/([a-zA-Z0-9-_]+)/);
                 if (match) {
-                    fileId = match[0];
+                    fileId = match[1];
+                } else {
+                    // Pattern 2: id={fileId}
+                    match = video.webViewLink.match(/id=([a-zA-Z0-9-_]+)/);
+                    if (match) {
+                        fileId = match[1];
+                    } else {
+                        // Pattern 3: Just find any long ID-like string
+                        match = video.webViewLink.match(/[a-zA-Z0-9-_]{25,}/);
+                        if (match) {
+                            fileId = match[0];
+                        }
+                    }
                 }
             }
+            
+            console.log('Extracted fileId:', fileId);
             
             if (fileId) {
                 // Create Google Drive embed

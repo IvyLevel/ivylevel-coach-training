@@ -25,7 +25,7 @@ export const dataService = {
           name: data.name || doc.id,
           email: data.email || `${doc.id.toLowerCase()}@ivylevel.com`,
           studentCount: data.videoCount || data.assignedStudents?.length || 0,
-          rating: data.averageRating || 4.5,
+          rating: data.rating || data.averageRating || 4.5,
           status: data.status || 'active',
           videoCount: data.videoCount || 0
         };
@@ -34,6 +34,12 @@ export const dataService = {
       console.error('Error fetching coaches - Full error:', error);
       console.error('Error code:', error.code);
       console.error('Error message:', error.message);
+      
+      // If permission denied, return message
+      if (error.code === 'permission-denied') {
+        console.error('Firebase security rules are blocking access. Update rules to allow read access.');
+      }
+      
       // Return empty array on error
       return [];
     }

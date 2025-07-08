@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import dataService from './services/dataService';
+import SmartCoachOnboarding from './components/SmartCoachOnboarding';
 
 function App() {
   const [view, setView] = useState('home');
@@ -182,9 +183,14 @@ function App() {
                   Welcome back, Admin
                 </p>
               </div>
-              <button onClick={() => setView('home')} style={{ padding: '8px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
-                Back to Home
-              </button>
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <button onClick={() => setView('smart-onboarding')} style={{ padding: '8px 16px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+                  🎯 Smart Onboarding
+                </button>
+                <button onClick={() => setView('home')} style={{ padding: '8px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+                  Back to Home
+                </button>
+              </div>
             </div>
           </div>
 
@@ -308,6 +314,11 @@ function App() {
         </div>
       </div>
     );
+  }
+
+  // Smart Coach Onboarding View
+  if (view === 'smart-onboarding') {
+    return <SmartCoachOnboarding />;
   }
 
   // Onboarding View with Real Training Videos
@@ -512,7 +523,34 @@ function App() {
           </div>
         </div>
 
-        <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', padding: '24px', marginTop: '48px' }}>
+        {/* Smart Onboarding Card */}
+        <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', padding: '24px', marginTop: '24px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '12px' }}>
+              🎯 New Feature: Smart Coach Onboarding
+            </h3>
+            <p style={{ color: '#6b7280', marginBottom: '16px' }}>
+              Intelligent resource matching for Noor, Jamie, and Kelvin
+            </p>
+            <button
+              onClick={() => setView('smart-onboarding')}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: '#10b981',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                fontWeight: '600'
+              }}
+            >
+              Launch Smart Onboarding System
+            </button>
+          </div>
+        </div>
+
+        <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', padding: '24px', marginTop: '24px' }}>
           <h3 style={{ fontWeight: 'bold', marginBottom: '16px' }}>🔌 Connected Data Sources</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

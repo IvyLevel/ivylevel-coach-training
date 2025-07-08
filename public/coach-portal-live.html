@@ -232,11 +232,18 @@
                 <button class="close-btn" onclick="closePlayer()">Close</button>
             </div>
             <div style="padding: 20px;">
-                <div style="background: #1f2937; height: 400px; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 20px;">
-                    <div style="text-align: center;">
-                        <div style="font-size: 72px; margin-bottom: 20px;">🎥</div>
-                        <p style="font-size: 18px; margin-bottom: 10px;" id="player-info"></p>
-                        <a id="drive-link" href="#" target="_blank" style="color: #60a5fa; text-decoration: none;">Open in Google Drive →</a>
+                <div id="video-embed-container" style="background: #1f2937; margin-bottom: 20px; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <!-- Video embed will be inserted here -->
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <p style="font-size: 18px; margin-bottom: 10px;" id="player-info"></p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <a id="drive-link" href="#" target="_blank" style="background: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; display: inline-block;">
+                            📁 Open in Google Drive
+                        </a>
+                        <a id="download-link" href="#" target="_blank" style="background: #10b981; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; display: inline-block;">
+                            ⬇️ Download Video
+                        </a>
                     </div>
                 </div>
                 <div id="video-details" style="background: #f3f4f6; padding: 20px; border-radius: 8px;">
@@ -309,7 +316,8 @@
                         duration: data.duration || '30:00',
                         date: data.date || data.uploadDate,
                         category: data.category || 'General',
-                        webViewLink: data.webViewLink,
+                        webViewLink: data.webViewLink || data.driveLink,
+                        fileId: data.id || data.googleDriveId,
                         relevance: 0 // Will be calculated
                     };
                 });
@@ -416,19 +424,61 @@
             document.getElementById('player-title').textContent = video.title;
             document.getElementById('player-info').textContent = `Coach: ${video.coach} | Student: ${video.student}`;
             
+            // Create video embed
+            const embedContainer = document.getElementById('video-embed-container');
+            
+            // Extract Google Drive file ID from various URL formats
+            let fileId = null;
+            if (video.webViewLink) {
+                // Try to extract file ID from URL
+                const match = video.webViewLink.match(/[-\w]{25,}(?!.*[-\w]{25,})/);
+                if (match) {
+                    fileId = match[0];
+                }
+            }
+            
+            if (fileId) {
+                // Create Google Drive embed
+                embedContainer.innerHTML = `
+                    <iframe 
+                        src="https://drive.google.com/file/d/${fileId}/preview" 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                        allow="autoplay; fullscreen"
+                        allowfullscreen>
+                    </iframe>
+                `;
+                
+                // Set download link
+                document.getElementById('download-link').href = `https://drive.google.com/uc?export=download&id=${fileId}`;
+                document.getElementById('download-link').style.display = 'inline-block';
+            } else {
+                // Fallback if no valid file ID
+                embedContainer.innerHTML = `
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; text-align: center; padding: 20px;">
+                        <div>
+                            <div style="font-size: 72px; margin-bottom: 20px;">🎥</div>
+                            <p style="font-size: 18px; margin-bottom: 20px;">Video preview not available</p>
+                            <p>Click "Open in Google Drive" to watch this video</p>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('download-link').style.display = 'none';
+            }
+            
             const details = `
                 <p><strong>Duration:</strong> ${video.duration}</p>
                 <p><strong>Category:</strong> ${video.category}</p>
                 <p><strong>Date:</strong> ${video.date || 'N/A'}</p>
                 <p><strong>Relevance Score:</strong> ${video.relevance}%</p>
                 ${video.relevance >= 70 ? '<p style="color: #059669; margin-top: 10px;">✅ Highly recommended for this coach</p>' : ''}
+                ${fileId ? '<p style="color: #6b7280; margin-top: 10px;">💡 Tip: Use fullscreen button in video player for best experience</p>' : ''}
             `;
             document.getElementById('video-details').innerHTML = details;
             
             // Set Google Drive link
             if (video.webViewLink) {
                 document.getElementById('drive-link').href = video.webViewLink;
-                document.getElementById('drive-link').style.display = 'inline';
+                document.getElementById('drive-link').style.display = 'inline-block';
             } else {
                 document.getElementById('drive-link').style.display = 'none';
             }

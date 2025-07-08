@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IvyLevel Coach Portal - Smart Onboarding</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1f2937;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .tab {
+            padding: 10px 20px;
+            border: none;
+            background: #e5e7eb;
+            color: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .tab.active {
+            background: #3b82f6;
+            color: white;
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .coach-card {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #3b82f6;
+        }
+        .video-item {
+            background: #f9fafb;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        .priority-high {
+            border-left: 4px solid #ef4444;
+            background: #fee2e2;
+        }
+        .priority-medium {
+            border-left: 4px solid #f59e0b;
+            background: #fef3c7;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin: 5px 0;
+        }
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 12px;
+            font-size: 12px;
+            margin: 4px;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>🎯 IvyLevel Smart Coach Onboarding Portal</h1>
+            <p style="color: #6b7280; margin-top: 5px;">Personalized training resources for new coaches</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Coach Selector -->
+        <div class="tabs">
+            <button class="tab active" onclick="selectCoach('kelvin')">Kelvin & Abhi</button>
+            <button class="tab" onclick="selectCoach('jamie')">Jamie & Zainab</button>
+            <button class="tab" onclick="selectCoach('noor')">Noor (2 Students)</button>
+        </div>
+
+        <!-- Content Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">Overview</button>
+            <button class="tab" onclick="showTab('required')">Required Training</button>
+            <button class="tab" onclick="showTab('videos')">Matched Videos</button>
+            <button class="tab" onclick="showTab('checklist')">Checklist</button>
+        </div>
+
+        <!-- Overview Content -->
+        <div id="overview" class="content">
+            <h2>Coach Profile & Training Priority</h2>
+            <div id="coach-overview"></div>
+        </div>
+
+        <!-- Required Training -->
+        <div id="required" class="content hidden">
+            <h2>📌 Required Training Materials</h2>
+            <div id="required-content"></div>
+        </div>
+
+        <!-- Matched Videos -->
+        <div id="videos" class="content hidden">
+            <h2>🤖 AI-Matched Training Videos</h2>
+            <p style="color: #6b7280; margin-bottom: 20px;">From your library of 865 videos, here are the most relevant:</p>
+            <div id="videos-content"></div>
+        </div>
+
+        <!-- Checklist -->
+        <div id="checklist" class="content hidden">
+            <h2>✅ Onboarding Checklist</h2>
+            <div id="checklist-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Coach data
+        const coaches = {
+            kelvin: {
+                name: "Kelvin",
+                student: "Abhi",
+                profile: "Computer Science & Business Aspirant",
+                startDate: "July 5, 2024",
+                focus: ["Quick wins", "Technical skills", "Entrepreneurship"],
+                required: {
+                    video: "Andrew & Aarnav - 168 Hour Session",
+                    report: "Abhi's Game Plan Report",
+                    doc: "Kelvin & Abhi Execution Doc"
+                },
+                matchedVideos: [
+                    { title: "CS Project Planning Session", coach: "Andrew", relevance: 95 },
+                    { title: "Business Model Canvas Workshop", coach: "Siraj", relevance: 90 },
+                    { title: "Technical Interview Prep", coach: "Rishi", relevance: 85 },
+                    { title: "Startup Ideation Session", coach: "Jenny", relevance: 80 }
+                ]
+            },
+            jamie: {
+                name: "Jamie",
+                student: "Zainab",
+                profile: "Average Academics, BioMed Aspirant",
+                startDate: "May 28, 2024",
+                focus: ["Academic improvement", "Medical school prep", "Study skills"],
+                required: {
+                    video: "Marissa & Zainab - 168 Hour Session",
+                    report: "Zainab's Game Plan Report",
+                    doc: "Jamie & Zainab Execution Doc",
+                    additional: "Marissa & Iqra (Similar Profile Reference)"
+                },
+                matchedVideos: [
+                    { title: "BioMed Study Strategies", coach: "Marissa", relevance: 98 },
+                    { title: "Average to Excellence Journey", coach: "Marissa", relevance: 92 },
+                    { title: "Medical Shadowing Planning", coach: "Jenny", relevance: 88 },
+                    { title: "MCAT Prep Timeline", coach: "Siraj", relevance: 85 }
+                ]
+            },
+            noor: {
+                name: "Noor",
+                students: ["Beya (Junior)", "Hiba (Sophomore)"],
+                profile: "Multiple Students - Different Grades",
+                startDate: "May 7, 2024",
+                focus: ["Grade-specific strategies", "Multi-student management", "Long-term planning"],
+                required: {
+                    sophomore: "Marissa & Iqra - Underclassman Training",
+                    junior: "Erin & Srinidhi - Upperclassman Training",
+                    docs: ["Beya's Execution Doc", "Hiba's Execution Doc"]
+                },
+                matchedVideos: [
+                    { title: "Managing Multiple Students", coach: "Jenny", relevance: 95 },
+                    { title: "Sophomore Foundation Building", coach: "Marissa", relevance: 90 },
+                    { title: "Junior Year College Prep", coach: "Erin", relevance: 90 },
+                    { title: "Different Pace Learning", coach: "Siraj", relevance: 85 }
+                ]
+            }
+        };
+
+        let currentCoach = 'kelvin';
+
+        function selectCoach(coach) {
+            currentCoach = coach;
+            document.querySelectorAll('.tabs')[0].querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            updateContent();
+        }
+
+        function showTab(tab) {
+            document.querySelectorAll('.content').forEach(c => c.classList.add('hidden'));
+            document.getElementById(tab).classList.remove('hidden');
+            document.querySelectorAll('.tabs')[1].querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function updateContent() {
+            const coach = coaches[currentCoach];
+            
+            // Update Overview
+            document.getElementById('coach-overview').innerHTML = `
+                <div class="coach-card">
+                    <h3>${coach.name}'s Training Profile</h3>
+                    <p><strong>Student(s):</strong> ${coach.student || coach.students.join(', ')}</p>
+                    <p><strong>Profile:</strong> ${coach.profile}</p>
+                    <p><strong>Start Date:</strong> ${coach.startDate}</p>
+                    <p><strong>Focus Areas:</strong></p>
+                    <div>${coach.focus.map(f => `<span class="tag">${f}</span>`).join('')}</div>
+                </div>
+            `;
+
+            // Update Required
+            let requiredHTML = '<div class="video-item priority-high">';
+            if (coach.required.video) {
+                requiredHTML += `<h4>🎥 Primary Training Video</h4><p>${coach.required.video}</p>`;
+            }
+            if (coach.required.sophomore) {
+                requiredHTML += `<h4>🎥 Training Videos</h4>
+                    <p>Sophomore: ${coach.required.sophomore}</p>
+                    <p>Junior: ${coach.required.junior}</p>`;
+            }
+            requiredHTML += '</div>';
+            requiredHTML += `<div class="video-item priority-medium">
+                <h4>📚 Student Materials</h4>
+                ${coach.required.report ? `<p>Game Plan: ${coach.required.report}</p>` : ''}
+                ${coach.required.doc ? `<p>Execution Doc: ${coach.required.doc}</p>` : ''}
+                ${coach.required.docs ? coach.required.docs.map(d => `<p>${d}</p>`).join('') : ''}
+            </div>`;
+            document.getElementById('required-content').innerHTML = requiredHTML;
+
+            // Update Videos
+            const videosHTML = coach.matchedVideos.map(v => `
+                <div class="video-item">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <h4>${v.title}</h4>
+                            <p style="color: #6b7280; font-size: 14px;">Coach: ${v.coach}</p>
+                        </div>
+                        <span class="tag" style="background: ${v.relevance > 90 ? '#dcfce7' : '#fef3c7'};">
+                            ${v.relevance}% Match
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('videos-content').innerHTML = videosHTML;
+
+            // Update Checklist
+            const checklistItems = [
+                'Review student game plan report',
+                'Watch primary 168-hour training video',
+                'Set up IvyMentors Zoom account',
+                'Update availability in scheduling doc',
+                'Practice with execution document',
+                'Understand payment process',
+                'Send calendar invite for first session',
+                'Prepare session agenda'
+            ];
+            const checklistHTML = checklistItems.map((item, i) => `
+                <div class="checklist-item">
+                    <input type="checkbox" id="check-${i}" onchange="updateProgress()">
+                    <label for="check-${i}">${item}</label>
+                </div>
+            `).join('');
+            document.getElementById('checklist-content').innerHTML = checklistHTML + 
+                '<div style="margin-top: 20px; padding: 15px; background: #f3f4f6; border-radius: 6px;">' +
+                '<strong>Progress:</strong> <span id="progress">0</span>/' + checklistItems.length + ' completed</div>';
+        }
+
+        function updateProgress() {
+            const total = document.querySelectorAll('#checklist-content input[type="checkbox"]').length;
+            const checked = document.querySelectorAll('#checklist-content input[type="checkbox"]:checked').length;
+            document.getElementById('progress').textContent = checked;
+        }
+
+        // Initialize
+        updateContent();
+    </script>
+</body>
+</html>

@@ -1,8 +1,1199 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
+
+// Brand Logo URLs
+const IVYLEVEL_LOGO = 'https://your-domain.com/path-to-logo.png';
+const IVYLEVEL_LOGO_SMALL = 'https://your-domain.com/path-to-small-logo.png';
 
 
-// Main App Component
+
+// Consistent Brand Icons
+const StarIcon = ({ style = {} }) => (
+  <svg style={{width: '24px', height: '24px', ...style}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+  </svg>
+);
+
+const IdentityIcon = ({ style = {} }) => (
+  <svg style={{width: '24px', height: '24px', ...style}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+  </svg>
+);
+
+const HeartIcon = ({ style = {} }) => (
+  <svg style={{width: '24px', height: '24px', ...style}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+  </svg>
+);
+
+const ServiceIcon = ({ style = {} }) => (
+  <svg style={{width: '24px', height: '24px', ...style}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+  </svg>
+);
+
+const TargetIcon = ({ style = {} }) => (
+  <svg style={{width: '24px', height: '24px', ...style}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10"></circle>
+    <circle cx="12" cy="12" r="6"></circle>
+    <circle cx="12" cy="12" r="2"></circle>
+  </svg>
+);
+
+const BookIcon = ({ style = {} }) => (
+  <svg style={{width: '24px', height: '24px', ...style}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+  </svg>
+);
+
+const TechIcon = ({ style = {} }) => (
+  <svg style={{width: '24px', height: '24px', ...style}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+  </svg>
+);
+
+const VideoIcon = ({ style = {} }) => (
+  <svg style={{width: '24px', height: '24px', ...style}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+  </svg>
+);
+
+const AwardIcon = ({ style = {} }) => (
+  <svg style={{width: '24px', height: '24px', ...style}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15l-2 5-8-5 8-15 8 15-8 5-2-5z" />
+  </svg>
+);
+
+// Mock Auth Context - Simulates Firebase Auth
+const AuthContext = createContext({});
+
+// Mock database - stores data in memory during session
+const mockDatabase = {
+  users: {
+    'admin-uid': {
+      id: 'admin-uid',
+      email: 'admin@ivylevel.com',
+      name: 'Admin User',
+      role: 'admin',
+      createdAt: new Date().toISOString()
+    },
+    'coach1-uid': {
+      id: 'coach1-uid',
+      email: 'coach1@ivylevel.com',
+      name: 'Sarah Johnson',
+      role: 'coach',
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
+      student: {
+        name: 'Emma Chen',
+        grade: '11th Grade',
+        focusArea: 'pre-med',
+        culturalBackground: 'Asian-American'
+      },
+      progress: {
+        welcome: { completed: false },
+        mastery: { completed: false, score: 0 },
+        technical: { completed: false },
+        simulation: { completed: false, score: 0 },
+        certification: { completed: false }
+      },
+       // For coach1-uid, after the progress property, ADD:
+      sharedResources: [
+        {
+          id: 'res1',
+          title: 'Emma Chen - SAT Prep Strategy',
+          type: 'gdrive',
+          category: 'aptitude',
+          categoryColor: '#FFBB6D',
+          url: 'https://drive.google.com/file/d/SAMPLE_ID_1/view',
+          addedDate: new Date().toISOString(),
+          viewOnly: true
+        }
+      ]
+    },
+    'coach2-uid': {
+      id: 'coach2-uid',
+      email: 'coach2@ivylevel.com',
+      name: 'Michael Roberts',
+      role: 'coach',
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
+      student: {
+        name: 'Alex Kumar',
+        grade: '12th Grade',
+        focusArea: 'engineering',
+        culturalBackground: 'South Asian'
+      },
+      progress: {
+        welcome: { completed: false },
+        mastery: { completed: false, score: 0 },
+        technical: { completed: false },
+        simulation: { completed: false, score: 0 },
+        certification: { completed: false }
+      },
+      sharedResources: [
+        {
+          id: 'res2',
+          title: 'Alex Kumar - Engineering Portfolio Guide',
+          type: 'gdrive',
+          url: 'https://drive.google.com/file/d/SAMPLE_ID_2/view',
+          addedDate: new Date().toISOString(),
+          viewOnly: true
+        }
+      ]
+    }
+  },
+  credentials: {
+    'admin@ivylevel.com': { password: 'Admin123!', uid: 'admin-uid' },
+    'coach1@ivylevel.com': { password: 'Coach123!', uid: 'coach1-uid' },
+    'coach2@ivylevel.com': { password: 'Coach123!', uid: 'coach2-uid' }
+  }
+};
+
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
+  const login = async (email, password) => {
+    try {
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const creds = mockDatabase.credentials[email];
+      if (!creds || creds.password !== password) {
+        return { success: false, error: 'Invalid email or password' };
+      }
+      
+      const userInfo = mockDatabase.users[creds.uid];
+      setUser({ uid: creds.uid, email: email });
+      setUserData(userInfo);
+      
+      // Update last login
+      mockDatabase.users[creds.uid].lastLogin = new Date().toISOString();
+      
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
+  
+  const logout = async () => {
+    setUser(null);
+    setUserData(null);
+  };
+  
+  const createCoach = async (email, password, coachData) => {
+    // Generate unique ID
+    const uid = `coach-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Add to mock database
+    mockDatabase.users[uid] = {
+      id: uid,
+      email: email,
+      name: coachData.name,
+      role: 'coach',
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
+      student: {
+        name: coachData.studentName,
+        grade: coachData.studentGrade,
+        focusArea: coachData.studentFocus,
+        culturalBackground: 'To be determined'
+      },
+      progress: {
+        welcome: { completed: false },
+        mastery: { completed: false, score: 0 },
+        technical: { completed: false },
+        simulation: { completed: false, score: 0 },
+        certification: { completed: false }
+      }
+    };
+    
+    mockDatabase.credentials[email] = { password: password, uid: uid };
+    
+    return { success: true, uid: uid };
+  };
+  
+  const updateTrainingProgress = async (moduleId, data) => {
+    if (!user || !userData) return;
+    
+    // Update mock database
+    mockDatabase.users[user.uid].progress[moduleId] = {
+      ...mockDatabase.users[user.uid].progress[moduleId],
+      ...data
+    };
+    
+    // Update local state
+    setUserData({
+      ...userData,
+      progress: {
+        ...userData.progress,
+        [moduleId]: {
+          ...userData.progress[moduleId],
+          ...data
+        }
+      }
+    });
+    
+    // Check if all modules completed
+    const progress = mockDatabase.users[user.uid].progress;
+    const allCompleted = Object.values(progress).every(m => m.completed);
+    if (allCompleted) {
+      mockDatabase.users[user.uid].status = 'certified';
+      mockDatabase.users[user.uid].certifiedAt = new Date().toISOString();
+      setUserData(prev => ({
+        ...prev,
+        status: 'certified',
+        certifiedAt: new Date().toISOString()
+      }));
+    }
+  };
+
+  const shareResourceWithCoach = async (coachId, resource) => {
+    if (!userData || userData.role !== 'admin') return { success: false, error: 'Unauthorized' };
+    
+    const newResource = {
+      id: `res-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      ...resource,
+      addedDate: new Date().toISOString(),
+      viewOnly: true
+    };
+    
+    if (!mockDatabase.users[coachId].sharedResources) {
+      mockDatabase.users[coachId].sharedResources = [];
+    }
+    
+    mockDatabase.users[coachId].sharedResources.push(newResource);
+    
+    return { success: true, resourceId: newResource.id };
+  };
+  
+  const getAllCoaches = () => {
+    return Object.values(mockDatabase.users).filter(u => u.role === 'coach');
+  };
+  
+  return (
+    <AuthContext.Provider value={{ 
+      user, 
+      userData, 
+      loading, 
+      login, 
+      logout, 
+      updateTrainingProgress,
+      createCoach,
+      getAllCoaches,
+      shareResourceWithCoach
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+const useAuth = () => useContext(AuthContext);
+
+// Admin Dashboard Component
+const AdminDashboard = () => {
+  // Focus area category colors
+  const focusAreaColors = {
+    'pre-med': '#FFBB6D', // Aptitude focus
+    'engineering': '#FFBB6D', // Aptitude focus
+    'business': '#FF6E6D', // Passion focus
+    'liberal-arts': '#9698A6', // Personal context focus
+    'stem': '#FFBB6D' // Aptitude focus
+  };
+
+  const { logout, createCoach, getAllCoaches, shareResourceWithCoach } = useAuth();
+  const [coaches, setCoaches] = useState([]);
+  const [newCoach, setNewCoach] = useState({ email: '', name: '', studentName: '', studentGrade: '', studentFocus: '' });
+  const [loading, setLoading] = useState(false);
+  const [creatingCoach, setCreatingCoach] = useState(false);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [selectedCoachForResource, setSelectedCoachForResource] = useState(null);
+  const [showResourceModal, setShowResourceModal] = useState(false);
+  const [newResource, setNewResource] = useState({ title: '', url: '', type: 'gdrive' }); 
+  
+  useEffect(() => {
+    // Load coaches
+    setCoaches(getAllCoaches());
+    
+    // Simulate real-time updates
+    const interval = setInterval(() => {
+      setCoaches(getAllCoaches());
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [getAllCoaches]);
+  
+  const handleCreateCoach = async (e) => {
+    e.preventDefault();
+    setCreatingCoach(true);
+    
+    try {
+      // Generate temporary password
+      const tempPassword = `Coach${Math.random().toString(36).substr(2, 9)}!`;
+      
+      // Create coach
+      const result = await createCoach(newCoach.email, tempPassword, newCoach);
+      
+      if (result.success) {
+        alert(`Coach created! Temporary password: ${tempPassword}`);
+        setNewCoach({ email: '', name: '', studentName: '', studentGrade: '', studentFocus: '' });
+        setShowCreateForm(false);
+        // Refresh coaches list
+        setCoaches(getAllCoaches());
+      }
+    } catch (error) {
+      alert('Error creating coach: ' + error.message);
+    }
+    
+    setCreatingCoach(false);
+  };
+  
+  const getProgressPercentage = (progress) => {
+    if (!progress) return 0;
+    const modules = Object.keys(progress);
+    const completed = modules.filter(m => progress[m]?.completed).length;
+    return Math.round((completed / modules.length) * 100);
+  };
+  
+  const getTimeRemaining = (expiresAt) => {
+    if (!expiresAt) return 'N/A';
+    const now = new Date();
+    const expires = new Date(expiresAt);
+    const hours = Math.floor((expires - now) / (1000 * 60 * 60));
+    if (hours < 0) return 'Expired';
+    return `${hours}h remaining`;
+  };
+  
+  // Icons
+  
+  
+  const Plus = () => (
+    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+    </svg>
+  );
+  
+  const LogOut = () => (
+    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+    </svg>
+  );
+  
+  const Clock = () => (
+    <svg style={{width: '16px', height: '16px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"></circle>
+      <polyline points="12,6 12,12 16,14"></polyline>
+    </svg>
+  );
+  
+  const ChartBar = () => (
+    <svg style={{width: '16px', height: '16px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+  );
+  
+  const AlertTriangle = () => (
+    <svg style={{width: '16px', height: '16px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+    </svg>
+  );
+  
+  return (
+    <div style={{minHeight: '100vh', background: '#F5F5F5'}}>
+      {/* Header */}
+      <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
+        <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+          <div>
+            <h1 style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#020202'}}>Ivylevel Admin Dashboard</h1>
+            <p style={{color: '#616479'}}>Manage coach onboarding and training</p>
+          </div>
+          <button
+            onClick={logout}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '8px 16px',
+              background: '#FF4A23',
+              color: 'white',
+              borderRadius: '8px',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            <LogOut />
+            Logout
+          </button>
+        </div>
+      </div>
+      
+      {/* Main Content */}
+      <div style={{maxWidth: '1200px', margin: '0 auto', padding: '24px'}}>
+        {/* Stats */}
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px'}}>
+          <div style={{background: 'white', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div>
+                <p style={{color: '#616479', fontSize: '0.875rem'}}>Total Coaches</p>
+                <p style={{fontSize: '2rem', fontWeight: 'bold', color: '#020202'}}>{coaches.length}</p>
+              </div>
+              <ServiceIcon style={{color: '#FF4A23'}} />
+            </div>
+          </div>
+          <div style={{background: 'white', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div>
+                <p style={{color: '#616479', fontSize: '0.875rem'}}>Active Training</p>
+                <p style={{fontSize: '2rem', fontWeight: 'bold', color: '#020202'}}>
+                  {coaches.filter(c => c.status === 'pending').length}
+                </p>
+              </div>
+              <ChartBar style={{color: '#FF4A23'}} />
+            </div>
+          </div>
+          <div style={{background: 'white', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div>
+                <p style={{color: '#616479', fontSize: '0.875rem'}}>Certified</p>
+                <p style={{fontSize: '2rem', fontWeight: 'bold', color: '#020202'}}>
+                  {coaches.filter(c => c.status === 'certified').length}
+                </p>
+              </div>
+              <svg style={{width: '20px', height: '20px', color: '#FF4A23'}} fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+            </div>
+          </div>
+          <div style={{background: 'white', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div>
+                <p style={{color: '#616479', fontSize: '0.875rem'}}>Expired</p>
+                <p style={{fontSize: '2rem', fontWeight: 'bold', color: '#020202'}}>
+                  {coaches.filter(c => {
+                    const expires = new Date(c.expiresAt);
+                    return expires < new Date() && c.status === 'pending';
+                  }).length}
+                </p>
+              </div>
+              <AlertTriangle style={{color: '#dc2626'}} />
+            </div>
+          </div>
+        </div>
+        
+        {/* Actions */}
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px'}}>
+          <h2 style={{fontSize: '1.25rem', fontWeight: 'bold'}}>Coach Management</h2>
+          <button
+            onClick={() => setShowCreateForm(true)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '12px 24px',
+              background: '#FF4A23',
+              color: 'white',
+              borderRadius: '8px',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            <Plus />
+            Add New Coach
+          </button>
+        </div>
+        
+        {/* Create Coach Form */}
+        {showCreateForm && (
+          <div style={{background: 'white', borderRadius: '8px', padding: '24px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <h3 style={{fontSize: '1.125rem', fontWeight: 'bold', marginBottom: '16px'}}>Create New Coach</h3>
+            <form onSubmit={handleCreateCoach}>
+              <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px'}}>
+                <div>
+                  <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#616479', marginBottom: '4px'}}>
+                    Coach Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={newCoach.email}
+                    onChange={(e) => setNewCoach({...newCoach, email: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '1rem'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#616479', marginBottom: '4px'}}>
+                    Coach Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={newCoach.name}
+                    onChange={(e) => setNewCoach({...newCoach, name: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '1rem'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#616479', marginBottom: '4px'}}>
+                    Student Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={newCoach.studentName}
+                    onChange={(e) => setNewCoach({...newCoach, studentName: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '1rem'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#616479', marginBottom: '4px'}}>
+                    Student Grade
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g., 11th Grade"
+                    value={newCoach.studentGrade}
+                    onChange={(e) => setNewCoach({...newCoach, studentGrade: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '1rem'
+                    }}
+                  />
+                </div>
+                <div style={{gridColumn: 'span 2'}}>
+                  <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#616479', marginBottom: '4px'}}>
+                    Student Focus Area
+                  </label>
+                  <select
+                    required
+                    value={newCoach.studentFocus}
+                    onChange={(e) => setNewCoach({...newCoach, studentFocus: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '1rem'
+                    }}
+                  >
+                    <option value="">Select focus area</option>
+                    <option value="pre-med">Pre-Med</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="business">Business</option>
+                    <option value="liberal-arts">Liberal Arts</option>
+                    <option value="stem">STEM</option>
+                  </select>
+                </div>
+              </div>
+              <div style={{display: 'flex', gap: '12px'}}>
+                <button
+                  type="submit"
+                  disabled={creatingCoach}
+                  style={{
+                    padding: '8px 24px',
+                    background: creatingCoach ? '#9ca3af' : '#FF4A23',
+                    color: 'white',
+                    borderRadius: '6px',
+                    border: 'none',
+                    cursor: creatingCoach ? 'not-allowed' : 'pointer'
+                  }}
+                >
+                  {creatingCoach ? 'Creating...' : 'Create Coach'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowCreateForm(false)}
+                  style={{
+                    padding: '8px 24px',
+                    background: '#e5e7eb',
+                    color: '#616479',
+                    borderRadius: '6px',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+        
+        {/* Coaches Table */}
+        <div style={{background: 'white', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', overflow: 'hidden'}}>
+          <table style={{width: '100%', borderCollapse: 'collapse'}}>
+            <thead>
+              <tr style={{background: '#F5F5F5', borderBottom: '1px solid #e5e7eb'}}>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#616479'}}>Coach</th>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#616479'}}>Student</th>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#616479'}}>Progress</th>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#616479'}}>Status</th>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#616479'}}>Time Remaining</th>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#616479'}}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {coaches.map((coach) => (
+                <tr key={coach.id} style={{borderBottom: '1px solid #e5e7eb'}}>
+                  <td style={{padding: '16px 24px'}}>
+                    <div>
+                      <p style={{fontWeight: '500', color: '#020202'}}>{coach.name}</p>
+                      <p style={{fontSize: '0.875rem', color: '#616479'}}>{coach.email}</p>
+                    </div>
+                  </td>
+                  <td style={{padding: '16px 24px'}}>
+                    <div>
+                      <p style={{color: '#616479'}}>{coach.student?.name}</p>
+                      <p style={{fontSize: '0.875rem', color: '#616479'}}>{coach.student?.grade} • {coach.student?.focusArea}</p>
+                    </div>
+                  </td>
+                  <td style={{padding: '16px 24px'}}>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                      <div style={{flex: 1, height: '8px', background: '#e5e7eb', borderRadius: '4px', overflow: 'hidden'}}>
+                        <div style={{
+                          width: `${getProgressPercentage(coach.progress)}%`,
+                          height: '100%',
+                          background: '#FF4A23',
+                          transition: 'width 0.3s ease'
+                        }} />
+                      </div>
+                      <span style={{fontSize: '0.875rem', color: '#616479'}}>
+                        {getProgressPercentage(coach.progress)}%
+                      </span>
+                    </div>
+                  </td>
+                  <td style={{padding: '16px 24px'}}>
+                    <span style={{
+                      padding: '4px 12px',
+                      borderRadius: '9999px',
+                      fontSize: '0.75rem',
+                      fontWeight: '500',
+                      background: coach.status === 'certified' ? '#dcfce7' : 
+                                 coach.status === 'pending' ? '#fef3c7' : '#fecaca',
+                      color: coach.status === 'certified' ? '#FF4A23' : 
+                            coach.status === 'pending' ? '#d97706' : '#dc2626'
+                    }}>
+                      {coach.status}
+                    </span>
+                  </td>
+                  <td style={{padding: '16px 24px'}}>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '4px', color: getTimeRemaining(coach.expiresAt) === 'Expired' ? '#dc2626' : '#6b7280'}}>
+                      <Clock />
+                      <span style={{fontSize: '0.875rem'}}>{getTimeRemaining(coach.expiresAt)}</span>
+                    </div>
+                  </td>
+                  <td style={{padding: '16px 24px'}}>
+                    <div style={{display: 'flex', gap: '8px'}}>
+                    <button
+                      onClick={() => {
+                        setSelectedCoachForResource(coach);
+                        setShowResourceModal(true);
+                      }}
+                      style={{
+                        padding: '4px 12px',
+                        background: '#FF4A23',
+                        color: 'white',
+                        borderRadius: '6px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      Share Resources
+                    </button>
+                    <button
+                      style={{
+                        padding: '4px 12px',
+                        background: '#f3f4f6',
+                        color: '#616479',
+                        borderRadius: '6px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      View Details
+                    </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+           </tbody>
+          </table>
+        </div>
+        
+        {/* Resource Sharing Modal */}
+        {showResourceModal && selectedCoachForResource && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}>
+            <div style={{
+              background: 'white',
+              borderRadius: '12px',
+              padding: '32px',
+              width: '90%',
+              maxWidth: '600px',
+              maxHeight: '80vh',
+              overflow: 'auto'
+            }}>
+              <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '24px'}}>
+                Share Resources with {selectedCoachForResource.name}
+              </h3>
+              
+              <div style={{marginBottom: '24px'}}>
+                <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#616479', marginBottom: '4px'}}>
+                  Resource Title
+                </label>
+                <input
+                  type="text"
+                  value={newResource.title}
+                  onChange={(e) => setNewResource({...newResource, title: e.target.value})}
+                  placeholder="e.g., SAT Prep Strategy Guide"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '1rem'
+                  }}
+                />
+              </div>
+              
+              <div style={{marginBottom: '24px'}}>
+                <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#616479', marginBottom: '4px'}}>
+                  Google Drive Link (View Only)
+                </label>
+                <input
+                  type="url"
+                  value={newResource.url}
+                  onChange={(e) => setNewResource({...newResource, url: e.target.value})}
+                  placeholder="https://drive.google.com/file/d/.../view"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '1rem'
+                  }}
+                />
+                <p style={{fontSize: '0.75rem', color: '#616479', marginTop: '4px'}}>
+                  Ensure link is set to "Anyone with link can view" in Google Drive sharing settings
+                </p>
+              </div>
+              
+              <div style={{background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: '8px', padding: '16px', marginBottom: '24px'}}>
+                <p style={{fontSize: '0.875rem', fontWeight: '500', color: '#92400e'}}>
+                  ⚠️ Important: This resource will be VIEW ONLY. Coaches cannot download or edit.
+                </p>
+              </div>
+              
+              {/* Existing Resources */}
+              {selectedCoachForResource.sharedResources && selectedCoachForResource.sharedResources.length > 0 && (
+                <div style={{marginBottom: '24px'}}>
+                  <h4 style={{fontWeight: '500', marginBottom: '12px'}}>Currently Shared Resources:</h4>
+                  <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                    {selectedCoachForResource.sharedResources.map((res) => (
+                      <div key={res.id} style={{
+                        padding: '12px',
+                        background: '#f3f4f6',
+                        borderRadius: '6px',
+                        fontSize: '0.875rem'
+                      }}>
+                        <div style={{fontWeight: '500'}}>{res.title}</div>
+                        <div style={{color: '#616479', fontSize: '0.75rem'}}>
+                          Added: {new Date(res.addedDate).toLocaleDateString()}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              <div style={{display: 'flex', gap: '12px', justifyContent: 'flex-end'}}>
+                <button
+                  onClick={() => {
+                    setShowResourceModal(false);
+                    setSelectedCoachForResource(null);
+                    setNewResource({ title: '', url: '', type: 'gdrive' });
+                  }}
+                  style={{
+                    padding: '8px 24px',
+                    background: '#e5e7eb',
+                    color: '#616479',
+                    borderRadius: '6px',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={async () => {
+                    if (newResource.title && newResource.url) {
+                      await shareResourceWithCoach(selectedCoachForResource.id, newResource);
+                      setNewResource({ title: '', url: '', type: 'gdrive' });
+                      // Refresh coaches list
+                      setCoaches(getAllCoaches());
+                    }
+                  }}
+                  disabled={!newResource.title || !newResource.url}
+                  style={{
+                    padding: '8px 24px',
+                    background: newResource.title && newResource.url ? '#FF4A23' : '#9ca3af',
+                    color: 'white',
+                    borderRadius: '6px',
+                    border: 'none',
+                    cursor: newResource.title && newResource.url ? 'pointer' : 'not-allowed'
+                  }}
+                >
+                  Share Resource
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Category Legend Component
+const CategoryLegend = () => (
+  <div style={{display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '16px'}}>
+    <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+      <div style={{width: '12px', height: '12px', background: '#FFBB6D', borderRadius: '2px'}}></div>
+      <span style={{fontSize: '0.75rem', color: '#616479'}}>Aptitude</span>
+    </div>
+    <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+      <div style={{width: '12px', height: '12px', background: '#FF6E6D', borderRadius: '2px'}}></div>
+      <span style={{fontSize: '0.75rem', color: '#616479'}}>Passion</span>
+    </div>
+    <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+      <div style={{width: '12px', height: '12px', background: '#55AAAA', borderRadius: '2px'}}></div>
+      <span style={{fontSize: '0.75rem', color: '#616479'}}>Community</span>
+    </div>
+    <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+      <div style={{width: '12px', height: '12px', background: '#9698A6', borderRadius: '2px'}}></div>
+      <span style={{fontSize: '0.75rem', color: '#616479'}}>Identity</span>
+    </div>
+  </div>
+);
+
+
+// Enhanced Login Component
+const LoginScreen = () => {
+  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [showTestCreds, setShowTestCreds] = useState(true);
+  
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    
+    const result = await login(email, password);
+    if (!result.success) {
+      setError(result.error);
+    }
+    setLoading(false);
+  };
+  
+  // Test credentials for easy access
+  const testCredentials = [
+    { email: 'admin@ivylevel.com', password: 'Admin123!', role: 'Admin' },
+    { email: 'coach1@ivylevel.com', password: 'Coach123!', role: 'Coach (Sarah)' },
+    { email: 'coach2@ivylevel.com', password: 'Coach123!', role: 'Coach (Michael)' }
+  ];
+  
+  // Icons
+  const Lock = () => (
+    <svg style={{width: '24px', height: '24px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    </svg>
+  );
+  
+  const Eye = () => (
+    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
+  );
+  
+  const EyeOff = () => (
+    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+    </svg>
+  );
+  
+  const [showPassword, setShowPassword] = useState(false);
+  
+  return (
+    <div style={{minHeight: '100vh', background: 'linear-gradient(135deg, #f5f7fa, #c3cfe2)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px'}}>
+      <div style={{maxWidth: '960px', width: '100%', display: 'flex', gap: '48px', alignItems: 'center'}}>
+        {/* Left Side - Login Form */}
+        <div style={{flex: 1, background: 'white', borderRadius: '16px', padding: '48px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)'}}>
+          <div style={{textAlign: 'center', marginBottom: '32px'}}>
+            <h1 style={{fontSize: '2rem', fontWeight: 'bold', color: '#020202', marginBottom: '8px'}}>Welcome Back</h1>
+            <p style={{color: '#616479'}}>Sign in to your Ivylevel account</p>
+          </div>
+          
+          {/* Test Credentials Box */}
+          {showTestCreds && (
+            <div style={{background: '#FFE5DF', borderRadius: '8px', padding: '16px', marginBottom: '24px'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px'}}>
+                <h4 style={{fontWeight: '600', color: '#1e3a8a'}}>Test Credentials</h4>
+                <button
+                  onClick={() => setShowTestCreds(false)}
+                  style={{background: 'none', border: 'none', cursor: 'pointer', color: '#1e3a8a'}}
+                >
+                  ×
+                </button>
+              </div>
+              <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                {testCredentials.map((cred, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setEmail(cred.email);
+                      setPassword(cred.password);
+                    }}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: '8px 12px',
+                      background: 'white',
+                      border: '1px solid #93c5fd',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      fontSize: '0.875rem'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#FFF5F2'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+                  >
+                    <span style={{color: '#616479'}}>{cred.role}</span>
+                    <span style={{color: '#616479', fontSize: '0.75rem'}}>Click to use</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* Login Form */}
+          <form onSubmit={handleLogin}>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#616479', marginBottom: '8px'}}>
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Enter your email"
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: '2px solid #e5e7eb',
+                  borderRadius: '8px',
+                  fontSize: '1rem',
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
+                  boxSizing: 'border-box'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#FF4A23'}
+                onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+              />
+            </div>
+            
+            <div style={{marginBottom: '24px'}}>
+              <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#616479', marginBottom: '8px'}}>
+                Password
+              </label>
+              <div style={{position: 'relative'}}>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="Enter your password"
+                  style={{
+                    width: '100%',
+                    padding: '12px 48px 12px 16px',
+                    border: '2px solid #e5e7eb',
+                    borderRadius: '8px',
+                    fontSize: '1rem',
+                    outline: 'none',
+                    transition: 'border-color 0.2s',
+                    boxSizing: 'border-box'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = '#FF4A23'}
+                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: '12px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#616479'
+                  }}
+                >
+                  {showPassword ? <EyeOff /> : <Eye />}
+                </button>
+              </div>
+            </div>
+            
+            {error && (
+              <div style={{background: '#fecaca', borderRadius: '8px', padding: '12px', marginBottom: '16px'}}>
+                <p style={{fontSize: '0.875rem', color: '#dc2626'}}>{error}</p>
+              </div>
+            )}
+            
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '16px',
+                background: loading ? '#9ca3af' : 'linear-gradient(135deg, #FF4A23, #FF4A23)',
+                color: 'white',
+                borderRadius: '8px',
+                fontWeight: 'bold',
+                fontSize: '1.125rem',
+                border: 'none',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s',
+                boxShadow: loading ? 'none' : '0 10px 20px rgba(37, 99, 235, 0.3)'
+              }}
+            >
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}>
+                {loading ? (
+                  <>
+                    <div style={{width: '20px', height: '20px', border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.6s linear infinite'}}></div>
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock />
+                    <span>Sign In</span>
+                  </>
+                )}
+              </div>
+            </button>
+          </form>
+        </div>
+        
+        {/* Right Side - Branding */}
+        <div style={{flex: 1}}>
+          <h2 style={{fontSize: '2.5rem', fontWeight: 'bold', color: '#020202', marginBottom: '16px'}}>
+            Ivylevel Elite Coach Portal
+          </h2>
+          <p style={{fontSize: '1.125rem', color: '#616479', lineHeight: '1.6', marginBottom: '32px'}}>
+            Transform students' futures through personalized college guidance. 
+            Join our community of elite coaches making a difference.
+          </p>
+          
+          <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+              <div style={{width: '48px', height: '48px', background: '#FFE5DF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <svg style={{width: '24px', height: '24px', color: '#FF4A23'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <div>
+                <h3 style={{fontWeight: '600', color: '#020202'}}>Comprehensive Training</h3>
+                <p style={{fontSize: '0.875rem', color: '#616479'}}>Master proven coaching methodologies</p>
+              </div>
+            </div>
+            
+            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+              <div style={{width: '48px', height: '48px', background: '#dcfce7', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <svg style={{width: '24px', height: '24px', color: '#FF4A23'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 style={{fontWeight: '600', color: '#020202'}}>Earn $2,100+/month</h3>
+                <p style={{fontSize: '0.875rem', color: '#616479'}}>Top coaches earn over $25k annually</p>
+              </div>
+            </div>
+            
+            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+              <div style={{width: '48px', height: '48px', background: '#e0e7ff', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <svg style={{width: '24px', height: '24px', color: '#FF4A23'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 style={{fontWeight: '600', color: '#020202'}}>Impact Lives</h3>
+                <p style={{fontSize: '0.875rem', color: '#616479'}}>Guide students to their dream colleges</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <style jsx>{`
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+// Main App Component with Authentication
 const App = () => {
+  const { user, userData, loading: authLoading, updateTrainingProgress, logout } = useAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentModule, setCurrentModule] = useState(0);
   const [completedModules, setCompletedModules] = useState([]);
@@ -13,29 +1204,40 @@ const App = () => {
     averageScore: 0
   });
   
-  // Mock data for coach and student
-  const coach = {
-    name: "Sarah Johnson",
-    email: "sarah.johnson@example.com",
-    expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString()
-  };
+  useEffect(() => {
+    if (userData && userData.progress) {
+      // Load progress from database
+      const completed = [];
+      const scores = {};
+      
+      Object.keys(userData.progress).forEach(moduleId => {
+        if (userData.progress[moduleId].completed) {
+          completed.push(moduleId);
+          if (userData.progress[moduleId].score) {
+            scores[moduleId] = userData.progress[moduleId].score;
+          }
+        }
+      });
+      
+      setCompletedModules(completed);
+      setTrainingStats(prev => ({
+        ...prev,
+        moduleScores: scores,
+        averageScore: Object.keys(scores).length > 0 
+          ? Math.round(Object.values(scores).reduce((a, b) => a + b, 0) / Object.keys(scores).length)
+          : 0
+      }));
+      
+      // Set current module to next incomplete one
+      const modules = ['welcome', 'mastery', 'technical', 'simulation', 'certification'];
+      const nextIncomplete = modules.findIndex(m => !completed.includes(m));
+      if (nextIncomplete !== -1) {
+        setCurrentModule(nextIncomplete);
+      }
+    }
+  }, [userData]);
   
-  const student = {
-    name: "Emma Chen",
-    grade: "11th Grade",
-    focusArea: "pre-med",
-    culturalBackground: "Asian-American"
-  };
-  
-  const modules = [
-    { id: 'welcome', name: 'Welcome & Commitment', icon: '🎯' },
-    { id: 'mastery', name: 'Student Mastery', icon: '📚' },
-    { id: 'technical', name: 'Technical Setup', icon: '💻' },
-    { id: 'simulation', name: 'Session Practice', icon: '🎬' },
-    { id: 'certification', name: 'Final Certification', icon: '🏆' }
-  ];
-  
-  // Update training stats
+  // Update training stats timer
   useEffect(() => {
     const timer = setInterval(() => {
       setTrainingStats(prev => ({
@@ -47,21 +1249,32 @@ const App = () => {
     return () => clearInterval(timer);
   }, []);
   
-  const handleModuleComplete = (moduleId, score = null) => {
-    setCompletedModules([...completedModules, moduleId]);
+  const handleModuleComplete = async (moduleId, score = null) => {
+    const updatedModules = [...completedModules, moduleId];
+    setCompletedModules(updatedModules);
     
+    let newScores = { ...trainingStats.moduleScores };
     if (score !== null) {
-      const newScores = { ...trainingStats.moduleScores, [moduleId]: score };
-      const avgScore = Math.round(
-        Object.values(newScores).reduce((a, b) => a + b, 0) / Object.values(newScores).length
-      );
-      
-      setTrainingStats(prev => ({
-        ...prev,
-        moduleScores: newScores,
-        averageScore: avgScore
-      }));
+      newScores[moduleId] = score;
     }
+    
+    const avgScore = Object.keys(newScores).length > 0
+      ? Math.round(Object.values(newScores).reduce((a, b) => a + b, 0) / Object.keys(newScores).length)
+      : 0;
+    
+    setTrainingStats(prev => ({
+      ...prev,
+      moduleScores: newScores,
+      averageScore: avgScore
+    }));
+    
+    // Update database
+    await updateTrainingProgress(moduleId, {
+      completed: true,
+      completedAt: new Date().toISOString(),
+      score: score,
+      timeSpent: trainingStats.totalTime
+    });
     
     if (currentModule < modules.length - 1) {
       setCurrentModule(currentModule + 1);
@@ -75,290 +1288,37 @@ const App = () => {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
   
-  // Login/Welcome Screen Component
-  const LoginWelcomeScreen = ({ onAuthenticate }) => {
-    const [ivyId, setIvyId] = useState('');
-    const [accessCode, setAccessCode] = useState('');
-    const [agreedToTerms, setAgreedToTerms] = useState(false);
-    const [showError, setShowError] = useState(false);
-    
-    const handleLogin = () => {
-      if (ivyId && accessCode && agreedToTerms) {
-        // Simulate authentication
-        onAuthenticate();
-      } else {
-        setShowError(true);
-      }
-    };
-    
-    // Icons
-    const Lock = () => (
-      <svg style={{width: '24px', height: '24px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-      </svg>
-    );
-    
-    const Clock = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"></circle>
-        <polyline points="12,6 12,12 16,14"></polyline>
-      </svg>
-    );
-    
-    const DollarSign = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    );
-    
-    const CheckCircle = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-      </svg>
-    );
-    
-    const AlertTriangle = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-      </svg>
-    );
-    
-    const Award = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15l-2 5-8-5 8-15 8 15-8 5-2-5z" />
-      </svg>
-    );
-    
-    const Users = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    );
-    
-    const ChartBar = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    );
-    
-    const Shield = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    );
-    
-    const timeRemaining = Math.floor((new Date(coach.expiresAt) - new Date()) / (1000 * 60 * 60));
-    
-    return (
-      <div style={{minHeight: '100vh', background: 'linear-gradient(135deg, #f5f7fa, #c3cfe2)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px'}}>
-        <div style={{maxWidth: '1200px', width: '100%', display: 'flex', gap: '48px', alignItems: 'center'}}>
-          {/* Left Side - Login Form */}
-          <div style={{flex: 1, background: 'white', borderRadius: '16px', padding: '48px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)'}}>
-            <div style={{textAlign: 'center', marginBottom: '32px'}}>
-              <h1 style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827', marginBottom: '8px'}}>Ivylevel Elite Coach Portal</h1>
-              <p style={{color: '#6b7280'}}>Begin Your Journey to Transform Student Lives</p>
-            </div>
-            
-            {/* Urgent Alert */}
-            <div style={{background: '#fef2f2', border: '2px solid #fecaca', borderRadius: '12px', padding: '16px', marginBottom: '24px'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                <AlertTriangle style={{color: '#dc2626', flexShrink: 0}} />
-                <div>
-                  <p style={{fontWeight: 'bold', color: '#dc2626', marginBottom: '4px'}}>ACCESS EXPIRES IN {timeRemaining} HOURS</p>
-                  <p style={{fontSize: '0.875rem', color: '#dc2626'}}>
-                    Complete all mandatory training modules before your access code expires or you will lose this coaching opportunity.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Login Form */}
-            <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-              <div style={{marginBottom: '20px'}}>
-                <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '8px'}}>
-                  Ivylevel Coach ID
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your @ivymentors.co ID"
-                  value={ivyId}
-                  onChange={(e) => setIvyId(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    border: '2px solid #e5e7eb',
-                    borderRadius: '8px',
-                    fontSize: '1rem',
-                    outline: 'none',
-                    transition: 'border-color 0.2s'
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = '#2563eb'}
-                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
-                />
-              </div>
-              
-              <div style={{marginBottom: '20px'}}>
-                <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '8px'}}>
-                  Access Code
-                </label>
-                <input
-                  type="password"
-                  placeholder="Enter your temporary access code"
-                  value={accessCode}
-                  onChange={(e) => setAccessCode(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    border: '2px solid #e5e7eb',
-                    borderRadius: '8px',
-                    fontSize: '1rem',
-                    outline: 'none',
-                    transition: 'border-color 0.2s'
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = '#2563eb'}
-                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
-                />
-              </div>
-              
-              {/* Terms Agreement */}
-              <div style={{marginBottom: '24px'}}>
-                <label style={{display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer'}}>
-                  <input
-                    type="checkbox"
-                    checked={agreedToTerms}
-                    onChange={(e) => setAgreedToTerms(e.target.checked)}
-                    style={{marginTop: '4px', width: '20px', height: '20px'}}
-                  />
-                  <div>
-                    <p style={{fontSize: '0.875rem', color: '#374151'}}>
-                      I understand this is <span style={{fontWeight: 'bold'}}>MANDATORY TRAINING</span> that must be completed in full. 
-                      My time and engagement will be recorded for quality assurance. 
-                      I commit to dedicating 2-3 hours of focused time to properly prepare for coaching {student.name}.
-                    </p>
-                  </div>
-                </label>
-              </div>
-              
-              {showError && (
-                <div style={{background: '#fecaca', borderRadius: '8px', padding: '12px', marginBottom: '16px'}}>
-                  <p style={{fontSize: '0.875rem', color: '#dc2626'}}>Please fill all fields and agree to the terms.</p>
-                </div>
-              )}
-              
-              <button
-                type="submit"
-                style={{
-                  width: '100%',
-                  padding: '16px',
-                  background: agreedToTerms ? 'linear-gradient(135deg, #2563eb, #7c3aed)' : '#e5e7eb',
-                  color: agreedToTerms ? 'white' : '#9ca3af',
-                  borderRadius: '8px',
-                  fontWeight: 'bold',
-                  fontSize: '1.125rem',
-                  border: 'none',
-                  cursor: agreedToTerms ? 'pointer' : 'not-allowed',
-                  transition: 'all 0.2s',
-                  boxShadow: agreedToTerms ? '0 10px 20px rgba(37, 99, 235, 0.3)' : 'none'
-                }}
-              >
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}>
-                  <Lock />
-                  <span>Access Elite Training Portal</span>
-                </div>
-              </button>
-            </form>
-            
-            <div style={{marginTop: '24px', padding: '16px', background: '#f3f4f6', borderRadius: '8px'}}>
-              <p style={{fontSize: '0.875rem', color: '#6b7280', textAlign: 'center'}}>
-                Need help? Contact support@ivylevel.com with your coach ID
-              </p>
-            </div>
-          </div>
-          
-          {/* Right Side - Motivational Content */}
-          <div style={{flex: 1}}>
-            <div style={{marginBottom: '32px'}}>
-              <h2 style={{fontSize: '2.5rem', fontWeight: 'bold', color: '#111827', marginBottom: '16px'}}>
-                Your Success Starts with Preparation
-              </h2>
-              <p style={{fontSize: '1.125rem', color: '#6b7280', lineHeight: '1.6'}}>
-                Top performing coaches who complete 100% of their training earn an average of 
-                <span style={{fontWeight: 'bold', color: '#16a34a'}}> $25,000 per year</span> while 
-                transforming students' futures. Your dedication today determines your impact tomorrow.
-              </p>
-            </div>
-            
-            {/* Success Metrics */}
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '32px'}}>
-              <div style={{background: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)'}}>
-                <DollarSign style={{color: '#16a34a', marginBottom: '8px'}} />
-                <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827'}}>$2,100/mo</div>
-                <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Average monthly earnings</p>
-              </div>
-              <div style={{background: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)'}}>
-                <Users style={{color: '#2563eb', marginBottom: '8px'}} />
-                <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827'}}>95%</div>
-                <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Student satisfaction rate</p>
-              </div>
-            </div>
-            
-            {/* Training Checklist */}
-            <div style={{background: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', marginBottom: '24px'}}>
-              <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                <Shield style={{color: '#7c3aed'}} />
-                Mandatory Training Checklist
-              </h3>
-              <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <CheckCircle style={{color: '#10b981', flexShrink: 0}} />
-                  <p style={{color: '#374151'}}>Student profile mastery & scenario practice</p>
-                </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <CheckCircle style={{color: '#10b981', flexShrink: 0}} />
-                  <p style={{color: '#374151'}}>Technical setup validation (Email, Zoom, Payment)</p>
-                </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <CheckCircle style={{color: '#10b981', flexShrink: 0}} />
-                  <p style={{color: '#374151'}}>Live session simulation & emergency protocols</p>
-                </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <CheckCircle style={{color: '#10b981', flexShrink: 0}} />
-                  <p style={{color: '#374151'}}>Schedule first session with {student.name}</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Time Estimate */}
-            <div style={{background: '#dbeafe', borderRadius: '12px', padding: '20px'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                <Clock style={{color: '#2563eb'}} />
-                <div>
-                  <p style={{fontWeight: 'bold', color: '#1e3a8a'}}>Estimated completion time: 2-3 hours</p>
-                  <p style={{fontSize: '0.875rem', color: '#1e40af'}}>
-                    Complete in one focused session for best results. Your commitment today ensures student success tomorrow.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Social Proof */}
-            <div style={{marginTop: '24px', padding: '20px', background: '#fef3c7', borderRadius: '12px', border: '1px solid #fbbf24'}}>
-              <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-                <Award style={{color: '#d97706', marginTop: '2px', flexShrink: 0}} />
-                <div>
-                  <p style={{fontWeight: 'bold', color: '#92400e', marginBottom: '4px'}}>Coach Spotlight</p>
-                  <p style={{fontSize: '0.875rem', color: '#92400e'}}>
-                    "The training was intense but worth it. I now earn $2,850/month helping students achieve their dreams. 
-                    The preparation made all the difference." - Michael R., Elite Coach
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  // Not authenticated - show login
+  if (!user) {
+    return <LoginScreen />;
+  }
+  
+  // Admin user - show admin dashboard
+  if (userData?.role === 'admin') {
+    return <AdminDashboard />;
+  }
+  
+  // Coach user - show training flow
+  const coach = {
+    name: userData?.name || user.displayName || 'Coach',
+    email: user.email,
+    expiresAt: userData?.expiresAt || new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString()
   };
+  
+  const student = userData?.student || {
+    name: "Student",
+    grade: "11th Grade",
+    focusArea: "pre-med",
+    culturalBackground: "Asian-American"
+  };
+  
+  const modules = [
+    { id: 'welcome', name: 'Welcome & Commitment', icon: <TargetIcon />, categoryColor: '#FF4A23' },
+    { id: 'mastery', name: 'Student Mastery', icon: <BookIcon />, categoryColor: '#9698A6' }, // Personal context
+    { id: 'technical', name: 'Technical Setup', icon: <TechIcon />, categoryColor: '#FFBB6D' }, // Aptitude tools
+    { id: 'simulation', name: 'Session Practice', icon: <VideoIcon />, categoryColor: '#FF6E6D' }, // Passion coaching
+    { id: 'certification', name: 'Final Certification', icon: <AwardIcon />, categoryColor: '#55AAAA' } // Community impact
+  ];
   
   const renderModule = () => {
     switch (modules[currentModule].id) {
@@ -377,30 +1337,27 @@ const App = () => {
     }
   };
   
-  if (!isAuthenticated) {
-    return <LoginWelcomeScreen onAuthenticate={() => setIsAuthenticated(true)} />;
-  }
-  
+  // Training completed
   if (completedModules.length === modules.length) {
     return (
       <div style={{minHeight: '100vh', background: 'linear-gradient(135deg, #667eea, #764ba2)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px'}}>
         <div style={{background: 'white', borderRadius: '20px', padding: '48px', textAlign: 'center', maxWidth: '600px', boxShadow: '0 25px 50px rgba(0,0,0,0.2)'}}>
           <div style={{fontSize: '64px', marginBottom: '24px'}}>🎉</div>
-          <h1 style={{fontSize: '2.5rem', fontWeight: 'bold', color: '#111827', marginBottom: '16px'}}>
+          <h1 style={{fontSize: '2.5rem', fontWeight: 'bold', color: '#020202', marginBottom: '16px'}}>
             Congratulations, {coach.name}!
           </h1>
-          <p style={{fontSize: '1.25rem', color: '#6b7280', marginBottom: '32px'}}>
-            You're now ready to make a difference in {student.name}'s life.
+          <p style={{fontSize: '1.25rem', color: '#616479', marginBottom: '32px'}}>
+            You're now certified and ready to make a difference in {student.name}'s life.
           </p>
           <div style={{background: '#f3f4f6', borderRadius: '12px', padding: '24px', marginBottom: '32px'}}>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
               <div>
-                <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#7c3aed'}}>{formatTime(trainingStats.totalTime)}</div>
-                <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Training Time</div>
+                <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#FF4A23'}}>{formatTime(trainingStats.totalTime)}</div>
+                <div style={{fontSize: '0.875rem', color: '#616479'}}>Training Time</div>
               </div>
               <div>
-                <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#16a34a'}}>{trainingStats.averageScore}%</div>
-                <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Average Score</div>
+                <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#FF4A23'}}>{trainingStats.averageScore}%</div>
+                <div style={{fontSize: '0.875rem', color: '#616479'}}>Average Score</div>
               </div>
             </div>
           </div>
@@ -408,14 +1365,14 @@ const App = () => {
             onClick={() => window.location.href = '/dashboard'}
             style={{
               padding: '16px 32px',
-              background: 'linear-gradient(135deg, #7c3aed, #2563eb)',
+              background: 'linear-gradient(135deg, #FF4A23, #FF4A23)',
               color: 'white',
               borderRadius: '12px',
               fontWeight: 'bold',
               fontSize: '1.125rem',
               border: 'none',
               cursor: 'pointer',
-              boxShadow: '0 10px 20px rgba(124, 58, 237, 0.3)'
+              boxShadow: '0 10px 20px rgba(255, 74, 35, 0.3)'
             }}
           >
             Go to Coach Dashboard →
@@ -425,26 +1382,41 @@ const App = () => {
     );
   }
   
+  // Active training
   return (
-    <div style={{minHeight: '100vh', background: '#f9fafb'}}>
+    <div style={{minHeight: '100vh', background: '#F5F5F5'}}>
       {/* Header */}
       <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
         <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
           <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-            <div style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#7c3aed'}}>Ivylevel</div>
-            <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Coach Training Platform</div>
+            <div style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#FF4A23'}}>Ivylevel</div>
+            <div style={{fontSize: '0.875rem', color: '#616479'}}>Coach Training Platform</div>
           </div>
           <div style={{display: 'flex', alignItems: 'center', gap: '24px'}}>
             <div style={{textAlign: 'right'}}>
-              <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Training Time</div>
+              <div style={{fontSize: '0.875rem', color: '#616479'}}>Training Time</div>
               <div style={{fontFamily: 'monospace', fontWeight: 'bold'}}>{formatTime(trainingStats.totalTime)}</div>
             </div>
             <div style={{textAlign: 'right'}}>
-              <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Deadline</div>
+              <div style={{fontSize: '0.875rem', color: '#616479'}}>Deadline</div>
               <div style={{fontWeight: 'bold', color: '#dc2626'}}>
                 {Math.floor((new Date(coach.expiresAt) - new Date()) / (1000 * 60 * 60))}h remaining
               </div>
             </div>
+            <button
+              onClick={() => logout()}
+              style={{
+                padding: '8px 16px',
+                background: '#FF4A23',
+                color: 'white',
+                borderRadius: '6px',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '0.875rem'
+              }}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
@@ -465,7 +1437,7 @@ const App = () => {
                   justifyContent: 'center',
                   fontSize: '1.5rem',
                   background: completedModules.includes(module.id) ? '#10b981' :
-                             idx === currentModule ? '#7c3aed' :
+                             idx === currentModule ? '#FF4A23' :
                              '#e5e7eb',
                   color: completedModules.includes(module.id) || idx === currentModule ? 'white' : '#9ca3af',
                   transition: 'all 0.3s ease',
@@ -482,7 +1454,7 @@ const App = () => {
           <div style={{width: '100%', height: '8px', background: '#e5e7eb', borderRadius: '4px', overflow: 'hidden'}}>
             <div style={{
               height: '100%',
-              background: 'linear-gradient(135deg, #7c3aed, #2563eb)',
+              background: 'linear-gradient(135deg, #FF4A23, #FF4A23)',
               borderRadius: '4px',
               width: `${((completedModules.length + (currentModule === modules.length - 1 ? 1 : 0)) / modules.length) * 100}%`,
               transition: 'width 0.5s ease'
@@ -512,31 +1484,13 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
     </svg>
   );
   
-  const Heart = () => (
-    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-    </svg>
-  );
   
-  const Shield = () => (
-    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-    </svg>
-  );
   
-  const Target = () => (
-    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="10"></circle>
-      <circle cx="12" cy="12" r="6"></circle>
-      <circle cx="12" cy="12" r="2"></circle>
-    </svg>
-  );
   
-  const Users = () => (
-    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-    </svg>
-  );
+  
+  
+  
+  
   
   const ChevronRight = () => (
     <svg style={{width: '16px', height: '16px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -569,30 +1523,30 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
               style={{margin: '0 auto 16px', display: 'block', boxShadow: '0 10px 25px rgba(0,0,0,0.1)'}}
               alt="Student"
             />
-            <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#111827', marginBottom: '8px'}}>{student.name}</h3>
-            <p style={{fontSize: '1.125rem', color: '#6b7280'}}>{student.grade} • {student.focusArea} Track</p>
+            <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#020202', marginBottom: '8px'}}>{student.name}</h3>
+            <p style={{fontSize: '1.125rem', color: '#616479'}}>{student.grade} • {student.focusArea} Track</p>
           </div>
           
-          <div style={{background: '#dbeafe', borderRadius: '12px', padding: '24px', marginBottom: '24px'}}>
+          <div style={{background: '#FFE5DF', borderRadius: '12px', padding: '24px', marginBottom: '24px'}}>
             <p style={{fontSize: '1.125rem', color: '#1e3a8a', lineHeight: '1.6'}}>
               "{student.name} dreams of becoming a {student.focusArea === 'pre-med' ? 'doctor' : 'tech innovator'}. 
               Their family is counting on you to guide them to their dream college. 
-              <span style={{fontWeight: 'bold', color: '#2563eb'}}> You are their key to success.</span>"
+              <span style={{fontWeight: 'bold', color: '#FF4A23'}}> You are their key to success.</span>"
             </p>
           </div>
           
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', textAlign: 'center'}}>
             <div style={{background: 'white', borderRadius: '8px', padding: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-              <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#16a34a'}}>3.7</div>
-              <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Current GPA</div>
+              <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#FF4A23'}}>3.7</div>
+              <div style={{fontSize: '0.875rem', color: '#616479'}}>Current GPA</div>
             </div>
             <div style={{background: 'white', borderRadius: '8px', padding: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-              <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#2563eb'}}>1350</div>
-              <div style={{fontSize: '0.875rem', color: '#6b7280'}}>SAT Score</div>
+              <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#FF4A23'}}>1350</div>
+              <div style={{fontSize: '0.875rem', color: '#616479'}}>SAT Score</div>
             </div>
             <div style={{background: 'white', borderRadius: '8px', padding: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
-              <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#7c3aed'}}>Top 15%</div>
-              <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Class Rank</div>
+              <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#FF4A23'}}>Top 15%</div>
+              <div style={{fontSize: '0.875rem', color: '#616479'}}>Class Rank</div>
             </div>
           </div>
         </div>
@@ -603,7 +1557,7 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
       title: 'Your Earning Potential Starts NOW',
       content: (
         <div>
-          <div style={{background: 'linear-gradient(135deg, #16a34a, #059669)', borderRadius: '12px', padding: '32px', color: 'white', marginBottom: '24px'}}>
+          <div style={{background: 'linear-gradient(135deg, #FF4A23, #059669)', borderRadius: '12px', padding: '32px', color: 'white', marginBottom: '24px'}}>
             <div style={{textAlign: 'center', marginBottom: '24px'}}>
               <DollarSign style={{width: '64px', height: '64px', margin: '0 auto 16px'}} />
               <div style={{fontSize: '3rem', fontWeight: 'bold', marginBottom: '8px'}}>$25,000</div>
@@ -622,7 +1576,7 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
             </div>
           </div>
           
-          <div style={{background: '#fef3c7', border: '2px solid #fbbf24', borderRadius: '8px', padding: '16px', marginBottom: '16px'}}>
+          <div style={{background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: '8px', padding: '16px', marginBottom: '16px'}}>
             <p style={{fontSize: '0.875rem', fontWeight: '500', color: '#92400e'}}>
               🏆 Top Coach Spotlight: Sarah M. earned $2,850 last month with 95% student satisfaction
             </p>
@@ -631,15 +1585,15 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
           <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#f3f4f6', borderRadius: '8px'}}>
               <span style={{fontSize: '0.875rem', fontWeight: '500'}}>Complete Training</span>
-              <span style={{fontSize: '0.875rem', color: '#16a34a', fontWeight: 'bold'}}>+$500 bonus</span>
+              <span style={{fontSize: '0.875rem', color: '#FF4A23', fontWeight: 'bold'}}>+$500 bonus</span>
             </div>
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#f3f4f6', borderRadius: '8px'}}>
               <span style={{fontSize: '0.875rem', fontWeight: '500'}}>First Successful Session</span>
-              <span style={{fontSize: '0.875rem', color: '#16a34a', fontWeight: 'bold'}}>+$250 bonus</span>
+              <span style={{fontSize: '0.875rem', color: '#FF4A23', fontWeight: 'bold'}}>+$250 bonus</span>
             </div>
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#f3f4f6', borderRadius: '8px'}}>
               <span style={{fontSize: '0.875rem', fontWeight: '500'}}>90-Day Retention</span>
-              <span style={{fontSize: '0.875rem', color: '#16a34a', fontWeight: 'bold'}}>+$750 bonus</span>
+              <span style={{fontSize: '0.875rem', color: '#FF4A23', fontWeight: 'bold'}}>+$750 bonus</span>
             </div>
           </div>
         </div>
@@ -650,7 +1604,7 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
       title: 'Your Elite Coach Commitment',
       content: (
         <div>
-          <div style={{background: 'linear-gradient(135deg, #7c3aed, #2563eb)', borderRadius: '12px', padding: '24px', color: 'white', marginBottom: '24px'}}>
+          <div style={{background: 'linear-gradient(135deg, #FF4A23, #FF4A23)', borderRadius: '12px', padding: '24px', color: 'white', marginBottom: '24px'}}>
             <Trophy style={{margin: '0 auto 16px', display: 'block'}} />
             <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '8px'}}>The Ivylevel Excellence Standard</h3>
             <p style={{opacity: 0.9}}>
@@ -667,8 +1621,8 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
                 style={{marginTop: '2px', width: '20px', height: '20px'}}
               />
               <div>
-                <p style={{fontWeight: '500', color: '#111827'}}>I commit to excellence</p>
-                <p style={{fontSize: '0.875rem', color: '#6b7280', marginTop: '4px'}}>
+                <p style={{fontWeight: '500', color: '#020202'}}>I commit to excellence</p>
+                <p style={{fontSize: '0.875rem', color: '#616479', marginTop: '4px'}}>
                   I will complete all training modules thoroughly and be fully prepared for {student.name}'s success
                 </p>
               </div>
@@ -677,26 +1631,26 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
           
           <div style={{display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px'}}>
             <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-              <Heart style={{marginTop: '2px', color: '#dc2626'}} />
-              <p style={{color: '#374151'}}>
+              <HeartIcon style={{marginTop: '2px', color: '#dc2626'}} />
+              <p style={{color: '#616479'}}>
                 I commit to putting {student.name}'s growth and wellbeing first in every session
               </p>
             </div>
             <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-              <Shield style={{marginTop: '2px', color: '#2563eb'}} />
-              <p style={{color: '#374151'}}>
+              <StarIcon style={{marginTop: '2px', color: '#FF4A23'}} />
+              <p style={{color: '#616479'}}>
                 I will maintain the highest standards of professionalism and confidentiality
               </p>
             </div>
             <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-              <Target style={{marginTop: '2px', color: '#16a34a'}} />
-              <p style={{color: '#374151'}}>
+              <TargetIcon style={{marginTop: '2px', color: '#FF4A23'}} />
+              <p style={{color: '#616479'}}>
                 I will work tirelessly to help {student.name} achieve their college dreams
               </p>
             </div>
             <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-              <Users style={{marginTop: '2px', color: '#7c3aed'}} />
-              <p style={{color: '#374151'}}>
+              <ServiceIcon style={{marginTop: '2px', color: '#FF4A23'}} />
+              <p style={{color: '#616479'}}>
                 I will collaborate respectfully with parents while protecting student autonomy
               </p>
             </div>
@@ -723,7 +1677,7 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
               fontSize: '1.125rem',
               transition: 'all 0.2s ease',
               background: commitment 
-                ? 'linear-gradient(135deg, #2563eb, #7c3aed)' 
+                ? 'linear-gradient(135deg, #FF4A23, #FF4A23)' 
                 : '#d1d5db',
               color: commitment ? 'white' : '#9ca3af',
               cursor: commitment ? 'pointer' : 'not-allowed',
@@ -740,14 +1694,14 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
   ];
   
   return (
-    <div style={{minHeight: '100vh', background: 'linear-gradient(135deg, #dbeafe, #e0e7ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px'}}>
+    <div style={{minHeight: '100vh', background: 'linear-gradient(135deg, #FFE5DF, #e0e7ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px'}}>
       <div style={{background: 'white', borderRadius: '20px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', maxWidth: '600px', width: '100%', overflow: 'hidden'}}>
         {/* Progress Bar */}
         <div style={{height: '8px', background: '#e5e7eb'}}>
           <div 
             style={{
               height: '100%',
-              background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
+              background: 'linear-gradient(135deg, #FF4A23, #FF4A23)',
               transition: 'width 0.5s ease',
               width: `${((currentSlide + 1) / slides.length) * 100}%`
             }}
@@ -756,7 +1710,7 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
         
         <div style={{padding: '32px'}}>
           <div style={{marginBottom: '32px'}}>
-            <h2 style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827', marginBottom: '16px'}}>
+            <h2 style={{fontSize: '2rem', fontWeight: 'bold', color: '#020202', marginBottom: '16px'}}>
               {slides[currentSlide].title}
             </h2>
             {slides[currentSlide].content}
@@ -788,7 +1742,7 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
                     height: '8px',
                     borderRadius: '4px',
                     transition: 'all 0.3s ease',
-                    background: idx === currentSlide ? '#2563eb' : '#d1d5db'
+                    background: idx === currentSlide ? '#FF4A23' : '#d1d5db'
                   }}
                 />
               ))}
@@ -799,7 +1753,7 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
                 onClick={() => setCurrentSlide(currentSlide + 1)}
                 style={{
                   padding: '8px 16px',
-                  background: '#2563eb',
+                  background: '#FF4A23',
                   color: 'white',
                   borderRadius: '8px',
                   border: 'none',
@@ -839,13 +1793,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
     </svg>
   );
   
-  const Target = () => (
-    <svg style={{width: '16px', height: '16px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="10"></circle>
-      <circle cx="12" cy="12" r="6"></circle>
-      <circle cx="12" cy="12" r="2"></circle>
-    </svg>
-  );
+  
   
   const Award = () => (
     <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1044,7 +1992,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
       case 'interactive-review':
         return (
           <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
-            <div style={{background: 'linear-gradient(135deg, #dbeafe, #e0e7ff)', borderRadius: '12px', padding: '24px'}}>
+            <div style={{background: 'linear-gradient(135deg, #FFE5DF, #e0e7ff)', borderRadius: '12px', padding: '24px'}}>
               <div style={{display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px'}}>
                 <img 
                   src={`https://ui-avatars.com/api/?name=${student.name}&size=80&background=3b82f6&color=fff&rounded=true`}
@@ -1052,31 +2000,31 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                   style={{boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'}}
                 />
                 <div>
-                  <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#111827'}}>{student.name}</h3>
-                  <p style={{color: '#6b7280'}}>{student.grade} • {student.focusArea} Track</p>
+                  <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#020202'}}>{student.name}</h3>
+                  <p style={{color: '#616479'}}>{student.grade} • {student.focusArea} Track</p>
                 </div>
               </div>
               
               <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
                 <div style={{background: 'white', borderRadius: '8px', padding: '16px'}}>
-                  <h4 style={{fontWeight: '600', color: '#374151', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                    <Target />
+                  <h4 style={{fontWeight: '600', color: '#616479', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+                    <TargetIcon />
                     Academic Profile
                   </h4>
                   <div style={{display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.875rem'}}>
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                      <span style={{color: '#6b7280'}}>GPA:</span>
+                      <span style={{color: '#616479'}}>GPA:</span>
                       <span style={{fontWeight: '500'}}>{currentSectionData.content.overview.gpa}</span>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                      <span style={{color: '#6b7280'}}>SAT:</span>
+                      <span style={{color: '#616479'}}>SAT:</span>
                       <span style={{fontWeight: '500'}}>{currentSectionData.content.overview.satScore}</span>
                     </div>
                   </div>
                 </div>
                 
                 <div style={{background: 'white', borderRadius: '8px', padding: '16px'}}>
-                  <h4 style={{fontWeight: '600', color: '#374151', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+                  <h4 style={{fontWeight: '600', color: '#616479', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
                     <Brain />
                     Key Focus Areas
                   </h4>
@@ -1103,7 +2051,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
               </div>
             </div>
             
-            <div style={{background: '#dbeafe', borderRadius: '8px', padding: '16px'}}>
+            <div style={{background: '#FFE5DF', borderRadius: '8px', padding: '16px'}}>
               <p style={{fontSize: '0.875rem', color: '#1e3a8a'}}>
                 <strong>Your Mission:</strong> Guide {student.name} to improve their weaknesses while 
                 maintaining their strengths and managing family expectations constructively.
@@ -1117,7 +2065,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
           <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
             {currentSectionData.questions.map((question, qIdx) => (
               <div key={question.id} style={{background: '#f3f4f6', borderRadius: '8px', padding: '24px'}}>
-                <h4 style={{fontWeight: '600', color: '#111827', marginBottom: '16px'}}>
+                <h4 style={{fontWeight: '600', color: '#020202', marginBottom: '16px'}}>
                   Question {qIdx + 1}: {question.question}
                 </h4>
                 <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
@@ -1130,8 +2078,8 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                         padding: '12px',
                         borderRadius: '8px',
                         border: '2px solid',
-                        borderColor: quizAnswers[question.id] === idx ? '#2563eb' : '#d1d5db',
-                        background: quizAnswers[question.id] === idx ? '#dbeafe' : 'white',
+                        borderColor: quizAnswers[question.id] === idx ? '#FF4A23' : '#d1d5db',
+                        background: quizAnswers[question.id] === idx ? '#FFE5DF' : 'white',
                         cursor: 'pointer',
                         transition: 'all 0.2s ease'
                       }}
@@ -1144,7 +2092,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                         onChange={() => handleQuizAnswer(question.id, idx)}
                         style={{marginRight: '12px'}}
                       />
-                      <span style={{color: '#374151'}}>{option}</span>
+                      <span style={{color: '#616479'}}>{option}</span>
                     </label>
                   ))}
                 </div>
@@ -1154,7 +2102,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                     padding: '12px',
                     borderRadius: '8px',
                     background: quizAnswers[question.id] === question.correct ? '#dcfce7' : '#fecaca',
-                    color: quizAnswers[question.id] === question.correct ? '#16a34a' : '#dc2626'
+                    color: quizAnswers[question.id] === question.correct ? '#FF4A23' : '#dc2626'
                   }}>
                     {quizAnswers[question.id] === question.correct ? (
                       <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
@@ -1180,15 +2128,15 @@ const StudentMasteryModule = ({ student, onComplete }) => {
             {currentSectionData.scenarios.map((scenario, sIdx) => (
               <div key={scenario.id} style={{background: 'white', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', padding: '24px'}}>
                 <div style={{marginBottom: '16px'}}>
-                  <h4 style={{fontWeight: '600', color: '#111827', marginBottom: '8px'}}>
+                  <h4 style={{fontWeight: '600', color: '#020202', marginBottom: '8px'}}>
                     Scenario {sIdx + 1}
                   </h4>
-                  <div style={{background: '#f3f4f6', borderRadius: '8px', padding: '16px', fontStyle: 'italic', color: '#374151'}}>
+                  <div style={{background: '#f3f4f6', borderRadius: '8px', padding: '16px', fontStyle: 'italic', color: '#616479'}}>
                     "{scenario.situation}"
                   </div>
                 </div>
                 
-                <h5 style={{fontWeight: '500', color: '#374151', marginBottom: '12px'}}>How would you respond?</h5>
+                <h5 style={{fontWeight: '500', color: '#616479', marginBottom: '12px'}}>How would you respond?</h5>
                 <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
                   {scenario.responseOptions.map((response, idx) => (
                     <div key={idx}>
@@ -1199,8 +2147,8 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                           padding: '16px',
                           borderRadius: '8px',
                           border: '2px solid',
-                          borderColor: scenarioResponses[scenario.id]?.index === idx ? '#2563eb' : '#d1d5db',
-                          background: scenarioResponses[scenario.id]?.index === idx ? '#dbeafe' : '#f3f4f6',
+                          borderColor: scenarioResponses[scenario.id]?.index === idx ? '#FF4A23' : '#d1d5db',
+                          background: scenarioResponses[scenario.id]?.index === idx ? '#FFE5DF' : '#f3f4f6',
                           cursor: 'pointer',
                           transition: 'all 0.2s ease'
                         }}
@@ -1213,7 +2161,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                           onChange={() => handleScenarioResponse(scenario.id, idx, response.score)}
                           style={{marginRight: '12px', marginTop: '2px'}}
                         />
-                        <span style={{color: '#374151'}}>{response.text}</span>
+                        <span style={{color: '#616479'}}>{response.text}</span>
                       </label>
                       {showFeedback && scenarioResponses[scenario.id]?.index === idx && (
                         <div style={{
@@ -1224,7 +2172,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                           fontSize: '0.875rem',
                           background: response.score === 100 ? '#dcfce7' : 
                                      response.score > 0 ? '#fef3c7' : '#fecaca',
-                          color: response.score === 100 ? '#16a34a' : 
+                          color: response.score === 100 ? '#FF4A23' : 
                                 response.score > 0 ? '#92400e' : '#dc2626'
                         }}>
                           <div style={{display: 'flex', alignItems: 'flex-start', gap: '8px'}}>
@@ -1250,7 +2198,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
     <div style={{maxWidth: '1024px', margin: '0 auto', padding: '24px'}}>
       <div style={{background: 'white', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)', overflow: 'hidden'}}>
         {/* Progress Header */}
-        <div style={{background: 'linear-gradient(135deg, #2563eb, #7c3aed)', color: 'white', padding: '24px'}}>
+        <div style={{background: 'linear-gradient(135deg, #FF4A23, #FF4A23)', color: 'white', padding: '24px'}}>
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px'}}>
             <h2 style={{fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '12px'}}>
               <BookOpen />
@@ -1305,7 +2253,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                     onClick={() => setCurrentSection(currentSection + 1)}
                     style={{
                       padding: '12px 24px',
-                      background: '#2563eb',
+                      background: '#FF4A23',
                       color: 'white',
                       borderRadius: '8px',
                       fontWeight: '500',
@@ -1331,7 +2279,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                       gap: '8px',
                       background: (Object.keys(quizAnswers).length < 3 || Object.keys(scenarioResponses).length < 2)
                         ? '#d1d5db'
-                        : '#16a34a',
+                        : '#FF4A23',
                       color: (Object.keys(quizAnswers).length < 3 || Object.keys(scenarioResponses).length < 2)
                         ? '#9ca3af'
                         : 'white',
@@ -1363,11 +2311,11 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                   <div style={{
                     fontSize: '2.5rem',
                     fontWeight: 'bold',
-                    color: masteryScore >= 80 ? '#16a34a' : masteryScore >= 60 ? '#d97706' : '#dc2626'
+                    color: masteryScore >= 80 ? '#FF4A23' : masteryScore >= 60 ? '#d97706' : '#dc2626'
                   }}>
                     {masteryScore}%
                   </div>
-                  <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Mastery Score</div>
+                  <div style={{fontSize: '0.875rem', color: '#616479'}}>Mastery Score</div>
                 </div>
               </div>
               
@@ -1375,7 +2323,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                 {masteryScore >= 80 ? 'Excellent Understanding!' : masteryScore >= 60 ? 'Good Progress!' : 'Review Needed'}
               </h3>
               
-              <p style={{color: '#6b7280', marginBottom: '32px', maxWidth: '600px', margin: '0 auto 32px'}}>
+              <p style={{color: '#616479', marginBottom: '32px', maxWidth: '600px', margin: '0 auto 32px'}}>
                 {masteryScore >= 80 
                   ? `You've demonstrated strong understanding of ${student.name}'s needs and how to support them effectively.`
                   : `Review the feedback above to better understand ${student.name}'s specific needs and coaching approach.`
@@ -1387,7 +2335,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                   onClick={() => onComplete(masteryScore)}
                   style={{
                     padding: '16px 32px',
-                    background: 'linear-gradient(135deg, #16a34a, #059669)',
+                    background: 'linear-gradient(135deg, #FF4A23, #059669)',
                     color: 'white',
                     borderRadius: '8px',
                     fontWeight: '500',
@@ -1408,7 +2356,7 @@ const StudentMasteryModule = ({ student, onComplete }) => {
                   }}
                   style={{
                     padding: '16px 32px',
-                    background: '#2563eb',
+                    background: '#FF4A23',
                     color: 'white',
                     borderRadius: '8px',
                     fontWeight: '500',
@@ -1489,11 +2437,7 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
     </svg>
   );
   
-  const Shield = () => (
-    <svg style={{width: '32px', height: '32px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-    </svg>
-  );
+  
   
   const ArrowRight = () => (
     <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1666,18 +2610,18 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
       case 'screenshot':
         return (
           <div style={{background: '#f3f4f6', borderRadius: '8px', padding: '24px'}}>
-            <h4 style={{fontWeight: '600', color: '#111827', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <h4 style={{fontWeight: '600', color: '#020202', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}>
               <Camera />
               Screenshot Validation
             </h4>
             
             {validation.status === 'pending' ? (
               <div>
-                <p style={{color: '#6b7280', marginBottom: '16px'}}>{currentStepData.validation.instruction}</p>
+                <p style={{color: '#616479', marginBottom: '16px'}}>{currentStepData.validation.instruction}</p>
                 
                 <div style={{border: '2px dashed #d1d5db', borderRadius: '8px', padding: '32px', textAlign: 'center'}}>
                   <Upload style={{margin: '0 auto 16px', color: '#9ca3af'}} />
-                  <p style={{color: '#6b7280', marginBottom: '16px'}}>Upload your screenshot</p>
+                  <p style={{color: '#616479', marginBottom: '16px'}}>Upload your screenshot</p>
                   
                   <label htmlFor="file-upload" style={{display: 'inline-block'}}>
                     <input
@@ -1691,7 +2635,7 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                     <span
                       style={{
                         padding: '8px 24px',
-                        background: isValidating ? '#9ca3af' : '#2563eb',
+                        background: isValidating ? '#9ca3af' : '#FF4A23',
                         color: 'white',
                         borderRadius: '8px',
                         cursor: isValidating ? 'not-allowed' : 'pointer',
@@ -1721,10 +2665,10 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                   background: validation.status === 'success' ? '#dcfce7' : '#fecaca'
                 }}>
                   <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                    <Check style={{color: '#16a34a'}} />
+                    <Check style={{color: '#FF4A23'}} />
                     <span style={{
                       fontWeight: '500',
-                      color: '#16a34a'
+                      color: '#FF4A23'
                     }}>
                       Validated Successfully!
                     </span>
@@ -1746,16 +2690,16 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
       case 'live-test':
         return (
           <div style={{background: '#f3f4f6', borderRadius: '8px', padding: '24px'}}>
-            <h4 style={{fontWeight: '600', color: '#111827', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <h4 style={{fontWeight: '600', color: '#020202', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}>
               <Video />
               Live Zoom Test
             </h4>
             
             {validation.status === 'pending' ? (
               <div>
-                <p style={{color: '#6b7280', marginBottom: '24px'}}>{currentStepData.validation.instruction}</p>
+                <p style={{color: '#616479', marginBottom: '24px'}}>{currentStepData.validation.instruction}</p>
                 
-                <div style={{background: '#dbeafe', border: '1px solid #93c5fd', borderRadius: '8px', padding: '16px', marginBottom: '24px'}}>
+                <div style={{background: '#FFE5DF', border: '1px solid #93c5fd', borderRadius: '8px', padding: '16px', marginBottom: '24px'}}>
                   <h5 style={{fontWeight: '500', color: '#1e3a8a', marginBottom: '8px'}}>Test Requirements:</h5>
                   <ul style={{margin: 0, paddingLeft: '20px', fontSize: '0.875rem', color: '#1e40af'}}>
                     <li>Ensure good lighting (face clearly visible)</li>
@@ -1771,7 +2715,7 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                   style={{
                     width: '100%',
                     padding: '16px',
-                    background: isValidating ? '#9ca3af' : 'linear-gradient(135deg, #2563eb, #7c3aed)',
+                    background: isValidating ? '#9ca3af' : 'linear-gradient(135deg, #FF4A23, #FF4A23)',
                     color: 'white',
                     borderRadius: '8px',
                     fontWeight: '500',
@@ -1804,10 +2748,10 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                 }}>
                   <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                      <Check style={{color: '#16a34a'}} />
+                      <Check style={{color: '#FF4A23'}} />
                       <span style={{
                         fontWeight: '500',
-                        color: '#16a34a'
+                        color: '#FF4A23'
                       }}>
                         Overall Score: {validation.score}%
                       </span>
@@ -1817,7 +2761,7 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                 
                 {validation.evidence && (
                   <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
-                    <h5 style={{fontWeight: '500', color: '#374151'}}>Test Results:</h5>
+                    <h5 style={{fontWeight: '500', color: '#616479'}}>Test Results:</h5>
                     {Object.entries(validation.evidence).map(([key, result]) => (
                       <div key={key} style={{
                         display: 'flex',
@@ -1827,16 +2771,16 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                         background: 'white',
                         borderRadius: '8px'
                       }}>
-                        <span style={{textTransform: 'capitalize', color: '#374151'}}>{key}</span>
+                        <span style={{textTransform: 'capitalize', color: '#616479'}}>{key}</span>
                         <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                          <span style={{fontSize: '0.875rem', color: '#6b7280'}}>{result.quality || result.speed}</span>
+                          <span style={{fontSize: '0.875rem', color: '#616479'}}>{result.quality || result.speed}</span>
                           <div style={{
                             padding: '2px 8px',
                             borderRadius: '4px',
                             fontSize: '0.75rem',
                             fontWeight: '500',
                             background: result.score >= 90 ? '#dcfce7' : result.score >= 70 ? '#fef3c7' : '#fecaca',
-                            color: result.score >= 90 ? '#16a34a' : result.score >= 70 ? '#d97706' : '#dc2626'
+                            color: result.score >= 90 ? '#FF4A23' : result.score >= 70 ? '#d97706' : '#dc2626'
                           }}>
                             {result.score}%
                           </div>
@@ -1855,8 +2799,8 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
         
         return (
           <div style={{background: '#f3f4f6', borderRadius: '8px', padding: '24px'}}>
-            <h4 style={{fontWeight: '600', color: '#111827', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <Shield />
+            <h4 style={{fontWeight: '600', color: '#020202', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+              <StarIcon />
               Technical Readiness Checklist
             </h4>
             
@@ -1889,7 +2833,7 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                     }}
                     style={{width: '20px', height: '20px', marginRight: '12px'}}
                   />
-                  <span style={{color: '#374151'}}>{label}</span>
+                  <span style={{color: '#616479'}}>{label}</span>
                 </label>
               ))}
             </div>
@@ -1902,10 +2846,10 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                            validations.techCheck.status === 'warning' ? '#fef3c7' : '#fecaca'
               }}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                  <Check style={{color: '#16a34a'}} />
+                  <Check style={{color: '#FF4A23'}} />
                   <span style={{
                     fontWeight: '500',
-                    color: '#16a34a'
+                    color: '#FF4A23'
                   }}>
                     All requirements met!
                   </span>
@@ -1927,10 +2871,10 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
     <div style={{maxWidth: '1024px', margin: '0 auto', padding: '24px'}}>
       <div style={{background: 'white', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)', overflow: 'hidden'}}>
         {/* Header */}
-        <div style={{background: 'linear-gradient(135deg, #7c3aed, #2563eb)', color: 'white', padding: '24px'}}>
+        <div style={{background: 'linear-gradient(135deg, #FF4A23, #FF4A23)', color: 'white', padding: '24px'}}>
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px'}}>
             <h2 style={{fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <Shield />
+              <StarIcon />
               Technical Setup Validation
             </h2>
             <div style={{textAlign: 'right'}}>
@@ -1957,7 +2901,7 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                                idx < currentStep ? 'rgba(255,255,255,0.5)' :
                                'rgba(255,255,255,0.2)',
                     color: validations[step.id].status === 'success' ? 'white' :
-                          idx === currentStep ? '#7c3aed' :
+                          idx === currentStep ? '#FF4A23' :
                           idx < currentStep ? 'white' :
                           'rgba(255,255,255,0.5)'
                   }}>
@@ -1985,17 +2929,17 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
         <div style={{padding: '32px'}}>
           <div style={{marginBottom: '32px'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px'}}>
-              <div style={{padding: '12px', background: '#dbeafe', borderRadius: '8px', color: '#2563eb'}}>
+              <div style={{padding: '12px', background: '#FFE5DF', borderRadius: '8px', color: '#FF4A23'}}>
                 <currentStepData.icon />
               </div>
               <div>
-                <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', color: '#111827'}}>{currentStepData.title}</h3>
-                <p style={{color: '#6b7280'}}>{currentStepData.description}</p>
+                <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', color: '#020202'}}>{currentStepData.title}</h3>
+                <p style={{color: '#616479'}}>{currentStepData.description}</p>
               </div>
             </div>
             
             {/* Requirements List */}
-            <div style={{background: '#dbeafe', borderRadius: '8px', padding: '16px', marginBottom: '24px'}}>
+            <div style={{background: '#FFE5DF', borderRadius: '8px', padding: '16px', marginBottom: '24px'}}>
               <h4 style={{fontWeight: '500', color: '#1e3a8a', marginBottom: '8px'}}>Requirements:</h4>
               <ul style={{margin: 0, paddingLeft: '20px'}}>
                 {currentStepData.requirements.map((req, idx) => (
@@ -2040,7 +2984,7 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  background: !isCurrentStepComplete ? '#d1d5db' : '#2563eb',
+                  background: !isCurrentStepComplete ? '#d1d5db' : '#FF4A23',
                   color: !isCurrentStepComplete ? '#9ca3af' : 'white',
                   border: 'none',
                   cursor: !isCurrentStepComplete ? 'not-allowed' : 'pointer'
@@ -2056,7 +3000,7 @@ const TechnicalValidationModule = ({ coach, onComplete }) => {
                   padding: '12px 24px',
                   borderRadius: '8px',
                   fontWeight: '500',
-                  background: overallProgress < 4 ? '#d1d5db' : 'linear-gradient(135deg, #16a34a, #059669)',
+                  background: overallProgress < 4 ? '#d1d5db' : 'linear-gradient(135deg, #FF4A23, #059669)',
                   color: overallProgress < 4 ? '#9ca3af' : 'white',
                   border: 'none',
                   cursor: overallProgress < 4 ? 'not-allowed' : 'pointer',
@@ -2359,7 +3303,7 @@ const SessionSimulationModule = ({ student, onComplete }) => {
     <div style={{maxWidth: '1200px', margin: '0 auto', padding: '24px'}}>
       <div style={{background: 'white', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)', overflow: 'hidden'}}>
         {/* Header */}
-        <div style={{background: 'linear-gradient(135deg, #7c3aed, #2563eb)', color: 'white', padding: '24px'}}>
+        <div style={{background: 'linear-gradient(135deg, #FF4A23, #FF4A23)', color: 'white', padding: '24px'}}>
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
               <Video />
@@ -2384,42 +3328,42 @@ const SessionSimulationModule = ({ student, onComplete }) => {
           {simulationState === 'intro' && (
             <div style={{textAlign: 'center', padding: '48px 0'}}>
               <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '96px', height: '96px', background: '#e0e7ff', borderRadius: '50%', marginBottom: '24px'}}>
-                <PlayCircle style={{color: '#7c3aed'}} />
+                <PlayCircle style={{color: '#FF4A23'}} />
               </div>
               
               <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '16px'}}>Ready for Your Practice Session?</h3>
-              <p style={{color: '#6b7280', maxWidth: '600px', margin: '0 auto 32px'}}>
+              <p style={{color: '#616479', maxWidth: '600px', margin: '0 auto 32px'}}>
                 You'll experience a realistic 60-minute coaching session with {student.name}. 
                 Navigate through common scenarios and practice your response skills. 
                 Your performance will be evaluated on empathy, professionalism, and effectiveness.
               </p>
               
-              <div style={{background: '#dbeafe', borderRadius: '8px', padding: '24px', maxWidth: '600px', margin: '0 auto 32px'}}>
+              <div style={{background: '#FFE5DF', borderRadius: '8px', padding: '24px', maxWidth: '600px', margin: '0 auto 32px'}}>
                 <h4 style={{fontWeight: '600', color: '#1e3a8a', marginBottom: '12px'}}>Session Overview:</h4>
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', textAlign: 'left'}}>
                   <div style={{display: 'flex', alignItems: 'flex-start', gap: '8px'}}>
-                    <Check style={{color: '#2563eb', marginTop: '2px'}} />
+                    <Check style={{color: '#FF4A23', marginTop: '2px'}} />
                     <div>
                       <div style={{fontWeight: '500', color: '#1e3a8a'}}>Opening & Rapport</div>
                       <div style={{fontSize: '0.875rem', color: '#1e40af'}}>Build trust from the start</div>
                     </div>
                   </div>
                   <div style={{display: 'flex', alignItems: 'flex-start', gap: '8px'}}>
-                    <Check style={{color: '#2563eb', marginTop: '2px'}} />
+                    <Check style={{color: '#FF4A23', marginTop: '2px'}} />
                     <div>
                       <div style={{fontWeight: '500', color: '#1e3a8a'}}>Crisis Management</div>
                       <div style={{fontSize: '0.875rem', color: '#1e40af'}}>Handle emotional moments</div>
                     </div>
                   </div>
                   <div style={{display: 'flex', alignItems: 'flex-start', gap: '8px'}}>
-                    <Check style={{color: '#2563eb', marginTop: '2px'}} />
+                    <Check style={{color: '#FF4A23', marginTop: '2px'}} />
                     <div>
                       <div style={{fontWeight: '500', color: '#1e3a8a'}}>Parent Dynamics</div>
                       <div style={{fontSize: '0.875rem', color: '#1e40af'}}>Navigate family pressure</div>
                     </div>
                   </div>
                   <div style={{display: 'flex', alignItems: 'flex-start', gap: '8px'}}>
-                    <Check style={{color: '#2563eb', marginTop: '2px'}} />
+                    <Check style={{color: '#FF4A23', marginTop: '2px'}} />
                     <div>
                       <div style={{fontWeight: '500', color: '#1e3a8a'}}>Action Planning</div>
                       <div style={{fontSize: '0.875rem', color: '#1e40af'}}>Close with clear next steps</div>
@@ -2432,14 +3376,14 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                 onClick={startSimulation}
                 style={{
                   padding: '16px 32px',
-                  background: 'linear-gradient(135deg, #7c3aed, #2563eb)',
+                  background: 'linear-gradient(135deg, #FF4A23, #FF4A23)',
                   color: 'white',
                   borderRadius: '8px',
                   fontWeight: '600',
                   fontSize: '1.125rem',
                   border: 'none',
                   cursor: 'pointer',
-                  boxShadow: '0 10px 20px rgba(124, 58, 237, 0.3)'
+                  boxShadow: '0 10px 20px rgba(255, 74, 35, 0.3)'
                 }}
               >
                 Start Practice Session
@@ -2491,7 +3435,7 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                   </div>
                   <div style={{background: '#1f2937', borderRadius: '8px', padding: '16px', aspectRatio: '16/9', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <div style={{textAlign: 'center'}}>
-                      <div style={{width: '80px', height: '80px', background: '#2563eb', borderRadius: '50%', margin: '0 auto 8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                      <div style={{width: '80px', height: '80px', background: '#FF4A23', borderRadius: '50%', margin: '0 auto 8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         <User style={{color: 'white'}} />
                       </div>
                       <p style={{color: 'white', fontWeight: '500'}}>You</p>
@@ -2505,7 +3449,7 @@ const SessionSimulationModule = ({ student, onComplete }) => {
               <div style={{marginBottom: '24px'}}>
                 <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px'}}>
                   <h3 style={{fontSize: '1.25rem', fontWeight: 'bold'}}>{currentScenarioData.title}</h3>
-                  <div style={{display: 'flex', alignItems: 'center', gap: '8px', color: '#6b7280'}}>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '8px', color: '#616479'}}>
                     <Clock />
                     <span style={{fontSize: '0.875rem'}}>
                       Time Limit: {currentScenarioData.timeLimit}s
@@ -2519,12 +3463,12 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                 
                 <div style={{background: '#f3f4f6', borderRadius: '8px', padding: '24px', marginBottom: '24px'}}>
                   <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '16px'}}>
-                    <MessageCircle style={{color: '#6b7280', marginTop: '4px'}} />
+                    <MessageCircle style={{color: '#616479', marginTop: '4px'}} />
                     <div>
-                      <p style={{fontWeight: '500', color: '#111827', marginBottom: '4px'}}>
+                      <p style={{fontWeight: '500', color: '#020202', marginBottom: '4px'}}>
                         {currentScenarioData.id === 'parent-intervention' ? 'Parent' : student.name}:
                       </p>
-                      <p style={{color: '#374151', fontStyle: 'italic'}}>
+                      <p style={{color: '#616479', fontStyle: 'italic'}}>
                         "{currentScenarioData.id === 'parent-intervention' ? 
                           currentScenarioData.parentMessage : 
                           currentScenarioData.studentMessage}"
@@ -2536,7 +3480,7 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                 {/* Response Options */}
                 {!showFeedback ? (
                   <div>
-                    <h4 style={{fontWeight: '500', color: '#374151', marginBottom: '12px'}}>How do you respond?</h4>
+                    <h4 style={{fontWeight: '500', color: '#616479', marginBottom: '12px'}}>How do you respond?</h4>
                     <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
                       {currentScenarioData.responseOptions.map((option, idx) => (
                         <button
@@ -2553,15 +3497,15 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                             transition: 'all 0.2s ease'
                           }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.borderColor = '#2563eb';
-                            e.currentTarget.style.background = '#f0f9ff';
+                            e.currentTarget.style.borderColor = '#FF4A23';
+                            e.currentTarget.style.background = '#FFF5F2';
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.borderColor = '#e5e7eb';
                             e.currentTarget.style.background = 'white';
                           }}
                         >
-                          <p style={{color: '#374151'}}>{option.text}</p>
+                          <p style={{color: '#616479'}}>{option.text}</p>
                         </button>
                       ))}
                     </div>
@@ -2575,14 +3519,14 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                   }}>
                     <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px'}}>
                       {scenarioScore[currentScenarioData.id] >= 80 ? (
-                        <Check style={{color: '#16a34a'}} />
+                        <Check style={{color: '#FF4A23'}} />
                       ) : (
                         <AlertCircle style={{color: '#d97706'}} />
                       )}
                       <span style={{
                         fontWeight: 'bold',
                         fontSize: '1.125rem',
-                        color: scenarioScore[currentScenarioData.id] >= 80 ? '#16a34a' :
+                        color: scenarioScore[currentScenarioData.id] >= 80 ? '#FF4A23' :
                                scenarioScore[currentScenarioData.id] >= 50 ? '#d97706' : '#dc2626'
                       }}>
                         Score: {scenarioScore[currentScenarioData.id]}%
@@ -2617,12 +3561,12 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                   <div style={{
                     fontSize: '2.5rem',
                     fontWeight: 'bold',
-                    color: calculateOverallScore() >= 85 ? '#16a34a' :
+                    color: calculateOverallScore() >= 85 ? '#FF4A23' :
                            calculateOverallScore() >= 70 ? '#d97706' : '#dc2626'
                   }}>
                     {calculateOverallScore()}%
                   </div>
-                  <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Overall Score</div>
+                  <div style={{fontSize: '0.875rem', color: '#616479'}}>Overall Score</div>
                 </div>
               </div>
               
@@ -2631,7 +3575,7 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                  calculateOverallScore() >= 70 ? 'Good Progress!' : 'More Practice Needed'}
               </h3>
               
-              <p style={{color: '#6b7280', marginBottom: '32px', maxWidth: '600px', margin: '0 auto 32px'}}>
+              <p style={{color: '#616479', marginBottom: '32px', maxWidth: '600px', margin: '0 auto 32px'}}>
                 {calculateOverallScore() >= 85 ? 
                   `You demonstrated strong coaching skills with ${student.name}. Your responses showed empathy, professionalism, and effective guidance.` :
                   `Review the feedback for each scenario to improve your coaching approach. Practice makes perfect!`
@@ -2663,7 +3607,7 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                                      scenarioScore[scenario.id] >= 50 ? '#fef3c7' : '#fecaca'
                         }}>
                           {scenarioScore[scenario.id] >= 80 ? (
-                            <Check style={{color: '#16a34a'}} />
+                            <Check style={{color: '#FF4A23'}} />
                           ) : (
                             <X style={{color: '#dc2626'}} />
                           )}
@@ -2672,7 +3616,7 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                       </div>
                       <span style={{
                         fontWeight: 'bold',
-                        color: scenarioScore[scenario.id] >= 80 ? '#16a34a' :
+                        color: scenarioScore[scenario.id] >= 80 ? '#FF4A23' :
                                scenarioScore[scenario.id] >= 50 ? '#d97706' : '#dc2626'
                       }}>
                         {scenarioScore[scenario.id] || 0}%
@@ -2688,7 +3632,7 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                     onClick={() => onComplete(calculateOverallScore())}
                     style={{
                       padding: '16px 32px',
-                      background: 'linear-gradient(135deg, #16a34a, #059669)',
+                      background: 'linear-gradient(135deg, #FF4A23, #059669)',
                       color: 'white',
                       borderRadius: '8px',
                       fontWeight: '500',
@@ -2706,7 +3650,7 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                       style={{
                         padding: '16px 32px',
                         background: '#e5e7eb',
-                        color: '#374151',
+                        color: '#616479',
                         borderRadius: '8px',
                         fontWeight: '500',
                         border: 'none',
@@ -2723,7 +3667,7 @@ const SessionSimulationModule = ({ student, onComplete }) => {
                       onClick={() => onComplete(calculateOverallScore())}
                       style={{
                         padding: '16px 32px',
-                        background: '#2563eb',
+                        background: '#FF4A23',
                         color: 'white',
                         borderRadius: '8px',
                         fontWeight: '500',
@@ -2780,11 +3724,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
     </svg>
   );
   
-  const Shield = () => (
-    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-    </svg>
-  );
+  
   
   const Calendar = () => (
     <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2822,11 +3762,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
     </svg>
   );
   
-  const Heart = () => (
-    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-    </svg>
-  );
+  
   
   const FileText = () => (
     <svg style={{width: '32px', height: '32px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2846,19 +3782,9 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
     </svg>
   );
   
-  const Target = () => (
-    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="10"></circle>
-      <circle cx="12" cy="12" r="6"></circle>
-      <circle cx="12" cy="12" r="2"></circle>
-    </svg>
-  );
   
-  const Users = () => (
-    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-    </svg>
-  );
+  
+  
   
   const ArrowRight = () => (
     <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2977,30 +3903,30 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
       case 'pledge':
         return (
           <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
-            <div style={{background: 'linear-gradient(135deg, #dbeafe, #e0e7ff)', borderRadius: '12px', padding: '24px'}}>
+            <div style={{background: 'linear-gradient(135deg, #FFE5DF, #e0e7ff)', borderRadius: '12px', padding: '24px'}}>
               <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '16px'}}>Your Elite Coach Commitment</h3>
               <div style={{display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px'}}>
                 <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-                  <Heart style={{color: '#dc2626', marginTop: '2px'}} />
-                  <p style={{color: '#374151'}}>
+                  <HeartIcon style={{color: '#dc2626', marginTop: '2px'}} />
+                  <p style={{color: '#616479'}}>
                     I commit to putting {student.name}'s growth and wellbeing first in every session
                   </p>
                 </div>
                 <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-                  <Shield style={{color: '#2563eb', marginTop: '2px'}} />
-                  <p style={{color: '#374151'}}>
+                  <StarIcon style={{color: '#FF4A23', marginTop: '2px'}} />
+                  <p style={{color: '#616479'}}>
                     I will maintain the highest standards of professionalism and confidentiality
                   </p>
                 </div>
                 <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-                  <Target style={{color: '#16a34a', marginTop: '2px'}} />
-                  <p style={{color: '#374151'}}>
+                  <TargetIcon style={{color: '#FF4A23', marginTop: '2px'}} />
+                  <p style={{color: '#616479'}}>
                     I will work tirelessly to help {student.name} achieve their college dreams
                   </p>
                 </div>
                 <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-                  <Users style={{color: '#7c3aed', marginTop: '2px'}} />
-                  <p style={{color: '#374151'}}>
+                  <ServiceIcon style={{color: '#FF4A23', marginTop: '2px'}} />
+                  <p style={{color: '#616479'}}>
                     I will collaborate respectfully with parents while protecting student autonomy
                   </p>
                 </div>
@@ -3012,7 +3938,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                 <Video style={{color: '#dc2626'}} />
                 Record Your 30-Second Pledge
               </h4>
-              <p style={{color: '#6b7280', marginBottom: '16px'}}>
+              <p style={{color: '#616479', marginBottom: '16px'}}>
                 Look into the camera and state: "I, {coach.name}, commit to being an exceptional coach 
                 for {student.name} and upholding Ivylevel's standards of excellence."
               </p>
@@ -3041,8 +3967,8 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
               ) : (
                 <div style={{background: '#dcfce7', border: '1px solid #86efac', borderRadius: '8px', padding: '16px'}}>
                   <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                    <CheckCircle style={{color: '#16a34a'}} />
-                    <span style={{fontWeight: '500', color: '#16a34a'}}>Pledge recorded successfully!</span>
+                    <CheckCircle style={{color: '#FF4A23'}} />
+                    <span style={{fontWeight: '500', color: '#FF4A23'}}>Pledge recorded successfully!</span>
                   </div>
                 </div>
               )}
@@ -3067,8 +3993,8 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
               <div key={scenario.id} style={{background: 'white', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '24px'}}>
                 <div style={{marginBottom: '16px'}}>
                   <h4 style={{fontWeight: '600', marginBottom: '8px'}}>Scenario {idx + 1}:</h4>
-                  <p style={{color: '#374151', fontStyle: 'italic', marginBottom: '16px'}}>"{scenario.scenario}"</p>
-                  <p style={{fontWeight: '500', color: '#111827', marginBottom: '12px'}}>{scenario.question}</p>
+                  <p style={{color: '#616479', fontStyle: 'italic', marginBottom: '16px'}}>"{scenario.scenario}"</p>
+                  <p style={{fontWeight: '500', color: '#020202', marginBottom: '12px'}}>{scenario.question}</p>
                 </div>
                 
                 <div style={{display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px'}}>
@@ -3081,8 +4007,8 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                         padding: '12px',
                         borderRadius: '8px',
                         border: '2px solid',
-                        borderColor: emergencyQuizAnswers[scenario.id] === optIdx ? '#2563eb' : '#e5e7eb',
-                        background: emergencyQuizAnswers[scenario.id] === optIdx ? '#dbeafe' : 'white',
+                        borderColor: emergencyQuizAnswers[scenario.id] === optIdx ? '#FF4A23' : '#e5e7eb',
+                        background: emergencyQuizAnswers[scenario.id] === optIdx ? '#FFE5DF' : 'white',
                         cursor: 'pointer',
                         transition: 'all 0.2s ease'
                       }}
@@ -3094,7 +4020,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                         onChange={() => handleEmergencyAnswer(scenario.id, optIdx)}
                         style={{marginRight: '12px'}}
                       />
-                      <span style={{color: '#374151'}}>{option}</span>
+                      <span style={{color: '#616479'}}>{option}</span>
                     </label>
                   ))}
                 </div>
@@ -3109,10 +4035,10 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                     {emergencyQuizAnswers[scenario.id] === scenario.correct ? (
                       <div>
                         <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px'}}>
-                          <CheckCircle style={{color: '#16a34a'}} />
-                          <span style={{fontWeight: '500', color: '#16a34a'}}>Correct!</span>
+                          <CheckCircle style={{color: '#FF4A23'}} />
+                          <span style={{fontWeight: '500', color: '#FF4A23'}}>Correct!</span>
                         </div>
-                        <p style={{fontSize: '0.875rem', color: '#16a34a'}}>{scenario.protocol}</p>
+                        <p style={{fontSize: '0.875rem', color: '#FF4A23'}}>{scenario.protocol}</p>
                       </div>
                     ) : (
                       <div>
@@ -3131,7 +4057,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
             ))}
             
             {Object.keys(emergencyQuizAnswers).length === emergencyScenarios.length && (
-              <div style={{background: '#dbeafe', borderRadius: '8px', padding: '16px'}}>
+              <div style={{background: '#FFE5DF', borderRadius: '8px', padding: '16px'}}>
                 <p style={{textAlign: 'center', fontWeight: '500', color: '#1e3a8a'}}>
                   Emergency Protocol Score: {calculateEmergencyScore()}%
                   {calculateEmergencyScore() < 100 && ' - Review incorrect answers above'}
@@ -3146,14 +4072,14 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
           <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
             <div style={{background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)', borderRadius: '12px', padding: '24px'}}>
               <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '8px'}}>Schedule Your First Session!</h3>
-              <p style={{color: '#374151'}}>
+              <p style={{color: '#616479'}}>
                 {student.name} is excited to meet you. Choose your first session time below.
               </p>
             </div>
             
             <div style={{background: 'white', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '24px'}}>
               <h4 style={{fontWeight: '600', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                <Calendar style={{color: '#2563eb'}} />
+                <Calendar style={{color: '#FF4A23'}} />
                 Available Time Slots
               </h4>
               
@@ -3168,11 +4094,11 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                       borderRadius: '8px',
                       border: '2px solid',
                       borderColor: slot.full ? '#e5e7eb' : 
-                                   selectedDateTime === `${slot.date} at ${slot.time}` ? '#2563eb' : '#d1d5db',
+                                   selectedDateTime === `${slot.date} at ${slot.time}` ? '#FF4A23' : '#d1d5db',
                       background: slot.full ? '#f3f4f6' :
-                                 selectedDateTime === `${slot.date} at ${slot.time}` ? '#dbeafe' : 'white',
+                                 selectedDateTime === `${slot.date} at ${slot.time}` ? '#FFE5DF' : 'white',
                       color: slot.full ? '#9ca3af' :
-                            selectedDateTime === `${slot.date} at ${slot.time}` ? '#2563eb' : '#374151',
+                            selectedDateTime === `${slot.date} at ${slot.time}` ? '#FF4A23' : '#374151',
                       cursor: slot.full ? 'not-allowed' : 'pointer',
                       transition: 'all 0.2s ease'
                     }}
@@ -3185,7 +4111,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
               </div>
               
               {selectedDateTime && (
-                <div style={{background: '#dbeafe', borderRadius: '8px', padding: '16px', marginBottom: '16px'}}>
+                <div style={{background: '#FFE5DF', borderRadius: '8px', padding: '16px', marginBottom: '16px'}}>
                   <p style={{color: '#1e3a8a'}}>
                     <strong>Selected:</strong> First session with {student.name} on {selectedDateTime}
                   </p>
@@ -3211,7 +4137,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                   padding: '12px',
                   borderRadius: '8px',
                   fontWeight: '500',
-                  background: selectedDateTime ? '#16a34a' : '#d1d5db',
+                  background: selectedDateTime ? '#FF4A23' : '#d1d5db',
                   color: selectedDateTime ? 'white' : '#9ca3af',
                   border: 'none',
                   cursor: selectedDateTime ? 'pointer' : 'not-allowed'
@@ -3223,8 +4149,8 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
               {sessionScheduled && (
                 <div style={{marginTop: '16px', padding: '16px', background: '#dcfce7', border: '1px solid #86efac', borderRadius: '8px'}}>
                   <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                    <CheckCircle style={{color: '#16a34a'}} />
-                    <span style={{fontWeight: '500', color: '#16a34a'}}>
+                    <CheckCircle style={{color: '#FF4A23'}} />
+                    <span style={{fontWeight: '500', color: '#FF4A23'}}>
                       Session confirmed! Calendar invite sent to {coach.email}
                     </span>
                   </div>
@@ -3239,20 +4165,20 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
           <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
             <div style={{background: 'linear-gradient(135deg, #e0e7ff, #fae8ff)', borderRadius: '12px', padding: '24px'}}>
               <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '8px'}}>Your Success Kit is Ready!</h3>
-              <p style={{color: '#374151'}}>
+              <p style={{color: '#616479'}}>
                 Download your coaching resources and receive your official certification.
               </p>
             </div>
             
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
               <div style={{background: 'white', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '24px'}}>
-                <FileText style={{color: '#2563eb', marginBottom: '12px'}} />
+                <FileText style={{color: '#FF4A23', marginBottom: '12px'}} />
                 <h4 style={{fontWeight: '600', marginBottom: '8px'}}>Session Templates</h4>
-                <p style={{fontSize: '0.875rem', color: '#6b7280', marginBottom: '16px'}}>
+                <p style={{fontSize: '0.875rem', color: '#616479', marginBottom: '16px'}}>
                   Proven frameworks for every session type
                 </p>
                 <button style={{
-                  color: '#2563eb',
+                  color: '#FF4A23',
                   fontWeight: '500',
                   fontSize: '0.875rem',
                   background: 'none',
@@ -3267,13 +4193,13 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
               </div>
               
               <div style={{background: 'white', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '24px'}}>
-                <BookOpen style={{color: '#16a34a', marginBottom: '12px'}} />
+                <BookOpen style={{color: '#FF4A23', marginBottom: '12px'}} />
                 <h4 style={{fontWeight: '600', marginBottom: '8px'}}>College Planning Guide</h4>
-                <p style={{fontSize: '0.875rem', color: '#6b7280', marginBottom: '16px'}}>
+                <p style={{fontSize: '0.875rem', color: '#616479', marginBottom: '16px'}}>
                   Comprehensive roadmap for {student.grade} students
                 </p>
                 <button style={{
-                  color: '#16a34a',
+                  color: '#FF4A23',
                   fontWeight: '500',
                   fontSize: '0.875rem',
                   background: 'none',
@@ -3288,13 +4214,13 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
               </div>
               
               <div style={{background: 'white', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '24px'}}>
-                <Phone style={{color: '#7c3aed', marginBottom: '12px'}} />
+                <Phone style={{color: '#FF4A23', marginBottom: '12px'}} />
                 <h4 style={{fontWeight: '600', marginBottom: '8px'}}>Emergency Contacts</h4>
-                <p style={{fontSize: '0.875rem', color: '#6b7280', marginBottom: '16px'}}>
+                <p style={{fontSize: '0.875rem', color: '#616479', marginBottom: '16px'}}>
                   24/7 support line and crisis protocols
                 </p>
                 <button style={{
-                  color: '#7c3aed',
+                  color: '#FF4A23',
                   fontWeight: '500',
                   fontSize: '0.875rem',
                   background: 'none',
@@ -3311,7 +4237,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
               <div style={{background: 'white', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '24px'}}>
                 <Star style={{color: '#f59e0b', marginBottom: '12px'}} />
                 <h4 style={{fontWeight: '600', marginBottom: '8px'}}>Best Practices</h4>
-                <p style={{fontSize: '0.875rem', color: '#6b7280', marginBottom: '16px'}}>
+                <p style={{fontSize: '0.875rem', color: '#616479', marginBottom: '16px'}}>
                   Tips from top-earning coaches
                 </p>
                 <button style={{
@@ -3339,8 +4265,8 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                   style={{marginTop: '4px', width: '20px', height: '20px'}}
                 />
                 <div>
-                  <p style={{fontWeight: '500', color: '#111827'}}>Terms & Conditions</p>
-                  <p style={{fontSize: '0.875rem', color: '#6b7280', marginTop: '4px'}}>
+                  <p style={{fontWeight: '500', color: '#020202'}}>Terms & Conditions</p>
+                  <p style={{fontSize: '0.875rem', color: '#616479', marginTop: '4px'}}>
                     I have read and agree to Ivylevel's coaching terms, privacy policy, 
                     and code of conduct. I understand that maintaining high standards is 
                     required for continued partnership.
@@ -3359,7 +4285,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                   borderRadius: '8px',
                   fontWeight: 'bold',
                   fontSize: '1.125rem',
-                  background: agreedToTerms ? 'linear-gradient(135deg, #7c3aed, #2563eb)' : '#d1d5db',
+                  background: agreedToTerms ? 'linear-gradient(135deg, #FF4A23, #FF4A23)' : '#d1d5db',
                   color: agreedToTerms ? 'white' : '#9ca3af',
                   border: 'none',
                   cursor: agreedToTerms ? 'pointer' : 'not-allowed',
@@ -3369,7 +4295,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                 Get My Official Certification
               </button>
             ) : (
-              <div style={{background: 'linear-gradient(135deg, #7c3aed, #2563eb)', borderRadius: '12px', padding: '32px', color: 'white', textAlign: 'center'}}>
+              <div style={{background: 'linear-gradient(135deg, #FF4A23, #FF4A23)', borderRadius: '12px', padding: '32px', color: 'white', textAlign: 'center'}}>
                 <Award style={{width: '64px', height: '64px', margin: '0 auto 16px'}} />
                 <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px'}}>Congratulations, {coach.name}!</h3>
                 <p style={{opacity: 0.9, marginBottom: '24px'}}>
@@ -3386,7 +4312,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                   style={{
                     padding: '16px 32px',
                     background: 'white',
-                    color: '#7c3aed',
+                    color: '#FF4A23',
                     borderRadius: '8px',
                     fontWeight: 'bold',
                     border: 'none',
@@ -3426,7 +4352,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
     <div style={{maxWidth: '1024px', margin: '0 auto', padding: '24px'}}>
       <div style={{background: 'white', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)', overflow: 'hidden'}}>
         {/* Header */}
-        <div style={{background: 'linear-gradient(135deg, #7c3aed, #2563eb)', color: 'white', padding: '24px'}}>
+        <div style={{background: 'linear-gradient(135deg, #FF4A23, #FF4A23)', color: 'white', padding: '24px'}}>
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
               <Award />
@@ -3458,7 +4384,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                                idx === currentSection ? 'white' :
                                'rgba(255,255,255,0.2)',
                     color: idx < currentSection ? 'white' :
-                          idx === currentSection ? '#7c3aed' :
+                          idx === currentSection ? '#FF4A23' :
                           'rgba(255,255,255,0.6)'
                   }}>
                     {idx < currentSection ? <CheckCircle /> : idx + 1}
@@ -3511,7 +4437,7 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  background: !canProceed() ? '#d1d5db' : '#2563eb',
+                  background: !canProceed() ? '#d1d5db' : '#FF4A23',
                   color: !canProceed() ? '#9ca3af' : 'white',
                   border: 'none',
                   cursor: !canProceed() ? 'not-allowed' : 'pointer'
@@ -3527,5 +4453,14 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
   );
 };
 
-// Export the App component
-export default App;
+// Wrap the App in AuthProvider
+const AppWithAuth = () => {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+};
+
+// Export the wrapped component
+export default AppWithAuth;

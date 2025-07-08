@@ -30,7 +30,6 @@ function App() {
   const loadProductionData = async () => {
     try {
       setLoading(true);
-      console.log('Starting to load production data...');
       
       // Load all data in parallel
       const [coachData, stats, videos, training, recommendations] = await Promise.all([
@@ -40,14 +39,6 @@ function App() {
         dataService.getTrainingVideos(),
         dataService.getAIRecommendations('coach1', 'student1')
       ]);
-
-      console.log('Data loaded:', {
-        coaches: coachData.length,
-        stats,
-        videos: videos.length,
-        training: training.length,
-        recommendations: recommendations.length
-      });
 
       setCoaches(coachData);
       setPlatformStats(stats);
@@ -62,7 +53,6 @@ function App() {
       
     } catch (error) {
       console.error('Error loading production data:', error);
-      alert('Error loading data: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -215,9 +205,6 @@ function App() {
                 <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '16px' }}>
                   📊 Platform Overview (Live Data)
                 </h2>
-                <p style={{ color: '#6b7280', marginBottom: '16px' }}>
-                  Data Source: {coaches.length > 0 || indexedVideos.length > 0 ? '🟢 Firebase' : '🟡 Mock Data'}
-                </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
                   {Object.entries(platformStats).map(([key, value]) => (
                     <div key={key} style={{ padding: '20px', backgroundColor: '#f8fafc', borderRadius: '8px', textAlign: 'center' }}>
@@ -227,18 +214,6 @@ function App() {
                       </div>
                     </div>
                   ))}
-                </div>
-                
-                {/* Debug Info */}
-                <div style={{ marginTop: '24px', padding: '16px', backgroundColor: '#fef3c7', borderRadius: '8px' }}>
-                  <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '8px' }}>🔍 DEBUG INFO</h3>
-                  <p style={{ fontSize: '0.875rem', color: '#92400e' }}>
-                    Status: {loading ? 'Loading...' : 'Loaded'}<br/>
-                    Coaches: {coaches.length}<br/>
-                    Videos: {indexedVideos.length}<br/>
-                    Stats: {JSON.stringify(platformStats)}<br/>
-                    Loaded: {coaches.length} coaches, {indexedVideos.length} videos
-                  </p>
                 </div>
               </div>
             )}
@@ -430,9 +405,6 @@ function App() {
           </h1>
           <p style={{ fontSize: '1.25rem', color: '#4b5563' }}>
             Production Environment - Connected to Real Data
-          </p>
-          <p style={{ fontSize: '0.875rem', color: '#9ca3af', marginTop: '8px' }}>
-            Firebase Project: {process.env.REACT_APP_FIREBASE_PROJECT_ID || 'NOT SET'}
           </p>
           {loading && (
             <p style={{ fontSize: '0.875rem', color: '#9ca3af', marginTop: '8px' }}>

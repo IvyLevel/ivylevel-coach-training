@@ -1,8 +1,901 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 
+// Mock Auth Context - Simulates Firebase Auth
+const AuthContext = createContext({});
 
-// Main App Component
+// Mock database - stores data in memory during session
+const mockDatabase = {
+  users: {
+    'admin-uid': {
+      id: 'admin-uid',
+      email: 'admin@ivylevel.com',
+      name: 'Admin User',
+      role: 'admin',
+      createdAt: new Date().toISOString()
+    },
+    'coach1-uid': {
+      id: 'coach1-uid',
+      email: 'coach1@ivylevel.com',
+      name: 'Sarah Johnson',
+      role: 'coach',
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
+      student: {
+        name: 'Emma Chen',
+        grade: '11th Grade',
+        focusArea: 'pre-med',
+        culturalBackground: 'Asian-American'
+      },
+      progress: {
+        welcome: { completed: false },
+        mastery: { completed: false, score: 0 },
+        technical: { completed: false },
+        simulation: { completed: false, score: 0 },
+        certification: { completed: false }
+      }
+    },
+    'coach2-uid': {
+      id: 'coach2-uid',
+      email: 'coach2@ivylevel.com',
+      name: 'Michael Roberts',
+      role: 'coach',
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
+      student: {
+        name: 'Alex Kumar',
+        grade: '12th Grade',
+        focusArea: 'engineering',
+        culturalBackground: 'South Asian'
+      },
+      progress: {
+        welcome: { completed: false },
+        mastery: { completed: false, score: 0 },
+        technical: { completed: false },
+        simulation: { completed: false, score: 0 },
+        certification: { completed: false }
+      }
+    }
+  },
+  credentials: {
+    'admin@ivylevel.com': { password: 'Admin123!', uid: 'admin-uid' },
+    'coach1@ivylevel.com': { password: 'Coach123!', uid: 'coach1-uid' },
+    'coach2@ivylevel.com': { password: 'Coach123!', uid: 'coach2-uid' }
+  }
+};
+
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
+  const login = async (email, password) => {
+    try {
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const creds = mockDatabase.credentials[email];
+      if (!creds || creds.password !== password) {
+        return { success: false, error: 'Invalid email or password' };
+      }
+      
+      const userInfo = mockDatabase.users[creds.uid];
+      setUser({ uid: creds.uid, email: email });
+      setUserData(userInfo);
+      
+      // Update last login
+      mockDatabase.users[creds.uid].lastLogin = new Date().toISOString();
+      
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
+  
+  const logout = async () => {
+    setUser(null);
+    setUserData(null);
+  };
+  
+  const createCoach = async (email, password, coachData) => {
+    // Generate unique ID
+    const uid = `coach-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Add to mock database
+    mockDatabase.users[uid] = {
+      id: uid,
+      email: email,
+      name: coachData.name,
+      role: 'coach',
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
+      student: {
+        name: coachData.studentName,
+        grade: coachData.studentGrade,
+        focusArea: coachData.studentFocus,
+        culturalBackground: 'To be determined'
+      },
+      progress: {
+        welcome: { completed: false },
+        mastery: { completed: false, score: 0 },
+        technical: { completed: false },
+        simulation: { completed: false, score: 0 },
+        certification: { completed: false }
+      }
+    };
+    
+    mockDatabase.credentials[email] = { password: password, uid: uid };
+    
+    return { success: true, uid: uid };
+  };
+  
+  const updateTrainingProgress = async (moduleId, data) => {
+    if (!user || !userData) return;
+    
+    // Update mock database
+    mockDatabase.users[user.uid].progress[moduleId] = {
+      ...mockDatabase.users[user.uid].progress[moduleId],
+      ...data
+    };
+    
+    // Update local state
+    setUserData({
+      ...userData,
+      progress: {
+        ...userData.progress,
+        [moduleId]: {
+          ...userData.progress[moduleId],
+          ...data
+        }
+      }
+    });
+    
+    // Check if all modules completed
+    const progress = mockDatabase.users[user.uid].progress;
+    const allCompleted = Object.values(progress).every(m => m.completed);
+    if (allCompleted) {
+      mockDatabase.users[user.uid].status = 'certified';
+      mockDatabase.users[user.uid].certifiedAt = new Date().toISOString();
+      setUserData(prev => ({
+        ...prev,
+        status: 'certified',
+        certifiedAt: new Date().toISOString()
+      }));
+    }
+  };
+  
+  const getAllCoaches = () => {
+    return Object.values(mockDatabase.users).filter(u => u.role === 'coach');
+  };
+  
+  return (
+    <AuthContext.Provider value={{ 
+      user, 
+      userData, 
+      loading, 
+      login, 
+      logout, 
+      updateTrainingProgress,
+      createCoach,
+      getAllCoaches
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+const useAuth = () => useContext(AuthContext);
+
+// Admin Dashboard Component
+const AdminDashboard = () => {
+  const { logout, createCoach, getAllCoaches } = useAuth();
+  const [coaches, setCoaches] = useState([]);
+  const [newCoach, setNewCoach] = useState({ email: '', name: '', studentName: '', studentGrade: '', studentFocus: '' });
+  const [loading, setLoading] = useState(false);
+  const [creatingCoach, setCreatingCoach] = useState(false);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  
+  useEffect(() => {
+    // Load coaches
+    setCoaches(getAllCoaches());
+    
+    // Simulate real-time updates
+    const interval = setInterval(() => {
+      setCoaches(getAllCoaches());
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [getAllCoaches]);
+  
+  const handleCreateCoach = async (e) => {
+    e.preventDefault();
+    setCreatingCoach(true);
+    
+    try {
+      // Generate temporary password
+      const tempPassword = `Coach${Math.random().toString(36).substr(2, 9)}!`;
+      
+      // Create coach
+      const result = await createCoach(newCoach.email, tempPassword, newCoach);
+      
+      if (result.success) {
+        alert(`Coach created! Temporary password: ${tempPassword}`);
+        setNewCoach({ email: '', name: '', studentName: '', studentGrade: '', studentFocus: '' });
+        setShowCreateForm(false);
+        // Refresh coaches list
+        setCoaches(getAllCoaches());
+      }
+    } catch (error) {
+      alert('Error creating coach: ' + error.message);
+    }
+    
+    setCreatingCoach(false);
+  };
+  
+  const getProgressPercentage = (progress) => {
+    if (!progress) return 0;
+    const modules = Object.keys(progress);
+    const completed = modules.filter(m => progress[m]?.completed).length;
+    return Math.round((completed / modules.length) * 100);
+  };
+  
+  const getTimeRemaining = (expiresAt) => {
+    if (!expiresAt) return 'N/A';
+    const now = new Date();
+    const expires = new Date(expiresAt);
+    const hours = Math.floor((expires - now) / (1000 * 60 * 60));
+    if (hours < 0) return 'Expired';
+    return `${hours}h remaining`;
+  };
+  
+  // Icons
+  const Users = () => (
+    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+  );
+  
+  const Plus = () => (
+    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+    </svg>
+  );
+  
+  const LogOut = () => (
+    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+    </svg>
+  );
+  
+  const Clock = () => (
+    <svg style={{width: '16px', height: '16px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"></circle>
+      <polyline points="12,6 12,12 16,14"></polyline>
+    </svg>
+  );
+  
+  const ChartBar = () => (
+    <svg style={{width: '16px', height: '16px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+  );
+  
+  const AlertTriangle = () => (
+    <svg style={{width: '16px', height: '16px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+    </svg>
+  );
+  
+  return (
+    <div style={{minHeight: '100vh', background: '#f9fafb'}}>
+      {/* Header */}
+      <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
+        <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+          <div>
+            <h1 style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#111827'}}>Ivylevel Admin Dashboard</h1>
+            <p style={{color: '#6b7280'}}>Manage coach onboarding and training</p>
+          </div>
+          <button
+            onClick={logout}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '8px 16px',
+              background: '#ef4444',
+              color: 'white',
+              borderRadius: '8px',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            <LogOut />
+            Logout
+          </button>
+        </div>
+      </div>
+      
+      {/* Main Content */}
+      <div style={{maxWidth: '1200px', margin: '0 auto', padding: '24px'}}>
+        {/* Stats */}
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px'}}>
+          <div style={{background: 'white', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div>
+                <p style={{color: '#6b7280', fontSize: '0.875rem'}}>Total Coaches</p>
+                <p style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827'}}>{coaches.length}</p>
+              </div>
+              <Users style={{color: '#7c3aed'}} />
+            </div>
+          </div>
+          <div style={{background: 'white', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div>
+                <p style={{color: '#6b7280', fontSize: '0.875rem'}}>Active Training</p>
+                <p style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827'}}>
+                  {coaches.filter(c => c.status === 'pending').length}
+                </p>
+              </div>
+              <ChartBar style={{color: '#2563eb'}} />
+            </div>
+          </div>
+          <div style={{background: 'white', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div>
+                <p style={{color: '#6b7280', fontSize: '0.875rem'}}>Certified</p>
+                <p style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827'}}>
+                  {coaches.filter(c => c.status === 'certified').length}
+                </p>
+              </div>
+              <svg style={{width: '20px', height: '20px', color: '#16a34a'}} fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+            </div>
+          </div>
+          <div style={{background: 'white', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <div>
+                <p style={{color: '#6b7280', fontSize: '0.875rem'}}>Expired</p>
+                <p style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827'}}>
+                  {coaches.filter(c => {
+                    const expires = new Date(c.expiresAt);
+                    return expires < new Date() && c.status === 'pending';
+                  }).length}
+                </p>
+              </div>
+              <AlertTriangle style={{color: '#dc2626'}} />
+            </div>
+          </div>
+        </div>
+        
+        {/* Actions */}
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px'}}>
+          <h2 style={{fontSize: '1.25rem', fontWeight: 'bold'}}>Coach Management</h2>
+          <button
+            onClick={() => setShowCreateForm(true)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '12px 24px',
+              background: '#7c3aed',
+              color: 'white',
+              borderRadius: '8px',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            <Plus />
+            Add New Coach
+          </button>
+        </div>
+        
+        {/* Create Coach Form */}
+        {showCreateForm && (
+          <div style={{background: 'white', borderRadius: '8px', padding: '24px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'}}>
+            <h3 style={{fontSize: '1.125rem', fontWeight: 'bold', marginBottom: '16px'}}>Create New Coach</h3>
+            <form onSubmit={handleCreateCoach}>
+              <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px'}}>
+                <div>
+                  <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '4px'}}>
+                    Coach Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={newCoach.email}
+                    onChange={(e) => setNewCoach({...newCoach, email: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '1rem'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '4px'}}>
+                    Coach Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={newCoach.name}
+                    onChange={(e) => setNewCoach({...newCoach, name: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '1rem'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '4px'}}>
+                    Student Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={newCoach.studentName}
+                    onChange={(e) => setNewCoach({...newCoach, studentName: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '1rem'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '4px'}}>
+                    Student Grade
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g., 11th Grade"
+                    value={newCoach.studentGrade}
+                    onChange={(e) => setNewCoach({...newCoach, studentGrade: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '1rem'
+                    }}
+                  />
+                </div>
+                <div style={{gridColumn: 'span 2'}}>
+                  <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '4px'}}>
+                    Student Focus Area
+                  </label>
+                  <select
+                    required
+                    value={newCoach.studentFocus}
+                    onChange={(e) => setNewCoach({...newCoach, studentFocus: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '1rem'
+                    }}
+                  >
+                    <option value="">Select focus area</option>
+                    <option value="pre-med">Pre-Med</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="business">Business</option>
+                    <option value="liberal-arts">Liberal Arts</option>
+                    <option value="stem">STEM</option>
+                  </select>
+                </div>
+              </div>
+              <div style={{display: 'flex', gap: '12px'}}>
+                <button
+                  type="submit"
+                  disabled={creatingCoach}
+                  style={{
+                    padding: '8px 24px',
+                    background: creatingCoach ? '#9ca3af' : '#7c3aed',
+                    color: 'white',
+                    borderRadius: '6px',
+                    border: 'none',
+                    cursor: creatingCoach ? 'not-allowed' : 'pointer'
+                  }}
+                >
+                  {creatingCoach ? 'Creating...' : 'Create Coach'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowCreateForm(false)}
+                  style={{
+                    padding: '8px 24px',
+                    background: '#e5e7eb',
+                    color: '#374151',
+                    borderRadius: '6px',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+        
+        {/* Coaches Table */}
+        <div style={{background: 'white', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', overflow: 'hidden'}}>
+          <table style={{width: '100%', borderCollapse: 'collapse'}}>
+            <thead>
+              <tr style={{background: '#f9fafb', borderBottom: '1px solid #e5e7eb'}}>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#6b7280'}}>Coach</th>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#6b7280'}}>Student</th>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#6b7280'}}>Progress</th>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#6b7280'}}>Status</th>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#6b7280'}}>Time Remaining</th>
+                <th style={{padding: '12px 24px', textAlign: 'left', fontSize: '0.875rem', fontWeight: '500', color: '#6b7280'}}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {coaches.map((coach) => (
+                <tr key={coach.id} style={{borderBottom: '1px solid #e5e7eb'}}>
+                  <td style={{padding: '16px 24px'}}>
+                    <div>
+                      <p style={{fontWeight: '500', color: '#111827'}}>{coach.name}</p>
+                      <p style={{fontSize: '0.875rem', color: '#6b7280'}}>{coach.email}</p>
+                    </div>
+                  </td>
+                  <td style={{padding: '16px 24px'}}>
+                    <div>
+                      <p style={{color: '#374151'}}>{coach.student?.name}</p>
+                      <p style={{fontSize: '0.875rem', color: '#6b7280'}}>{coach.student?.grade} • {coach.student?.focusArea}</p>
+                    </div>
+                  </td>
+                  <td style={{padding: '16px 24px'}}>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                      <div style={{flex: 1, height: '8px', background: '#e5e7eb', borderRadius: '4px', overflow: 'hidden'}}>
+                        <div style={{
+                          width: `${getProgressPercentage(coach.progress)}%`,
+                          height: '100%',
+                          background: '#7c3aed',
+                          transition: 'width 0.3s ease'
+                        }} />
+                      </div>
+                      <span style={{fontSize: '0.875rem', color: '#6b7280'}}>
+                        {getProgressPercentage(coach.progress)}%
+                      </span>
+                    </div>
+                  </td>
+                  <td style={{padding: '16px 24px'}}>
+                    <span style={{
+                      padding: '4px 12px',
+                      borderRadius: '9999px',
+                      fontSize: '0.75rem',
+                      fontWeight: '500',
+                      background: coach.status === 'certified' ? '#dcfce7' : 
+                                 coach.status === 'pending' ? '#fef3c7' : '#fecaca',
+                      color: coach.status === 'certified' ? '#16a34a' : 
+                            coach.status === 'pending' ? '#d97706' : '#dc2626'
+                    }}>
+                      {coach.status}
+                    </span>
+                  </td>
+                  <td style={{padding: '16px 24px'}}>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '4px', color: getTimeRemaining(coach.expiresAt) === 'Expired' ? '#dc2626' : '#6b7280'}}>
+                      <Clock />
+                      <span style={{fontSize: '0.875rem'}}>{getTimeRemaining(coach.expiresAt)}</span>
+                    </div>
+                  </td>
+                  <td style={{padding: '16px 24px'}}>
+                    <button
+                      style={{
+                        padding: '4px 12px',
+                        background: '#f3f4f6',
+                        color: '#374151',
+                        borderRadius: '6px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Enhanced Login Component
+const LoginScreen = () => {
+  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [showTestCreds, setShowTestCreds] = useState(true);
+  
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    
+    const result = await login(email, password);
+    if (!result.success) {
+      setError(result.error);
+    }
+    setLoading(false);
+  };
+  
+  // Test credentials for easy access
+  const testCredentials = [
+    { email: 'admin@ivylevel.com', password: 'Admin123!', role: 'Admin' },
+    { email: 'coach1@ivylevel.com', password: 'Coach123!', role: 'Coach (Sarah)' },
+    { email: 'coach2@ivylevel.com', password: 'Coach123!', role: 'Coach (Michael)' }
+  ];
+  
+  // Icons
+  const Lock = () => (
+    <svg style={{width: '24px', height: '24px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    </svg>
+  );
+  
+  const Eye = () => (
+    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
+  );
+  
+  const EyeOff = () => (
+    <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+    </svg>
+  );
+  
+  const [showPassword, setShowPassword] = useState(false);
+  
+  return (
+    <div style={{minHeight: '100vh', background: 'linear-gradient(135deg, #f5f7fa, #c3cfe2)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px'}}>
+      <div style={{maxWidth: '960px', width: '100%', display: 'flex', gap: '48px', alignItems: 'center'}}>
+        {/* Left Side - Login Form */}
+        <div style={{flex: 1, background: 'white', borderRadius: '16px', padding: '48px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)'}}>
+          <div style={{textAlign: 'center', marginBottom: '32px'}}>
+            <h1 style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827', marginBottom: '8px'}}>Welcome Back</h1>
+            <p style={{color: '#6b7280'}}>Sign in to your Ivylevel account</p>
+          </div>
+          
+          {/* Test Credentials Box */}
+          {showTestCreds && (
+            <div style={{background: '#dbeafe', borderRadius: '8px', padding: '16px', marginBottom: '24px'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px'}}>
+                <h4 style={{fontWeight: '600', color: '#1e3a8a'}}>Test Credentials</h4>
+                <button
+                  onClick={() => setShowTestCreds(false)}
+                  style={{background: 'none', border: 'none', cursor: 'pointer', color: '#1e3a8a'}}
+                >
+                  ×
+                </button>
+              </div>
+              <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                {testCredentials.map((cred, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setEmail(cred.email);
+                      setPassword(cred.password);
+                    }}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: '8px 12px',
+                      background: 'white',
+                      border: '1px solid #93c5fd',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      fontSize: '0.875rem'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#f0f9ff'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+                  >
+                    <span style={{color: '#374151'}}>{cred.role}</span>
+                    <span style={{color: '#6b7280', fontSize: '0.75rem'}}>Click to use</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* Login Form */}
+          <form onSubmit={handleLogin}>
+            <div style={{marginBottom: '20px'}}>
+              <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '8px'}}>
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Enter your email"
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: '2px solid #e5e7eb',
+                  borderRadius: '8px',
+                  fontSize: '1rem',
+                  outline: 'none',
+                  transition: 'border-color 0.2s'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#2563eb'}
+                onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+              />
+            </div>
+            
+            <div style={{marginBottom: '24px'}}>
+              <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '8px'}}>
+                Password
+              </label>
+              <div style={{position: 'relative'}}>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="Enter your password"
+                  style={{
+                    width: '100%',
+                    padding: '12px 48px 12px 16px',
+                    border: '2px solid #e5e7eb',
+                    borderRadius: '8px',
+                    fontSize: '1rem',
+                    outline: 'none',
+                    transition: 'border-color 0.2s'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = '#2563eb'}
+                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: '12px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#6b7280'
+                  }}
+                >
+                  {showPassword ? <EyeOff /> : <Eye />}
+                </button>
+              </div>
+            </div>
+            
+            {error && (
+              <div style={{background: '#fecaca', borderRadius: '8px', padding: '12px', marginBottom: '16px'}}>
+                <p style={{fontSize: '0.875rem', color: '#dc2626'}}>{error}</p>
+              </div>
+            )}
+            
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '16px',
+                background: loading ? '#9ca3af' : 'linear-gradient(135deg, #2563eb, #7c3aed)',
+                color: 'white',
+                borderRadius: '8px',
+                fontWeight: 'bold',
+                fontSize: '1.125rem',
+                border: 'none',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s',
+                boxShadow: loading ? 'none' : '0 10px 20px rgba(37, 99, 235, 0.3)'
+              }}
+            >
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}>
+                {loading ? (
+                  <>
+                    <div style={{width: '20px', height: '20px', border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.6s linear infinite'}}></div>
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock />
+                    <span>Sign In</span>
+                  </>
+                )}
+              </div>
+            </button>
+          </form>
+        </div>
+        
+        {/* Right Side - Branding */}
+        <div style={{flex: 1}}>
+          <h2 style={{fontSize: '2.5rem', fontWeight: 'bold', color: '#111827', marginBottom: '16px'}}>
+            Ivylevel Elite Coach Portal
+          </h2>
+          <p style={{fontSize: '1.125rem', color: '#6b7280', lineHeight: '1.6', marginBottom: '32px'}}>
+            Transform students' futures through personalized college guidance. 
+            Join our community of elite coaches making a difference.
+          </p>
+          
+          <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+              <div style={{width: '48px', height: '48px', background: '#dbeafe', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <svg style={{width: '24px', height: '24px', color: '#2563eb'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <div>
+                <h3 style={{fontWeight: '600', color: '#111827'}}>Comprehensive Training</h3>
+                <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Master proven coaching methodologies</p>
+              </div>
+            </div>
+            
+            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+              <div style={{width: '48px', height: '48px', background: '#dcfce7', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <svg style={{width: '24px', height: '24px', color: '#16a34a'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 style={{fontWeight: '600', color: '#111827'}}>Earn $2,100+/month</h3>
+                <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Top coaches earn over $25k annually</p>
+              </div>
+            </div>
+            
+            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+              <div style={{width: '48px', height: '48px', background: '#e0e7ff', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <svg style={{width: '24px', height: '24px', color: '#7c3aed'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 style={{fontWeight: '600', color: '#111827'}}>Impact Lives</h3>
+                <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Guide students to their dream colleges</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <style jsx>{`
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+// Main App Component with Authentication
 const App = () => {
+  const { user, userData, loading: authLoading, updateTrainingProgress } = useAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentModule, setCurrentModule] = useState(0);
   const [completedModules, setCompletedModules] = useState([]);
@@ -13,29 +906,40 @@ const App = () => {
     averageScore: 0
   });
   
-  // Mock data for coach and student
-  const coach = {
-    name: "Sarah Johnson",
-    email: "sarah.johnson@example.com",
-    expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString()
-  };
+  useEffect(() => {
+    if (userData && userData.progress) {
+      // Load progress from database
+      const completed = [];
+      const scores = {};
+      
+      Object.keys(userData.progress).forEach(moduleId => {
+        if (userData.progress[moduleId].completed) {
+          completed.push(moduleId);
+          if (userData.progress[moduleId].score) {
+            scores[moduleId] = userData.progress[moduleId].score;
+          }
+        }
+      });
+      
+      setCompletedModules(completed);
+      setTrainingStats(prev => ({
+        ...prev,
+        moduleScores: scores,
+        averageScore: Object.keys(scores).length > 0 
+          ? Math.round(Object.values(scores).reduce((a, b) => a + b, 0) / Object.keys(scores).length)
+          : 0
+      }));
+      
+      // Set current module to next incomplete one
+      const modules = ['welcome', 'mastery', 'technical', 'simulation', 'certification'];
+      const nextIncomplete = modules.findIndex(m => !completed.includes(m));
+      if (nextIncomplete !== -1) {
+        setCurrentModule(nextIncomplete);
+      }
+    }
+  }, [userData]);
   
-  const student = {
-    name: "Emma Chen",
-    grade: "11th Grade",
-    focusArea: "pre-med",
-    culturalBackground: "Asian-American"
-  };
-  
-  const modules = [
-    { id: 'welcome', name: 'Welcome & Commitment', icon: '🎯' },
-    { id: 'mastery', name: 'Student Mastery', icon: '📚' },
-    { id: 'technical', name: 'Technical Setup', icon: '💻' },
-    { id: 'simulation', name: 'Session Practice', icon: '🎬' },
-    { id: 'certification', name: 'Final Certification', icon: '🏆' }
-  ];
-  
-  // Update training stats
+  // Update training stats timer
   useEffect(() => {
     const timer = setInterval(() => {
       setTrainingStats(prev => ({
@@ -47,21 +951,32 @@ const App = () => {
     return () => clearInterval(timer);
   }, []);
   
-  const handleModuleComplete = (moduleId, score = null) => {
-    setCompletedModules([...completedModules, moduleId]);
+  const handleModuleComplete = async (moduleId, score = null) => {
+    const updatedModules = [...completedModules, moduleId];
+    setCompletedModules(updatedModules);
     
+    let newScores = { ...trainingStats.moduleScores };
     if (score !== null) {
-      const newScores = { ...trainingStats.moduleScores, [moduleId]: score };
-      const avgScore = Math.round(
-        Object.values(newScores).reduce((a, b) => a + b, 0) / Object.values(newScores).length
-      );
-      
-      setTrainingStats(prev => ({
-        ...prev,
-        moduleScores: newScores,
-        averageScore: avgScore
-      }));
+      newScores[moduleId] = score;
     }
+    
+    const avgScore = Object.keys(newScores).length > 0
+      ? Math.round(Object.values(newScores).reduce((a, b) => a + b, 0) / Object.keys(newScores).length)
+      : 0;
+    
+    setTrainingStats(prev => ({
+      ...prev,
+      moduleScores: newScores,
+      averageScore: avgScore
+    }));
+    
+    // Update database
+    await updateTrainingProgress(moduleId, {
+      completed: true,
+      completedAt: new Date().toISOString(),
+      score: score,
+      timeSpent: trainingStats.totalTime
+    });
     
     if (currentModule < modules.length - 1) {
       setCurrentModule(currentModule + 1);
@@ -75,290 +990,37 @@ const App = () => {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
   
-  // Login/Welcome Screen Component
-  const LoginWelcomeScreen = ({ onAuthenticate }) => {
-    const [ivyId, setIvyId] = useState('');
-    const [accessCode, setAccessCode] = useState('');
-    const [agreedToTerms, setAgreedToTerms] = useState(false);
-    const [showError, setShowError] = useState(false);
-    
-    const handleLogin = () => {
-      if (ivyId && accessCode && agreedToTerms) {
-        // Simulate authentication
-        onAuthenticate();
-      } else {
-        setShowError(true);
-      }
-    };
-    
-    // Icons
-    const Lock = () => (
-      <svg style={{width: '24px', height: '24px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-      </svg>
-    );
-    
-    const Clock = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"></circle>
-        <polyline points="12,6 12,12 16,14"></polyline>
-      </svg>
-    );
-    
-    const DollarSign = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    );
-    
-    const CheckCircle = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-      </svg>
-    );
-    
-    const AlertTriangle = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-      </svg>
-    );
-    
-    const Award = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15l-2 5-8-5 8-15 8 15-8 5-2-5z" />
-      </svg>
-    );
-    
-    const Users = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    );
-    
-    const ChartBar = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    );
-    
-    const Shield = () => (
-      <svg style={{width: '20px', height: '20px'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    );
-    
-    const timeRemaining = Math.floor((new Date(coach.expiresAt) - new Date()) / (1000 * 60 * 60));
-    
-    return (
-      <div style={{minHeight: '100vh', background: 'linear-gradient(135deg, #f5f7fa, #c3cfe2)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px'}}>
-        <div style={{maxWidth: '1200px', width: '100%', display: 'flex', gap: '48px', alignItems: 'center'}}>
-          {/* Left Side - Login Form */}
-          <div style={{flex: 1, background: 'white', borderRadius: '16px', padding: '48px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)'}}>
-            <div style={{textAlign: 'center', marginBottom: '32px'}}>
-              <h1 style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827', marginBottom: '8px'}}>Ivylevel Elite Coach Portal</h1>
-              <p style={{color: '#6b7280'}}>Begin Your Journey to Transform Student Lives</p>
-            </div>
-            
-            {/* Urgent Alert */}
-            <div style={{background: '#fef2f2', border: '2px solid #fecaca', borderRadius: '12px', padding: '16px', marginBottom: '24px'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                <AlertTriangle style={{color: '#dc2626', flexShrink: 0}} />
-                <div>
-                  <p style={{fontWeight: 'bold', color: '#dc2626', marginBottom: '4px'}}>ACCESS EXPIRES IN {timeRemaining} HOURS</p>
-                  <p style={{fontSize: '0.875rem', color: '#dc2626'}}>
-                    Complete all mandatory training modules before your access code expires or you will lose this coaching opportunity.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Login Form */}
-            <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-              <div style={{marginBottom: '20px'}}>
-                <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '8px'}}>
-                  Ivylevel Coach ID
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your @ivymentors.co ID"
-                  value={ivyId}
-                  onChange={(e) => setIvyId(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    border: '2px solid #e5e7eb',
-                    borderRadius: '8px',
-                    fontSize: '1rem',
-                    outline: 'none',
-                    transition: 'border-color 0.2s'
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = '#2563eb'}
-                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
-                />
-              </div>
-              
-              <div style={{marginBottom: '20px'}}>
-                <label style={{display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '8px'}}>
-                  Access Code
-                </label>
-                <input
-                  type="password"
-                  placeholder="Enter your temporary access code"
-                  value={accessCode}
-                  onChange={(e) => setAccessCode(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    border: '2px solid #e5e7eb',
-                    borderRadius: '8px',
-                    fontSize: '1rem',
-                    outline: 'none',
-                    transition: 'border-color 0.2s'
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = '#2563eb'}
-                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
-                />
-              </div>
-              
-              {/* Terms Agreement */}
-              <div style={{marginBottom: '24px'}}>
-                <label style={{display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer'}}>
-                  <input
-                    type="checkbox"
-                    checked={agreedToTerms}
-                    onChange={(e) => setAgreedToTerms(e.target.checked)}
-                    style={{marginTop: '4px', width: '20px', height: '20px'}}
-                  />
-                  <div>
-                    <p style={{fontSize: '0.875rem', color: '#374151'}}>
-                      I understand this is <span style={{fontWeight: 'bold'}}>MANDATORY TRAINING</span> that must be completed in full. 
-                      My time and engagement will be recorded for quality assurance. 
-                      I commit to dedicating 2-3 hours of focused time to properly prepare for coaching {student.name}.
-                    </p>
-                  </div>
-                </label>
-              </div>
-              
-              {showError && (
-                <div style={{background: '#fecaca', borderRadius: '8px', padding: '12px', marginBottom: '16px'}}>
-                  <p style={{fontSize: '0.875rem', color: '#dc2626'}}>Please fill all fields and agree to the terms.</p>
-                </div>
-              )}
-              
-              <button
-                type="submit"
-                style={{
-                  width: '100%',
-                  padding: '16px',
-                  background: agreedToTerms ? 'linear-gradient(135deg, #2563eb, #7c3aed)' : '#e5e7eb',
-                  color: agreedToTerms ? 'white' : '#9ca3af',
-                  borderRadius: '8px',
-                  fontWeight: 'bold',
-                  fontSize: '1.125rem',
-                  border: 'none',
-                  cursor: agreedToTerms ? 'pointer' : 'not-allowed',
-                  transition: 'all 0.2s',
-                  boxShadow: agreedToTerms ? '0 10px 20px rgba(37, 99, 235, 0.3)' : 'none'
-                }}
-              >
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}>
-                  <Lock />
-                  <span>Access Elite Training Portal</span>
-                </div>
-              </button>
-            </form>
-            
-            <div style={{marginTop: '24px', padding: '16px', background: '#f3f4f6', borderRadius: '8px'}}>
-              <p style={{fontSize: '0.875rem', color: '#6b7280', textAlign: 'center'}}>
-                Need help? Contact support@ivylevel.com with your coach ID
-              </p>
-            </div>
-          </div>
-          
-          {/* Right Side - Motivational Content */}
-          <div style={{flex: 1}}>
-            <div style={{marginBottom: '32px'}}>
-              <h2 style={{fontSize: '2.5rem', fontWeight: 'bold', color: '#111827', marginBottom: '16px'}}>
-                Your Success Starts with Preparation
-              </h2>
-              <p style={{fontSize: '1.125rem', color: '#6b7280', lineHeight: '1.6'}}>
-                Top performing coaches who complete 100% of their training earn an average of 
-                <span style={{fontWeight: 'bold', color: '#16a34a'}}> $25,000 per year</span> while 
-                transforming students' futures. Your dedication today determines your impact tomorrow.
-              </p>
-            </div>
-            
-            {/* Success Metrics */}
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '32px'}}>
-              <div style={{background: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)'}}>
-                <DollarSign style={{color: '#16a34a', marginBottom: '8px'}} />
-                <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827'}}>$2,100/mo</div>
-                <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Average monthly earnings</p>
-              </div>
-              <div style={{background: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)'}}>
-                <Users style={{color: '#2563eb', marginBottom: '8px'}} />
-                <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827'}}>95%</div>
-                <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Student satisfaction rate</p>
-              </div>
-            </div>
-            
-            {/* Training Checklist */}
-            <div style={{background: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', marginBottom: '24px'}}>
-              <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                <Shield style={{color: '#7c3aed'}} />
-                Mandatory Training Checklist
-              </h3>
-              <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <CheckCircle style={{color: '#10b981', flexShrink: 0}} />
-                  <p style={{color: '#374151'}}>Student profile mastery & scenario practice</p>
-                </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <CheckCircle style={{color: '#10b981', flexShrink: 0}} />
-                  <p style={{color: '#374151'}}>Technical setup validation (Email, Zoom, Payment)</p>
-                </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <CheckCircle style={{color: '#10b981', flexShrink: 0}} />
-                  <p style={{color: '#374151'}}>Live session simulation & emergency protocols</p>
-                </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                  <CheckCircle style={{color: '#10b981', flexShrink: 0}} />
-                  <p style={{color: '#374151'}}>Schedule first session with {student.name}</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Time Estimate */}
-            <div style={{background: '#dbeafe', borderRadius: '12px', padding: '20px'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                <Clock style={{color: '#2563eb'}} />
-                <div>
-                  <p style={{fontWeight: 'bold', color: '#1e3a8a'}}>Estimated completion time: 2-3 hours</p>
-                  <p style={{fontSize: '0.875rem', color: '#1e40af'}}>
-                    Complete in one focused session for best results. Your commitment today ensures student success tomorrow.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Social Proof */}
-            <div style={{marginTop: '24px', padding: '20px', background: '#fef3c7', borderRadius: '12px', border: '1px solid #fbbf24'}}>
-              <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-                <Award style={{color: '#d97706', marginTop: '2px', flexShrink: 0}} />
-                <div>
-                  <p style={{fontWeight: 'bold', color: '#92400e', marginBottom: '4px'}}>Coach Spotlight</p>
-                  <p style={{fontSize: '0.875rem', color: '#92400e'}}>
-                    "The training was intense but worth it. I now earn $2,850/month helping students achieve their dreams. 
-                    The preparation made all the difference." - Michael R., Elite Coach
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  // Not authenticated - show login
+  if (!user) {
+    return <LoginScreen />;
+  }
+  
+  // Admin user - show admin dashboard
+  if (userData?.role === 'admin') {
+    return <AdminDashboard />;
+  }
+  
+  // Coach user - show training flow
+  const coach = {
+    name: userData?.name || user.displayName || 'Coach',
+    email: user.email,
+    expiresAt: userData?.expiresAt || new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString()
   };
+  
+  const student = userData?.student || {
+    name: "Student",
+    grade: "11th Grade",
+    focusArea: "pre-med",
+    culturalBackground: "Asian-American"
+  };
+  
+  const modules = [
+    { id: 'welcome', name: 'Welcome & Commitment', icon: '🎯' },
+    { id: 'mastery', name: 'Student Mastery', icon: '📚' },
+    { id: 'technical', name: 'Technical Setup', icon: '💻' },
+    { id: 'simulation', name: 'Session Practice', icon: '🎬' },
+    { id: 'certification', name: 'Final Certification', icon: '🏆' }
+  ];
   
   const renderModule = () => {
     switch (modules[currentModule].id) {
@@ -377,10 +1039,7 @@ const App = () => {
     }
   };
   
-  if (!isAuthenticated) {
-    return <LoginWelcomeScreen onAuthenticate={() => setIsAuthenticated(true)} />;
-  }
-  
+  // Training completed
   if (completedModules.length === modules.length) {
     return (
       <div style={{minHeight: '100vh', background: 'linear-gradient(135deg, #667eea, #764ba2)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px'}}>
@@ -390,7 +1049,7 @@ const App = () => {
             Congratulations, {coach.name}!
           </h1>
           <p style={{fontSize: '1.25rem', color: '#6b7280', marginBottom: '32px'}}>
-            You're now ready to make a difference in {student.name}'s life.
+            You're now certified and ready to make a difference in {student.name}'s life.
           </p>
           <div style={{background: '#f3f4f6', borderRadius: '12px', padding: '24px', marginBottom: '32px'}}>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
@@ -425,6 +1084,7 @@ const App = () => {
     );
   }
   
+  // Active training
   return (
     <div style={{minHeight: '100vh', background: '#f9fafb'}}>
       {/* Header */}
@@ -445,6 +1105,20 @@ const App = () => {
                 {Math.floor((new Date(coach.expiresAt) - new Date()) / (1000 * 60 * 60))}h remaining
               </div>
             </div>
+            <button
+              onClick={() => useAuth().logout()}
+              style={{
+                padding: '8px 16px',
+                background: '#ef4444',
+                color: 'white',
+                borderRadius: '6px',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '0.875rem'
+              }}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
@@ -622,7 +1296,7 @@ const EnhancedWelcomeExperience = ({ coach, student, onComplete }) => {
             </div>
           </div>
           
-          <div style={{background: '#fef3c7', border: '2px solid #fbbf24', borderRadius: '8px', padding: '16px', marginBottom: '16px'}}>
+          <div style={{background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: '8px', padding: '16px', marginBottom: '16px'}}>
             <p style={{fontSize: '0.875rem', fontWeight: '500', color: '#92400e'}}>
               🏆 Top Coach Spotlight: Sarah M. earned $2,850 last month with 95% student satisfaction
             </p>
@@ -3527,5 +4201,14 @@ const FinalCertificationModule = ({ coach, student, trainingStats, onComplete })
   );
 };
 
-// Export the App component
-export default App;
+// Wrap the App in AuthProvider
+const AppWithAuth = () => {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+};
+
+// Export the wrapped component
+export default AppWithAuth;

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Test</title>
+</head>
+<body>
+    <h1>Firebase Connection Test</h1>
+    <div id="status">Testing...</div>
+    <div id="results"></div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCWR-9lf5Z966lM5WnaHx_P0RPTYoHgVk",
+            authDomain: "ivylevel-coach-train-auth.firebaseapp.com",
+            projectId: "ivylevel-coach-train-auth",
+            storageBucket: "ivylevel-coach-train-auth.firebasestorage.app",
+            messagingSenderId: "780638660787",
+            appId: "1:780638660787:web:f88fddc8fb5fd21b25e8c6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function testFirebase() {
+            const statusDiv = document.getElementById('status');
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                statusDiv.textContent = 'Connecting to Firebase...';
+                
+                // Test coaches collection
+                const coachesSnapshot = await getDocs(collection(db, 'coaches'));
+                resultsDiv.innerHTML += `<p>✅ Coaches found: ${coachesSnapshot.size}</p>`;
+                
+                // Test indexed_videos collection
+                const videosSnapshot = await getDocs(collection(db, 'indexed_videos'));
+                resultsDiv.innerHTML += `<p>✅ Videos found: ${videosSnapshot.size}</p>`;
+                
+                // Show sample data
+                if (coachesSnapshot.size > 0) {
+                    resultsDiv.innerHTML += '<h3>Sample Coaches:</h3>';
+                    let count = 0;
+                    coachesSnapshot.forEach(doc => {
+                        if (count < 3) {
+                            resultsDiv.innerHTML += `<p>- ${doc.id}: ${doc.data().videoCount || 0} videos</p>`;
+                            count++;
+                        }
+                    });
+                }
+                
+                statusDiv.textContent = '✅ Firebase connection successful!';
+                statusDiv.style.color = 'green';
+            } catch (error) {
+                statusDiv.textContent = '❌ Firebase connection failed!';
+                statusDiv.style.color = 'red';
+                resultsDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+                console.error('Firebase error:', error);
+            }
+        }
+
+        testFirebase();
+    </script>
+</body>
+</html>

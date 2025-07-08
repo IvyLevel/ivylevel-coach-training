@@ -21,6 +21,7 @@ function App() {
   });
   const [aiRecommendations, setAiRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [debugInfo, setDebugInfo] = useState('');
 
   // Load real data on mount
   useEffect(() => {
@@ -30,7 +31,8 @@ function App() {
   const loadProductionData = async () => {
     try {
       setLoading(true);
-      console.log('Starting to load production data...');
+      setDebugInfo('Loading data from Firebase...');
+      console.log('🔥 Loading production data from Firebase...');
       
       // Load all data in parallel
       const [coachData, stats, videos, training, recommendations] = await Promise.all([
@@ -41,7 +43,7 @@ function App() {
         dataService.getAIRecommendations('coach1', 'student1')
       ]);
 
-      console.log('Data loaded:', {
+      console.log('📊 Data loaded:', {
         coaches: coachData.length,
         stats,
         videos: videos.length,
@@ -54,6 +56,7 @@ function App() {
       setIndexedVideos(videos);
       setTrainingVideos(training);
       setAiRecommendations(recommendations);
+      setDebugInfo(`Loaded: ${coachData.length} coaches, ${videos.length} videos`);
       
       // Subscribe to real-time metrics
       dataService.subscribeToSessionMetrics('current-session', (metrics) => {
@@ -61,17 +64,42 @@ function App() {
       });
       
     } catch (error) {
-      console.error('Error loading production data:', error);
-      alert('Error loading data: ' + error.message);
+      console.error('❌ Error loading production data:', error);
+      setDebugInfo(`Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
 
+  // Debug Panel Component
+  const DebugPanel = () => (
+    <div style={{
+      position: 'fixed',
+      bottom: '20px',
+      right: '20px',
+      backgroundColor: 'black',
+      color: 'lime',
+      padding: '10px',
+      borderRadius: '8px',
+      fontSize: '12px',
+      fontFamily: 'monospace',
+      maxWidth: '300px',
+      zIndex: 9999
+    }}>
+      <div>🔍 DEBUG INFO</div>
+      <div>Status: {loading ? 'Loading...' : 'Loaded'}</div>
+      <div>Coaches: {coaches.length}</div>
+      <div>Videos: {indexedVideos.length}</div>
+      <div>Stats: {JSON.stringify(platformStats)}</div>
+      <div>{debugInfo}</div>
+    </div>
+  );
+
   // AI Coach Dashboard View with Real Data
   if (view === 'ai-coach') {
     return (
       <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', padding: '20px' }}>
+        <DebugPanel />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           {/* Header */}
           <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', marginBottom: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
@@ -81,7 +109,10 @@ function App() {
                   🧠 AI Coach Dashboard
                 </h1>
                 <p style={{ color: '#6b7280', margin: 0 }}>
-                  Coach: {coaches[0]?.name || 'Sarah'} | Student: Michael Chen
+                  Coach: {coaches[0]?.name || 'Loading...'} | Student: Michael Chen
+                </p>
+                <p style={{ color: '#9ca3af', fontSize: '0.8rem' }}>
+                  Data Source: {coaches.length > 0 ? '🟢 Firebase (Real)' : '🟡 Mock Data'}
                 </p>
               </div>
               <button onClick={() => setView('home')} style={{ padding: '8px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
@@ -141,7 +172,7 @@ function App() {
           {/* AI Recommendations from Production */}
           <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
             <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '16px' }}>
-              🎯 AI Recommendations (From Database)
+              🎯 AI Recommendations ({aiRecommendations.length} from Database)
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {aiRecommendations.map((rec, index) => (
@@ -170,6 +201,7 @@ function App() {
   if (view === 'admin') {
     return (
       <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', padding: '20px' }}>
+        <DebugPanel />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           {/* Header */}
           <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', marginBottom: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
@@ -180,6 +212,9 @@ function App() {
                 </h1>
                 <p style={{ color: '#6b7280', margin: 0 }}>
                   Welcome back, Admin
+                </p>
+                <p style={{ color: '#9ca3af', fontSize: '0.8rem' }}>
+                  Firebase Project: {process.env.REACT_APP_FIREBASE_PROJECT_ID || 'Not configured'}
                 </p>
               </div>
               <button onClick={() => setView('home')} style={{ padding: '8px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
@@ -215,9 +250,9 @@ function App() {
                 <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '16px' }}>
                   📊 Platform Overview (Live Data)
                 </h2>
-                <p style={{ color: '#6b7280', marginBottom: '16px' }}>
-                  Data Source: {coaches.length > 0 || indexedVideos.length > 0 ? '🟢 Firebase' : '🟡 Mock Data'}
-                </p>
+                <div style={{ fontSize: '0.8rem', color: '#6b7280', marginBottom: '16px' }}>
+                  Data Source: {platformStats.totalCoaches ? '🟢 Firebase' : '🟡 Mock Data'}
+                </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
                   {Object.entries(platformStats).map(([key, value]) => (
                     <div key={key} style={{ padding: '20px', backgroundColor: '#f8fafc', borderRadius: '8px', textAlign: 'center' }}>
@@ -228,29 +263,19 @@ function App() {
                     </div>
                   ))}
                 </div>
-                
-                {/* Debug Info */}
-                <div style={{ marginTop: '24px', padding: '16px', backgroundColor: '#fef3c7', borderRadius: '8px' }}>
-                  <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '8px' }}>🔍 DEBUG INFO</h3>
-                  <p style={{ fontSize: '0.875rem', color: '#92400e' }}>
-                    Status: {loading ? 'Loading...' : 'Loaded'}<br/>
-                    Coaches: {coaches.length}<br/>
-                    Videos: {indexedVideos.length}<br/>
-                    Stats: {JSON.stringify(platformStats)}<br/>
-                    Loaded: {coaches.length} coaches, {indexedVideos.length} videos
-                  </p>
-                </div>
               </div>
             )}
 
             {activeTab === 'coaches' && (
               <div>
                 <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '16px' }}>
-                  👥 Coach Management (From Database)
+                  👥 Coach Management ({coaches.length} from Database)
                 </h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {loading ? (
                     <p>Loading coaches...</p>
+                  ) : coaches.length === 0 ? (
+                    <p style={{ color: '#6b7280' }}>No coaches found. Check Firebase connection.</p>
                   ) : (
                     coaches.map((coach, i) => (
                       <div key={i} style={{ padding: '16px', border: '1px solid #e5e7eb', borderRadius: '8px', display: 'flex', justifyContent: 'space-between' }}>
@@ -258,6 +283,9 @@ function App() {
                           <div style={{ fontWeight: '600' }}>{coach.name}</div>
                           <div style={{ color: '#6b7280', fontSize: '0.875rem' }}>
                             {coach.email} • {coach.studentCount} students • {coach.rating}⭐ rating
+                          </div>
+                          <div style={{ color: '#9ca3af', fontSize: '0.75rem' }}>
+                            ID: {coach.id}
                           </div>
                         </div>
                         <div style={{ 
@@ -283,24 +311,28 @@ function App() {
                   🎥 Indexed Videos ({indexedVideos.length} Total)
                 </h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '400px', overflowY: 'auto' }}>
-                  {indexedVideos.map((video, i) => (
-                    <div key={i} style={{ padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
-                      <div style={{ fontWeight: '600', fontSize: '0.95rem' }}>{video.title}</div>
-                      <div style={{ color: '#6b7280', fontSize: '0.8rem', marginTop: '4px' }}>
-                        Coach: {video.coach} | Student: {video.student} | Duration: {video.duration}
+                  {indexedVideos.length === 0 ? (
+                    <p style={{ color: '#6b7280' }}>No videos found. Check Firebase connection.</p>
+                  ) : (
+                    indexedVideos.map((video, i) => (
+                      <div key={i} style={{ padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+                        <div style={{ fontWeight: '600', fontSize: '0.95rem' }}>{video.title}</div>
+                        <div style={{ color: '#6b7280', fontSize: '0.8rem', marginTop: '4px' }}>
+                          Coach: {video.coach} | Student: {video.student} | Duration: {video.duration}
+                        </div>
+                        <div style={{ 
+                          display: 'inline-block',
+                          padding: '2px 8px', 
+                          backgroundColor: '#e5e7eb', 
+                          borderRadius: '12px', 
+                          fontSize: '0.7rem',
+                          marginTop: '4px'
+                        }}>
+                          {video.category}
+                        </div>
                       </div>
-                      <div style={{ 
-                        display: 'inline-block',
-                        padding: '2px 8px', 
-                        backgroundColor: '#e5e7eb', 
-                        borderRadius: '12px', 
-                        fontSize: '0.7rem',
-                        marginTop: '4px'
-                      }}>
-                        {video.category}
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </div>
             )}
@@ -316,6 +348,7 @@ function App() {
       const video = trainingVideos.find(v => v.id === selectedVideo);
       return (
         <div style={{ minHeight: '100vh', backgroundColor: '#000', color: 'white', padding: '20px' }}>
+          <DebugPanel />
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <button onClick={() => setSelectedVideo(null)} style={{ padding: '8px 16px', backgroundColor: '#374151', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', marginBottom: '16px' }}>
               ← Back to Library
@@ -343,6 +376,7 @@ function App() {
 
     return (
       <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', padding: '20px' }}>
+        <DebugPanel />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           {/* Header */}
           <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', marginBottom: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
@@ -353,6 +387,9 @@ function App() {
                 </h1>
                 <p style={{ color: '#6b7280', margin: 0 }}>
                   Complete your training to start coaching
+                </p>
+                <p style={{ color: '#9ca3af', fontSize: '0.8rem' }}>
+                  {trainingVideos.length} videos loaded from database
                 </p>
               </div>
               <button onClick={() => setView('home')} style={{ padding: '8px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
@@ -368,9 +405,9 @@ function App() {
             </h2>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <div style={{ width: '200px', height: '8px', backgroundColor: '#e5e7eb', borderRadius: '4px', overflow: 'hidden' }}>
-                <div style={{ width: `${(completedVideos.size / trainingVideos.length) * 100}%`, height: '100%', backgroundColor: '#10b981' }}></div>
+                <div style={{ width: `${(completedVideos.size / Math.max(trainingVideos.length, 1)) * 100}%`, height: '100%', backgroundColor: '#10b981' }}></div>
               </div>
-              <span>{Math.round((completedVideos.size / trainingVideos.length) * 100)}% Complete</span>
+              <span>{Math.round((completedVideos.size / Math.max(trainingVideos.length, 1)) * 100)}% Complete</span>
             </div>
           </div>
 
@@ -380,39 +417,43 @@ function App() {
               🎥 Training Videos (From Database)
             </h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
-              {trainingVideos.map(video => (
-                <div
-                  key={video.id}
-                  onClick={() => setSelectedVideo(video.id)}
-                  style={{
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    cursor: 'pointer',
-                    position: 'relative'
-                  }}
-                >
-                  {completedVideos.has(video.id) && (
-                    <div style={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: '#10b981', color: 'white', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      ✓
+              {trainingVideos.length === 0 ? (
+                <p style={{ color: '#6b7280' }}>No training videos found. Check Firebase connection.</p>
+              ) : (
+                trainingVideos.map(video => (
+                  <div
+                    key={video.id}
+                    onClick={() => setSelectedVideo(video.id)}
+                    style={{
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      cursor: 'pointer',
+                      position: 'relative'
+                    }}
+                  >
+                    {completedVideos.has(video.id) && (
+                      <div style={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: '#10b981', color: 'white', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        ✓
+                      </div>
+                    )}
+                    <div style={{ fontSize: '3rem', textAlign: 'center', marginBottom: '12px' }}>🎥</div>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: '600', margin: '0 0 8px 0' }}>{video.title}</h3>
+                    <div style={{
+                      display: 'inline-block',
+                      padding: '2px 8px',
+                      backgroundColor: '#f3f4f6',
+                      borderRadius: '12px',
+                      fontSize: '0.75rem',
+                      color: '#6b7280',
+                      marginBottom: '8px'
+                    }}>
+                      {video.category}
                     </div>
-                  )}
-                  <div style={{ fontSize: '3rem', textAlign: 'center', marginBottom: '12px' }}>🎥</div>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: '600', margin: '0 0 8px 0' }}>{video.title}</h3>
-                  <div style={{
-                    display: 'inline-block',
-                    padding: '2px 8px',
-                    backgroundColor: '#f3f4f6',
-                    borderRadius: '12px',
-                    fontSize: '0.75rem',
-                    color: '#6b7280',
-                    marginBottom: '8px'
-                  }}>
-                    {video.category}
+                    <p style={{ color: '#9ca3af', fontSize: '0.75rem' }}>{video.duration}</p>
                   </div>
-                  <p style={{ color: '#9ca3af', fontSize: '0.75rem' }}>{video.duration}</p>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -423,6 +464,7 @@ function App() {
   // Home View
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(to bottom right, #eff6ff, #f3e8ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+      <DebugPanel />
       <div style={{ maxWidth: '1000px', width: '100%' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h1 style={{ fontSize: '3rem', fontWeight: 'bold', color: '#111827', marginBottom: '16px' }}>
@@ -431,14 +473,14 @@ function App() {
           <p style={{ fontSize: '1.25rem', color: '#4b5563' }}>
             Production Environment - Connected to Real Data
           </p>
-          <p style={{ fontSize: '0.875rem', color: '#9ca3af', marginTop: '8px' }}>
-            Firebase Project: {process.env.REACT_APP_FIREBASE_PROJECT_ID || 'NOT SET'}
-          </p>
           {loading && (
             <p style={{ fontSize: '0.875rem', color: '#9ca3af', marginTop: '8px' }}>
               Loading production data...
             </p>
           )}
+          <p style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '8px' }}>
+            Firebase Project: {process.env.REACT_APP_FIREBASE_PROJECT_ID || 'Not configured'}
+          </p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
@@ -461,7 +503,7 @@ function App() {
               View real coaches, platform stats, and indexed videos
             </p>
             <div style={{ color: '#9333ea', fontSize: '0.875rem', fontWeight: '500' }}>
-              {coaches.length} Coaches • {platformStats.activeStudents} Students
+              {coaches.length} Coaches • {platformStats.activeStudents || 0} Students
             </div>
           </div>
 
@@ -516,8 +558,10 @@ function App() {
           <h3 style={{ fontWeight: 'bold', marginBottom: '16px' }}>🔌 Connected Data Sources</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ color: '#10b981' }}>✓</span>
-              <span>Firebase Firestore</span>
+              <span style={{ color: coaches.length > 0 ? '#10b981' : '#ef4444' }}>
+                {coaches.length > 0 ? '✓' : '✗'}
+              </span>
+              <span>Firebase Firestore ({coaches.length > 0 ? 'Connected' : 'Using Mock Data'})</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ color: '#10b981' }}>✓</span>

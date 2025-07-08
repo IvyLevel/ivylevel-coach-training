@@ -186,15 +186,55 @@ function App() {
                   Version: Smart Onboarding Enabled
                 </p>
               </div>
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <button onClick={() => setView('smart-onboarding')} style={{ padding: '8px 16px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+              <div>
+                <button 
+                  onClick={() => setView('smart-onboarding')} 
+                  style={{ 
+                    padding: '8px 16px', 
+                    backgroundColor: '#10b981', 
+                    color: 'white', 
+                    border: 'none', 
+                    borderRadius: '6px', 
+                    cursor: 'pointer',
+                    marginRight: '12px'
+                  }}
+                >
                   🎯 Smart Onboarding
                 </button>
-                <button onClick={() => setView('home')} style={{ padding: '8px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+                <button 
+                  onClick={() => setView('home')} 
+                  style={{ 
+                    padding: '8px 16px', 
+                    backgroundColor: '#ef4444', 
+                    color: 'white', 
+                    border: 'none', 
+                    borderRadius: '6px', 
+                    cursor: 'pointer' 
+                  }}
+                >
                   Back to Home
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* Smart Onboarding Alert */}
+          <div style={{ backgroundColor: '#10b981', color: 'white', borderRadius: '12px', padding: '16px', marginBottom: '24px', textAlign: 'center' }}>
+            <h3 style={{ margin: '0 0 8px 0' }}>🎯 New Feature Available!</h3>
+            <button 
+              onClick={() => setView('smart-onboarding')} 
+              style={{ 
+                padding: '12px 24px', 
+                backgroundColor: 'white', 
+                color: '#10b981', 
+                border: 'none', 
+                borderRadius: '6px', 
+                cursor: 'pointer',
+                fontWeight: 'bold'
+              }}
+            >
+              Launch Smart Coach Onboarding
+            </button>
           </div>
 
           {/* Tabs */}

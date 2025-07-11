@@ -78,10 +78,14 @@ const EnhancedPersonalizedKnowledgeBase = () => {
           setComprehensiveData(comprehensiveResults);
 
           // Get student journey analysis
-          const journeyAnalysis = await advancedAnalyticsService.analyzeStudentOutcomes(
-            studentData.name
-          );
-          setStudentJourney(journeyAnalysis);
+          try {
+            const journeyAnalysis = await advancedAnalyticsService.analyzeStudentOutcomes(
+              studentData.name
+            );
+            setStudentJourney(journeyAnalysis);
+          } catch (analyticsError) {
+            console.log('Analytics not available for student:', studentData.name);
+          }
 
           // Get smart recommendations
           const recommended = await smartRecommendationEngine.getRecommendedSessions(

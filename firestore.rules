@@ -57,4 +57,16 @@ rules_version = '2';
         allow read: if true;
         allow write: if isAdmin();
       }
+      
+      // Student game plans
+      match /student_game_plans/{planId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+      
+      // Student journeys
+      match /student_journeys/{studentId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
     }

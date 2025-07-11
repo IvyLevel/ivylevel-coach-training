@@ -35,14 +35,11 @@ const ModernKnowledgeBase = () => {
       const q = query(videosRef, orderBy('uploadDate', 'desc'));
       const snapshot = await getDocs(q);
       
-      // Use a Map to track unique videos by driveId
-      const uniqueVideos = new Map();
-      
+      const videoData = [];
       snapshot.forEach(doc => {
         const data = doc.data();
         const filename = data.filename || '';
         const folderPath = data.folderPath || '';
-        const driveId = data.driveId;
         
         // Skip Quick Check-ins and Miscellaneous
         if (filename.includes('TRIVIAL_') || data.category === 'Quick Check-in' ||
@@ -122,7 +119,7 @@ const ModernKnowledgeBase = () => {
           ? `${coachName} & ${studentName} - Game Plan`
           : `${coachName} & ${studentName}${weekPart ? ` - ${weekPart}` : ''}`;
         
-        const videoData = {
+        videoData.push({
           id: doc.id,
           title: cleanTitle,
           coach: coachName || 'Unknown',
@@ -136,24 +133,10 @@ const ModernKnowledgeBase = () => {
           thumbnail: `https://drive.google.com/thumbnail?id=${data.driveId}&sz=w400`,
           filename: filename,
           is168HourSession: data.is168HourSession || false
-        };
-        
-        // Only add if we haven't seen this driveId before (deduplication)
-        if (driveId && !uniqueVideos.has(driveId)) {
-          uniqueVideos.set(driveId, videoData);
-        } else if (!driveId) {
-          // If no driveId, use filename as unique key
-          const uniqueKey = `${filename}_${doc.id}`;
-          if (!uniqueVideos.has(uniqueKey)) {
-            uniqueVideos.set(uniqueKey, videoData);
-          }
-        }
+        });
       });
       
-      // Convert Map values to array
-      const videoData = Array.from(uniqueVideos.values());
-      
-      console.log(`Loaded ${videoData.length} unique coaching videos (from ${snapshot.size} total documents)`);
+      console.log(`Loaded ${videoData.length} coaching videos (from ${snapshot.size} total documents)`);
       setVideos(videoData);
       setFilteredVideos(videoData);
     } catch (err) {
@@ -206,39 +189,14 @@ const ModernKnowledgeBase = () => {
   };
 
   const formatDuration = (duration) => {
-    if (!duration) return '30m';
-    
-    // Handle default case
-    if (duration === '30:00') return '30m';
-    
-    // Parse duration string
+    if (!duration || duration === '30:00') return '30m';
     const parts = duration.split(':');
     if (parts.length >= 2) {
-      const firstPart = parseInt(parts[0]);
-      const secondPart = parseInt(parts[1]);
-      
-      // Check if it's likely minutes:seconds format (when first part is small)
-      // Most videos are under 60 minutes, so if first part is < 60, assume it's minutes
-      if (firstPart < 60) {
-        // This is minutes:seconds format
-        return `${firstPart}m`;
-      } else {
-        // This might be hours:minutes format (for very long videos)
-        const hours = Math.floor(firstPart / 60);
-        const minutes = firstPart % 60;
-        if (hours > 0) {
-          return minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`;
-        }
-        return `${firstPart}m`;
-      }
-    }
-    
-    // If just a number, assume minutes
-    const minutes = parseInt(duration);
-    if (!isNaN(minutes)) {
+      const hours = parseInt(parts[0]);
+      const minutes = parseInt(parts[1]);
+      if (hours > 0) return `${hours}h ${minutes}m`;
       return `${minutes}m`;
     }
-    
     return duration;
   };
 

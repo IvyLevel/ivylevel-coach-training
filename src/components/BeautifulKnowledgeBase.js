@@ -31,16 +31,48 @@ const BeautifulKnowledgeBase = () => {
     try {
       console.log('Loading videos for Knowledge Base...');
       const videosRef = collection(db, 'indexed_videos');
-      const q = query(videosRef, orderBy('uploadDate', 'desc'), limit(100));
+      const q = query(videosRef, orderBy('uploadDate', 'desc'), limit(200));
       const snapshot = await getDocs(q);
       
       const videoData = [];
       snapshot.forEach(doc => {
         const data = doc.data();
+        
+        // Extract coach name from filename if parsedCoach is missing
+        let coachName = data.parsedCoach || data.coach;
+        if (!coachName || coachName === 'Unknown') {
+          // Try to extract from filename: Coaching_B_Andrew_Advay_Wk10_...
+          const filename = data.filename || '';
+          const filenameParts = filename.split('_');
+          if (filenameParts.length >= 4 && filenameParts[0] === 'Coaching') {
+            coachName = filenameParts[2]; // The coach name is typically the 3rd part
+          }
+        }
+        
+        // Only include videos from Students & Coaches folders
+        const folderPath = data.folderPath || '';
+        const isStudentOrCoachSession = 
+          folderPath.includes('/Students/') || 
+          folderPath.includes('/Coaches/') ||
+          data.category === 'student_sessions' ||
+          data.category === 'game_plan_reports' ||
+          data.sessionType === 'coaching_session' ||
+          data.sessionType === 'game_plan_session';
+        
+        // Skip miscellaneous, quick check-ins, and other non-coaching content
+        if (!isStudentOrCoachSession) {
+          return; // Skip this video
+        }
+        
+        // Skip trivial sessions
+        if (filename.includes('TRIVIAL_') || data.category === 'Quick Check-in') {
+          return; // Skip this video
+        }
+        
         videoData.push({
           id: doc.id,
           title: data.title || data.properTitle || data.originalTitle || 'Untitled',
-          coach: data.parsedCoach || data.coach || 'Unknown',
+          coach: coachName || 'Unknown',
           student: data.parsedStudent || data.student || 'Unknown',
           category: data.category || 'General',
           duration: data.duration || '30:00',
@@ -48,11 +80,13 @@ const BeautifulKnowledgeBase = () => {
           week: data.parsedWeek || extractWeekFromTitle(data.title || data.originalTitle),
           driveId: data.driveId,
           sessionType: data.sessionType || 'coaching_session',
-          tags: data.tags || []
+          tags: data.tags || [],
+          filename: data.filename || '',
+          folderPath: data.folderPath || ''
         });
       });
       
-      console.log(`Loaded ${videoData.length} videos`);
+      console.log(`Loaded ${videoData.length} coaching videos (filtered from ${snapshot.size} total)`);
       setVideos(videoData);
       setFilteredVideos(videoData);
     } catch (err) {

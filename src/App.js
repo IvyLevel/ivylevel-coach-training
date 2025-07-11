@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import dataService from './services/dataService';
 import SmartCoachOnboarding from './components/SmartCoachOnboarding';
+import EnhancedSmartCoachOnboarding from './components/EnhancedSmartCoachOnboarding';
 
 function App() {
   // Check URL hash for direct navigation
-  const initialView = window.location.hash === '#smart-onboarding' ? 'smart-onboarding' : 'home';
+  const getInitialView = () => {
+    const hash = window.location.hash;
+    if (hash === '#smart-onboarding') return 'smart-onboarding';
+    if (hash === '#enhanced-onboarding') return 'enhanced-onboarding';
+    return 'home';
+  };
+  const initialView = getInitialView();
   console.log('URL hash:', window.location.hash, 'Initial view:', initialView);
   const [view, setView] = useState(initialView);
   const [isListening, setIsListening] = useState(false);
@@ -29,12 +36,29 @@ function App() {
   // Load real data on mount
   useEffect(() => {
     loadProductionData();
+    
+    // Handle hash changes
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      console.log('Hash changed to:', hash);
+      if (hash === '#smart-onboarding') {
+        setView('smart-onboarding');
+      } else if (hash === '#enhanced-onboarding') {
+        setView('enhanced-onboarding');
+      } else if (hash === '' || hash === '#') {
+        setView('home');
+      }
+    };
+    
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   const loadProductionData = async () => {
     try {
       setLoading(true);
       console.log('Starting to load production data...');
+      console.log('Current view:', view);
       
       // Load all data in parallel
       const [coachData, stats, videos, training, recommendations] = await Promise.all([
@@ -366,6 +390,16 @@ function App() {
     );
   }
 
+  // Enhanced Smart Coach Onboarding View with Knowledge Base Integration
+  if (view === 'enhanced-onboarding') {
+    console.log('Rendering EnhancedSmartCoachOnboarding component');
+    return (
+      <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+        <EnhancedSmartCoachOnboarding />
+      </div>
+    );
+  }
+
   // Onboarding View with Real Training Videos
   if (view === 'onboarding') {
     if (selectedVideo) {
@@ -577,21 +611,38 @@ function App() {
             <p style={{ color: '#6b7280', marginBottom: '16px' }}>
               Intelligent resource matching for Noor, Jamie, and Kelvin
             </p>
-            <button
-              onClick={() => setView('smart-onboarding')}
-              style={{
-                padding: '12px 24px',
-                backgroundColor: '#10b981',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: '600'
-              }}
-            >
-              Launch Smart Onboarding System
-            </button>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button
+                onClick={() => setView('smart-onboarding')}
+                style={{
+                  padding: '12px 24px',
+                  backgroundColor: '#10b981',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  fontWeight: '600'
+                }}
+              >
+                Launch Smart Onboarding System
+              </button>
+              <button
+                onClick={() => setView('enhanced-onboarding')}
+                style={{
+                  padding: '12px 24px',
+                  backgroundColor: '#6366f1',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  fontWeight: '600'
+                }}
+              >
+                Enhanced KB Onboarding 🚀
+              </button>
+            </div>
           </div>
         </div>
 

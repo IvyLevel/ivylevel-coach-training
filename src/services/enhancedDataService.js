@@ -20,8 +20,8 @@ class EnhancedDataService {
     const unsubscribe = onSnapshot(
       query(
         collection(db, 'indexed_videos'),
-        where('coach', '==', coachId),
-        orderBy('date', 'desc')
+        where('parsedCoach', '==', coachId),
+        orderBy('uploadDate', 'desc')
       ),
       (snapshot) => {
         const sessions = [];
@@ -47,8 +47,8 @@ class EnhancedDataService {
       let q = collection(db, 'indexed_videos');
       const constraints = [];
 
-      if (coach) constraints.push(where('coach', '==', coach));
-      if (student) constraints.push(where('student', '==', student));
+      if (coach) constraints.push(where('parsedCoach', '==', coach));
+      if (student) constraints.push(where('parsedStudent', '==', student));
       if (category) constraints.push(where('category', '==', category));
       
       if (dateRange?.start) {
@@ -58,7 +58,7 @@ class EnhancedDataService {
         constraints.push(where('date', '<=', dateRange.end));
       }
 
-      constraints.push(orderBy('date', 'desc'));
+      constraints.push(orderBy('uploadDate', 'desc'));
       constraints.push(limit(resultLimit));
 
       q = query(q, ...constraints);

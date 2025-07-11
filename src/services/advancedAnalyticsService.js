@@ -408,8 +408,8 @@ class AdvancedAnalyticsService {
   async getStudentSessions(studentId) {
     const q = query(
       collection(db, 'indexed_videos'),
-      where('student', '==', studentId),
-      orderBy('date', 'desc')
+      where('parsedStudent', '==', studentId),
+      orderBy('uploadDate', 'desc')
     );
     const snapshot = await getDocs(q);
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));

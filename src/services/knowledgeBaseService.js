@@ -85,10 +85,10 @@ class KnowledgeBaseService {
       
       // Apply filters
       if (filters.student) {
-        q = query(q, where('student', '==', filters.student));
+        q = query(q, where('parsedStudent', '==', filters.student));
       }
       if (filters.coach) {
-        q = query(q, where('coach', '==', filters.coach));
+        q = query(q, where('parsedCoach', '==', filters.coach));
       }
       if (filters.category) {
         q = query(q, where('category', '==', filters.category));
@@ -97,14 +97,14 @@ class KnowledgeBaseService {
         q = query(q, where('source', '==', filters.source));
       }
       if (filters.dateFrom) {
-        q = query(q, where('date', '>=', filters.dateFrom));
+        q = query(q, where('uploadDate', '>=', filters.dateFrom));
       }
       if (filters.dateTo) {
-        q = query(q, where('date', '<=', filters.dateTo));
+        q = query(q, where('uploadDate', '<=', filters.dateTo));
       }
       
       // Add ordering
-      q = query(q, orderBy('date', 'desc'));
+      q = query(q, orderBy('uploadDate', 'desc'));
       
       // Add pagination
       if (filters.limit) {
@@ -291,7 +291,7 @@ class KnowledgeBaseService {
     try {
       const q = query(
         collection(db, collection),
-        where('student', '==', studentName),
+        where('parsedStudent', '==', studentName),
         orderBy('createdDate', 'desc')
       );
       

@@ -89,7 +89,7 @@ class SmartRecommendationEngine {
       
       // Filter by coach if specified
       if (coachId) {
-        q = query(q, where('coach', '==', coachId));
+        q = query(q, where('parsedCoach', '==', coachId));
       }
       
       // Filter by category if specified

@@ -62,7 +62,17 @@ class EnhancedDataService {
       constraints.push(limit(resultLimit));
 
       q = query(q, ...constraints);
-      const snapshot = await getDocs(q);
+      let snapshot = await getDocs(q);
+      
+      // If no results for specific coach, get all videos
+      if (coach && snapshot.empty) {
+        console.log(`No videos found for coach ${coach}, loading all videos instead`);
+        const fallbackConstraints = constraints.filter(c => 
+          !c.toString().includes('parsedCoach')
+        );
+        q = query(collection(db, 'indexed_videos'), ...fallbackConstraints);
+        snapshot = await getDocs(q);
+      }
       
       const sessions = [];
       snapshot.forEach(doc => {

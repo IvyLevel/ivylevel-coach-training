@@ -1093,7 +1093,7 @@ function App() {
             </button>
           </div>
         </div>
-        <DebugKnowledgeBase />
+        <EnhancedPersonalizedKnowledgeBase />
       </div>
     );
   }

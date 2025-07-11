@@ -98,10 +98,10 @@ export const dataService = {
       // Try without orderBy first in case 'date' field doesn't exist
       let snapshot;
       try {
-        const q = query(videosRef, orderBy('date', 'desc'), limit(100));
+        const q = query(videosRef, orderBy('sessionDate', 'desc'), limit(100));
         snapshot = await getDocs(q);
       } catch (orderError) {
-        console.log('Order by date failed, trying without order:', orderError);
+        console.log('Order by sessionDate failed, trying without order:', orderError);
         const q = query(videosRef, limit(100));
         snapshot = await getDocs(q);
       }
@@ -112,13 +112,13 @@ export const dataService = {
         const data = doc.data();
         return {
           id: doc.id,
-          title: data.title || data.name || 'Untitled Video',
-          coach: data.coach || data.parsedCoach || 'Unknown Coach',
-          student: data.student || data.parsedStudent || 'Unknown Student',
+          title: data.title || data.properTitle || data.originalTitle || 'Untitled Video',
+          coach: data.parsedCoach || data.coach || 'Unknown Coach',
+          student: data.parsedStudent || data.student || 'Unknown Student',
           duration: data.duration || '30:00',
           category: data.category || 'General Coaching',
-          date: data.date,
-          webViewLink: data.webViewLink
+          date: data.sessionDate || data.date,
+          webViewLink: data.webViewLink || data.driveId
         };
       });
     } catch (error) {

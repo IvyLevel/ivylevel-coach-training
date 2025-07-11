@@ -493,7 +493,7 @@ const ModernKnowledgeBase = () => {
                 {formatDuration(video.duration)}
               </div>
               
-              {/* Session type badge */}
+              {/* Session type badges */}
               {video.sessionType === 'game_plan' && (
                 <div style={{
                   position: 'absolute',
@@ -508,6 +508,22 @@ const ModernKnowledgeBase = () => {
                   letterSpacing: '0.5px'
                 }}>
                   Game Plan
+                </div>
+              )}
+              {(video.sessionType === '168_hour_scheduling' || video.filename?.includes('_168_')) && (
+                <div style={{
+                  position: 'absolute',
+                  top: '8px',
+                  left: '8px',
+                  background: 'rgba(255, 74, 35, 0.9)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
+                  fontSize: '0.7rem',
+                  fontWeight: '600',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}>
+                  168 Hour
                 </div>
               )}
             </div>

@@ -1,0 +1,2635 @@
+{
+  "highConfidence": [
+    {
+      "id": "tnNi6AKIXwlXzjEPQi3c",
+      "student": "Ananyaa",
+      "coach": "Juli",
+      "title": "B & Juli - Week 02 (2024-09-20)",
+      "date": "2024-09-20",
+      "score": 90,
+      "signals": [
+        "Session is 14 days after game plan (typical range)",
+        "Session is 1-2 weeks after game plan (ideal timing)",
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "id": "kXdiJqwx3pmKEtofNiMo",
+      "student": "Ananyaa",
+      "coach": "Juli",
+      "title": "B & Juli - Week 02 (2024-09-20)",
+      "date": "2024-09-20",
+      "score": 90,
+      "signals": [
+        "Session is 14 days after game plan (typical range)",
+        "Session is 1-2 weeks after game plan (ideal timing)",
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "id": "I2dnKOK4QkmksNdpZhhO",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 02 (2024-07-07)",
+      "date": "2024-07-07",
+      "score": 90,
+      "signals": [
+        "Session is 14 days after game plan (typical range)",
+        "Session is 1-2 weeks after game plan (ideal timing)",
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "id": "oaMoztqyWJp0lI31r2IT",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 02 (2024-07-07)",
+      "date": "2024-07-07",
+      "score": 90,
+      "signals": [
+        "Session is 14 days after game plan (typical range)",
+        "Session is 1-2 weeks after game plan (ideal timing)",
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "id": "FZKFwyobb3kxIOm2ftnU",
+      "student": "Srinidhi",
+      "coach": "Erin",
+      "title": "B & Erin - Week 02 (2024-03-02)",
+      "date": "2024-03-02",
+      "score": 90,
+      "signals": [
+        "Session is 8 days after game plan (typical range)",
+        "Session is 1-2 weeks after game plan (ideal timing)",
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "id": "whmKBzLcX39wcMeQCO7y",
+      "student": "Arshiya",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-09-29)",
+      "date": "2024-09-29",
+      "score": 75,
+      "signals": [
+        "Session is 15 days after game plan (typical range)",
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "id": "XJfJ8xzXzEVynx06jL20",
+      "student": "Arshiya",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-09-29)",
+      "date": "2024-09-29",
+      "score": 75,
+      "signals": [
+        "Session is 15 days after game plan (typical range)",
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "id": "iho7tZA2hTPgJfdE1LDp",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 02 (2024-04-22)",
+      "date": "2024-04-22",
+      "score": 75,
+      "signals": [
+        "Session is 19 days after game plan (typical range)",
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "id": "jKtNFmEHNR4Zkw42xASg",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 02 (2024-04-22)",
+      "date": "2024-04-22",
+      "score": 75,
+      "signals": [
+        "Session is 19 days after game plan (typical range)",
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "id": "DKNsUKdnP3sS2zTi0AvQ",
+      "student": "Beya",
+      "coach": "Noor",
+      "title": "Noor & Beya - Week 02 (2025-05-13)",
+      "date": "2025-05-13",
+      "score": 75,
+      "signals": [
+        "Session is 18 days after game plan (typical range)",
+        "Week number is 2",
+        "Long session duration: 20:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "HIGH"
+    }
+  ],
+  "mediumConfidence": [
+    {
+      "id": "Ifcc3M9IX9GS5O7uq0eQ",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 01 (2024-04-16)",
+      "date": "2024-04-16",
+      "score": 65,
+      "signals": [
+        "Session is 13 days after game plan (typical range)",
+        "Session is 1-2 weeks after game plan (ideal timing)",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "dLPXW79Vkcgt7W4KaDfa",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 01 (2024-04-16)",
+      "date": "2024-04-16",
+      "score": 65,
+      "signals": [
+        "Session is 13 days after game plan (typical range)",
+        "Session is 1-2 weeks after game plan (ideal timing)",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "0XsS97bUdx1dEYIPIPZd",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 24 (2024-04-05)",
+      "date": "2024-04-05",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "OoGl8H69e5ZFPqTm6HZb",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 24 (2024-04-05)",
+      "date": "2024-04-05",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "gHBJlPKpR7j6ntI3FdFY",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 24 (2024-04-03)",
+      "date": "2024-04-03",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "QNGtvBnJAmYBDm82Q7QU",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 24 (2024-04-03)",
+      "date": "2024-04-03",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "KICORsFk3KA63JMMy3yh",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 23 (2024-03-24)",
+      "date": "2024-03-24",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "OK9CmTKutx6vjIWO2IwP",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 23 (2024-03-24)",
+      "date": "2024-03-24",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "vz22bTtF2nWMZM0agkZM",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 21 (2024-03-01)",
+      "date": "2024-03-01",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "552X63L8MNuJRRp4fh5B",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 20 (2024-02-29)",
+      "date": "2024-02-29",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "TC0mYaa1k0lzH45W0V4e",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 20 (2024-02-27)",
+      "date": "2024-02-27",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "FuRyiCBZCQdxZ90TVWie",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 24 (2024-10-04)",
+      "date": "2024-10-04",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "iaYUiSCXTkLBL9ZA6V8v",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 24 (2024-10-04)",
+      "date": "2024-10-04",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "X2cPE97BDkeSQhYfpzUr",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 23 (2024-10-01)",
+      "date": "2024-10-01",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "nyajfU6Rp6BFiBlHIwvx",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 23 (2024-10-01)",
+      "date": "2024-10-01",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "cRYQXpQ8MNvQJNXPXOWv",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 22 (2024-09-29)",
+      "date": "2024-09-29",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "IUXrHwQNNfDuzRRRfYrw",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 22 (2024-09-29)",
+      "date": "2024-09-29",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "j1tGasKKX3CQes7Gt6t0",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 21 (2024-09-17)",
+      "date": "2024-09-17",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "XoEeSbbMuQf6oWjn7F8S",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 21 (2024-09-17)",
+      "date": "2024-09-17",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "bLrXIHL68tMUdw1Ao9U8",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 20 (2024-09-08)",
+      "date": "2024-09-08",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "xB7x8r8qje1ndlQJADaL",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 20 (2024-09-08)",
+      "date": "2024-09-08",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "xz5MBWCanv5saSfRwYrN",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 20 (2024-09-04)",
+      "date": "2024-09-04",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "ETdp7GNT90H7noRHLyVF",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 20 (2024-09-04)",
+      "date": "2024-09-04",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "42d9OvBepuj9wQqKDhgc",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 24 (2024-01-16)",
+      "date": "2024-01-16",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "B7HwNWmYfkxPuOiscPTF",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 23 (2024-01-13)",
+      "date": "2024-01-13",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "d3rT4MXN4XTbyC8ebAG2",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 22 (2024-01-09)",
+      "date": "2024-01-09",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "cYOPNEOYKFwRziUVYAbe",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 21 (2024-01-06)",
+      "date": "2024-01-06",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "pxmfk8rNmIGkdlRxJMVM",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 20 (2023-12-17)",
+      "date": "2023-12-17",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "84WqIuETBHPfaFnOQ4W7",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 29 (2024-04-11)",
+      "date": "2024-04-11",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "1HPTwWyGoqP6vfysAYFs",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 29 (2024-04-11)",
+      "date": "2024-04-11",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "t7BVDpBGHPldQk9L8I5P",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 28 (2024-04-05)",
+      "date": "2024-04-05",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "hfHZJtq6vnQTUNWArUal",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 28 (2024-04-05)",
+      "date": "2024-04-05",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "7560ObqWV1aQI3jFbH4k",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 27 (2024-04-04)",
+      "date": "2024-04-04",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "l4DXtHbOE7C8qgDeR3ia",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 27 (2024-04-04)",
+      "date": "2024-04-04",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "2RabR674VL4L5NS45IOh",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 26 (2024-03-23)",
+      "date": "2024-03-23",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "sp2OPvpOmXlGlz30rHRa",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 26 (2024-03-23)",
+      "date": "2024-03-23",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "yFVs85WnNIokL2KJrrHz",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 25 (2024-03-20)",
+      "date": "2024-03-20",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "vz7VUNANYqWPBamG37j1",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 25 (2024-03-20)",
+      "date": "2024-03-20",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "wJdVt1nPOIxd0x52SeyM",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 21 (2024-03-13)",
+      "date": "2024-03-13",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "EAYmpoXcSettlIKJfKWe",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 21 (2024-03-13)",
+      "date": "2024-03-13",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "EBCRiS33CQ64plPyuTX2",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 29 (2024-10-23)",
+      "date": "2024-10-23",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "1wZA82Lh6NkgawWMxFKL",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 29 (2024-10-23)",
+      "date": "2024-10-23",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "E5c1gHN3JeQzp0fs5YBQ",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 28 (2024-10-18)",
+      "date": "2024-10-18",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "nalLpIc2tina5Kma7JzC",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 28 (2024-10-18)",
+      "date": "2024-10-18",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "nWKol7lK5SKmbA38bop4",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 27 (2024-10-16)",
+      "date": "2024-10-16",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "8Xj6mqmslsm1IU5FF9d0",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 27 (2024-10-16)",
+      "date": "2024-10-16",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "w65fMObuSe71wwgwunDO",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 26 (2024-10-13)",
+      "date": "2024-10-13",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "cqIbYsTyKb3YqhjfAtRw",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 26 (2024-10-13)",
+      "date": "2024-10-13",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "mauItRKo2UBUkQPEemHt",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 25 (2024-10-10)",
+      "date": "2024-10-10",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Rq4iPCZ7KTgDYlztPoJj",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 25 (2024-10-10)",
+      "date": "2024-10-10",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "k7hyoCWgZ2VNg3aStg5i",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 24 (2024-10-08)",
+      "date": "2024-10-08",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "O2UP3fKRThOArFhLxYJQ",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 24 (2024-10-08)",
+      "date": "2024-10-08",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "xljDihxSlMYab5LrnEUe",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 23 (2024-10-07)",
+      "date": "2024-10-07",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "3aQP6h0MHGgUO2ky7nOv",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 23 (2024-10-07)",
+      "date": "2024-10-07",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Njrb2Z486oYtgVoXagJH",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 22 (2024-10-07)",
+      "date": "2024-10-07",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "vSawovhA0Cs63FCWvIXi",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 22 (2024-10-07)",
+      "date": "2024-10-07",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "1qea4F1sOxTd8rWel9mH",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 21 (2024-10-06)",
+      "date": "2024-10-06",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "K3eg5x8nnCAglCYfpDrr",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 21 (2024-10-06)",
+      "date": "2024-10-06",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "9SSvmh5un9lxwlHFAwiY",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 20 (2024-10-03)",
+      "date": "2024-10-03",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "HSnWEzz1mcG6OfiC6zUG",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 20 (2024-10-03)",
+      "date": "2024-10-03",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "xk7DBnOEBFaHObR7Hpkh",
+      "student": "Arshiya",
+      "coach": "Jenny",
+      "title": "Jenny & Arshiya - Week 25 (2025-06-24)",
+      "date": "2025-06-24",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 35:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "DqR1SHVCvQXoS18QYzIU",
+      "student": "Aaryan",
+      "coach": "Rishi",
+      "title": "Rishi & Aaryan - Week 20 (2025-05-24)",
+      "date": "2025-05-24",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 17:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "oy2c5ELLZ0CsIbFr9BVT",
+      "student": "Aaryan",
+      "coach": "Rishi",
+      "title": "Rishi & Aaryan - Week 25 (2025-06-25)",
+      "date": "2025-06-25",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 20:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "5LsXX6fHMcFtCXPfW4Ue",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 29 (2024-10-18)",
+      "date": "2024-10-18",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "kKd0I94179R4u9C9hyWq",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 29 (2024-10-18)",
+      "date": "2024-10-18",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "J9Ya8SHrmuE1oAdl9hqb",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 28 (2024-10-04)",
+      "date": "2024-10-04",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "AneEvrJET0Z3dqCrRrFa",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 28 (2024-10-04)",
+      "date": "2024-10-04",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "78cuOSkx4iUzd8iB1N1c",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 27 (2024-09-27)",
+      "date": "2024-09-27",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "I57vKMzK6HBFTTa8CH5K",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 27 (2024-09-27)",
+      "date": "2024-09-27",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "btcAfjelwxaCP1e3WltE",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 26 (2024-09-20)",
+      "date": "2024-09-20",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "rk0LFDXrUefSdQmqQSH4",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 26 (2024-09-20)",
+      "date": "2024-09-20",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "SWqUW8GASOHH8w30UCVo",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 25 (2024-09-13)",
+      "date": "2024-09-13",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "rzdzNTOzRDgnlZqS0TMc",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 25 (2024-09-13)",
+      "date": "2024-09-13",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "hLg2yErXkbg406QL49sQ",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 24 (2024-09-06)",
+      "date": "2024-09-06",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "m8SFgeuu9oYxO5p5eAVB",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 24 (2024-09-06)",
+      "date": "2024-09-06",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "BTmUGxAwKBV3zo9JmPFB",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 23 (2024-08-31)",
+      "date": "2024-08-31",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "FHHA1efpP9e9aZyCCurr",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 23 (2024-08-31)",
+      "date": "2024-08-31",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "0L8K18HeYW1yJBuY8IRr",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 22 (2024-08-24)",
+      "date": "2024-08-24",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "S3aQKmzRLbg3kit6vjT6",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 22 (2024-08-24)",
+      "date": "2024-08-24",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "nRzZBcnrDHykGcTDwNic",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 21 (2024-08-16)",
+      "date": "2024-08-16",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "VHtH6wUiGFTCHrUObUlf",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 21 (2024-08-16)",
+      "date": "2024-08-16",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "7ktRcvGOu8HN9NF9vMlH",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 20 (2024-08-04)",
+      "date": "2024-08-04",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "a7HYFquT8KtiIV9t6Vtb",
+      "student": "Iqra",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 20 (2024-08-04)",
+      "date": "2024-08-04",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "31tIcvadrxWOPZvzjHlI",
+      "student": "Aarav",
+      "coach": "Rishi",
+      "title": "Rishi & Aarav - Week 22 (2025-01-07)",
+      "date": "2025-01-07",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 27:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "amuI5qO8hKLyvIA3NvWn",
+      "student": "Aarav",
+      "coach": "Rishi",
+      "title": "Rishi & Aarav - Week 21 (2025-05-27)",
+      "date": "2025-05-27",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 18:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "VfNLBnsVsKwpsikgKCFx",
+      "student": "Aarav",
+      "coach": "Rishi",
+      "title": "Rishi & Aarav - Week 25 (2025-06-24)",
+      "date": "2025-06-24",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 16:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "EEvPvDKi9pGoedaPmzBc",
+      "student": "Aarav",
+      "coach": "Rishi",
+      "title": "Rishi & Aarav - Week 26 (2025-07-01)",
+      "date": "2025-07-01",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 17:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "5wwD9b0i3AKqpvEl1Z1U",
+      "student": "Aarav",
+      "coach": "Rishi",
+      "title": "B & Rishi - Week 21 (2024-12-14)",
+      "date": "2024-12-14",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "bHW4q5i8PqnF6N0mipVA",
+      "student": "Aarav",
+      "coach": "Rishi",
+      "title": "B & Rishi - Week 21 (2024-12-14)",
+      "date": "2024-12-14",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "8yWG4IIioZXn5XNJbExM",
+      "student": "Aarav",
+      "coach": "Rishi",
+      "title": "B & Rishi - Week 20 (2024-12-07)",
+      "date": "2024-12-07",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "XKy4uFsdlnYDmznbjud7",
+      "student": "Aarav",
+      "coach": "Rishi",
+      "title": "B & Rishi - Week 20 (2024-12-07)",
+      "date": "2024-12-07",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Ld0AHcRmJit3bweSNF9k",
+      "student": "Ananyaa",
+      "coach": "Juli",
+      "title": "Juli & Ananyaa - Week 20 (2025-05-20)",
+      "date": "2025-05-20",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "llcWDwfFJe6Nv8Y9aKFd",
+      "student": "Ananyaa",
+      "coach": "Juli",
+      "title": "Juli & Ananyaa - Week 22 (2025-06-03)",
+      "date": "2025-06-03",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 20:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "uEDsaIwMKMXk0r9pilzt",
+      "student": "Ananyaa",
+      "coach": "Juli",
+      "title": "Juli & Ananyaa - Week 24 (2025-06-17)",
+      "date": "2025-06-17",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 17:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "R903Ri84qP10Bv2qErY4",
+      "student": "Ananyaa",
+      "coach": "Juli",
+      "title": "Juli & Ananyaa - Week 26 (2025-07-01)",
+      "date": "2025-07-01",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 18:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Umo7xNCaicRsAE15F5Xk",
+      "student": "Aarnav",
+      "coach": "Rishi",
+      "title": "Rishi & Aarnav - Week 20 (2025-05-24)",
+      "date": "2025-05-24",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 18:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "5iE6hHF9LZ2rmBIsC88k",
+      "student": "Aarnav",
+      "coach": "Rishi",
+      "title": "Rishi & Aarnav - Week 21 (2025-05-31)",
+      "date": "2025-05-31",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 30:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "EMzRleDlaLqMbWCjinNY",
+      "student": "Aarnav",
+      "coach": "Rishi",
+      "title": "Rishi & Aarnav - Week 22 (2025-06-06)",
+      "date": "2025-06-06",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 23:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "jxhv46lubsk8Nu0XQIwK",
+      "student": "Aarnav",
+      "coach": "Rishi",
+      "title": "Rishi & Aarnav - Week 23 (2025-06-14)",
+      "date": "2025-06-14",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 18:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Xdy08G0T1kRTaSPNM77S",
+      "student": "Aarnav",
+      "coach": "Rishi",
+      "title": "Rishi & Aarnav - Week 25 (2025-06-27)",
+      "date": "2025-06-27",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 18:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "8HsPCe5UFBTJXtlFXI5A",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "Aditi & Kavya - Week 25 (2025-03-31)",
+      "date": "2025-03-31",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 22:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "X58PHEXvrbEYIleD59pO",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "Aditi & Kavya - Week 26 (2025-04-14)",
+      "date": "2025-04-14",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 28:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "W7z0BDeTywOIByaAIaEy",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "Aditi & Kavya - Week 20 (2025-05-19)",
+      "date": "2025-05-19",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 26:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Jgd4F0b2pLQRsTolgRUf",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "Aditi & Kavya - Week 28 (2025-06-16)",
+      "date": "2025-06-16",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 18:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "3zosrjYBf5Ijq6bsZzF7",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "Aditi & Kavya - Week 25 (2025-06-23)",
+      "date": "2025-06-23",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 21:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Vn718GvL6PbBqzGtLdVk",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "Aditi & Kavya - Week 26 (2025-07-06)",
+      "date": "2025-07-06",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 27:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "X9b4y0Z0umwysXMGFEpJ",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 22 (2025-02-15)",
+      "date": "2025-02-15",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "KX0eADSQXN5qE7wixs3c",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 22 (2025-02-15)",
+      "date": "2025-02-15",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "YBM3zr0ACCjO0pz2EON0",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 21 (2025-02-02)",
+      "date": "2025-02-02",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "9R47GjVQcKeGDHMWx3hZ",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 21 (2025-02-02)",
+      "date": "2025-02-02",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "SB2dBa335o5xR3J8uFc9",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 20 (2025-01-19)",
+      "date": "2025-01-19",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "y3YeUIQmz5z9mYgqXL1X",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 20 (2025-01-19)",
+      "date": "2025-01-19",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Y3mGRB58nMZJypSs84xo",
+      "student": "Zainab",
+      "coach": "Jamie",
+      "title": "Jamie & Zainab - Week 22 (2025-06-06)",
+      "date": "2025-06-06",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 20:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "bjSj5QmT3GNlO09Os9qd",
+      "student": "Hiba",
+      "coach": "Noor",
+      "title": "Noor & Hiba - Week 20 (2025-05-20)",
+      "date": "2025-05-20",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 25:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "WJ18tdmjLfMEO8X9NP4y",
+      "student": "Advay",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 24 (2024-10-12)",
+      "date": "2024-10-12",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Rj4Kz948wWcQvmGReAqt",
+      "student": "Advay",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 24 (2024-10-12)",
+      "date": "2024-10-12",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "LtBbyELajGKPdHuh2HAI",
+      "student": "Advay",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 23 (2024-10-05)",
+      "date": "2024-10-05",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "wxu1ffJCUJMknZyfGrkr",
+      "student": "Advay",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 23 (2024-10-05)",
+      "date": "2024-10-05",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "EV5GxaYG37DY0Qqzw9Fg",
+      "student": "Advay",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 22 (2024-09-28)",
+      "date": "2024-09-28",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "F2kCbUOstYtnDyrLtjDm",
+      "student": "Advay",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 22 (2024-09-28)",
+      "date": "2024-09-28",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "AEv4TmWrKY7djc6GTqxP",
+      "student": "Advay",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 21 (2024-09-14)",
+      "date": "2024-09-14",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "tf26e3J0jWi0Sr8YseLd",
+      "student": "Advay",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 21 (2024-09-14)",
+      "date": "2024-09-14",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "OXcXrovDGV1dGEr2kvKs",
+      "student": "Advay",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 20 (2024-09-07)",
+      "date": "2024-09-07",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "xgwRZXAN3aAwTTf3kKPQ",
+      "student": "Advay",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 20 (2024-09-07)",
+      "date": "2024-09-07",
+      "score": 60,
+      "signals": [
+        "Title contains: week 2",
+        "Title indicates session/week 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "jstY0p7t6KVrQLricUZ5",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 03 (2024-07-14)",
+      "date": "2024-07-14",
+      "score": 50,
+      "signals": [
+        "Session is 21 days after game plan (typical range)",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "gyq0lOQr5xVAx6YpHSBU",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 03 (2024-07-14)",
+      "date": "2024-07-14",
+      "score": 50,
+      "signals": [
+        "Session is 21 days after game plan (typical range)",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "owMWAdnPTelsCRjuHTZ9",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 01 (2024-06-29)",
+      "date": "2024-06-29",
+      "score": 50,
+      "signals": [
+        "Session is 6 days after game plan (typical range)",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "8PpwU1nzra8r6ONNUwZZ",
+      "student": "Kavya",
+      "coach": "Aditi",
+      "title": "B & Aditi - Week 01 (2024-06-29)",
+      "date": "2024-06-29",
+      "score": 50,
+      "signals": [
+        "Session is 6 days after game plan (typical range)",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "lyz5aksVGEEDCGFCuDvU",
+      "student": "Beya",
+      "coach": "Noor",
+      "title": "Noor & Beya - Week 03 (2025-05-20)",
+      "date": "2025-05-20",
+      "score": 50,
+      "signals": [
+        "Session is 25 days after game plan (typical range)",
+        "Long session duration: 16:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "dRwAVbcD7T9jguCAa3br",
+      "student": "Srinidhi",
+      "coach": "Erin",
+      "title": "B & Erin - Week 04 (2024-03-16)",
+      "date": "2024-03-16",
+      "score": 50,
+      "signals": [
+        "Session is 22 days after game plan (typical range)",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "02kVXMbG53HDnDbmKL5E",
+      "student": "Srinidhi",
+      "coach": "Erin",
+      "title": "B & Erin - Week 04 (2024-03-16)",
+      "date": "2024-03-16",
+      "score": 50,
+      "signals": [
+        "Session is 22 days after game plan (typical range)",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "LLYw00Ulz7eORZHVDrpM",
+      "student": "Srinidhi",
+      "coach": "Erin",
+      "title": "B & Erin - Week 03 (2024-03-09)",
+      "date": "2024-03-09",
+      "score": 50,
+      "signals": [
+        "Session is 15 days after game plan (typical range)",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "NcG23zxQ9kFLKAdocdB8",
+      "student": "Srinidhi",
+      "coach": "Erin",
+      "title": "B & Erin - Week 01 (2024-02-28)",
+      "date": "2024-02-28",
+      "score": 50,
+      "signals": [
+        "Session is 5 days after game plan (typical range)",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "ZyuGGmsm9yDIUv7MGqyp",
+      "student": "Beya",
+      "coach": "Noor",
+      "title": "Noor & Beya (2025-05-13)",
+      "date": "2025-05-13",
+      "score": 45,
+      "signals": [
+        "Session is 18 days after game plan (typical range)",
+        "Long session duration: 5:00"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "bWj2s8OO1fNSAEOB1RgE",
+      "student": "Beya",
+      "coach": "Noor",
+      "title": "Noor & Beya (2025-05-20)",
+      "date": "2025-05-20",
+      "score": 45,
+      "signals": [
+        "Session is 25 days after game plan (typical range)",
+        "Long session duration: 5:00"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "MPQmv4msgNjU8537ncjl",
+      "student": "Julius",
+      "coach": "Unknown Coach",
+      "title": "Unknown Coach & Julius (2024-05-21)",
+      "date": "2024-05-21",
+      "score": 40,
+      "signals": [
+        "Filename contains 168/scheduling",
+        "Long session duration: 18:00"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "BN60Q4zcGTtxvWRZMIaX",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2023-09-11)",
+      "date": "2023-09-11",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "IO5ZbupGUWg9lZpAeoXa",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-04-19)",
+      "date": "2024-04-19",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "vFxjhrOykOOWMgr30gvf",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-04-19)",
+      "date": "2024-04-19",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "9tD2AXxgsYKF9jftdil3",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-04-16)",
+      "date": "2024-04-16",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "ofuis6xUzocvAYkCmXL3",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-04-16)",
+      "date": "2024-04-16",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "ErmpErb9i6L8WEhqV6lg",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-10-31)",
+      "date": "2024-10-31",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Q0riFTzNZhALgVg2DTdV",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-10-31)",
+      "date": "2024-10-31",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "tNAVKbrlaNXaqkfJaW9r",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-10-12)",
+      "date": "2024-10-12",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "XbayeQeiu3NXqnFEbi9T",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-10-12)",
+      "date": "2024-10-12",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "aXQVz8Mc2upa1rlXfQe0",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-12-07)",
+      "date": "2024-12-07",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "NONdyGPgm1iHGdWygtZN",
+      "student": "Anoushka",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-12-07)",
+      "date": "2024-12-07",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "CBawXsdFX18vcahUrx8E",
+      "student": "Sameeha",
+      "coach": "Jenny",
+      "title": "Jenny & Sameeha - Week 02 (2024-08-12)",
+      "date": "2024-08-12",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 19:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "eWrqnzNN0KoZbBr00yEf",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "Jenny & Huda - Week 02 (2025-01-14)",
+      "date": "2025-01-14",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 9:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "szitLejgfr34nwIPMg4j",
+      "student": "Huda",
+      "coach": "Rishi",
+      "title": "B & Rishi - Week 02 (2024-05-21)",
+      "date": "2024-05-21",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "jiP0Xu4DZpm6tQfuiXic",
+      "student": "Huda",
+      "coach": "Steven",
+      "title": "B & Steven - Week 02 (2024-02-06)",
+      "date": "2024-02-06",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "SGlxeSpxEcERCWsQTYhu",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-01-23)",
+      "date": "2024-01-23",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "la2aHggY8jZ3cywv8Rkj",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-07-28)",
+      "date": "2024-07-28",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "2CYAtwquDXyyRJsxtGYE",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-07-28)",
+      "date": "2024-07-28",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "F7z8V18Q3NepuPLOizLe",
+      "student": "Huda",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2025-01-02)",
+      "date": "2025-01-02",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "fWB3MWtpfQOnkFd0gSrX",
+      "student": "Aaryan",
+      "coach": "Rishi",
+      "title": "B & Rishi - Week 02 (2024-07-01)",
+      "date": "2024-07-01",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "bnEg9fIKAIruFwrEn3sz",
+      "student": "Aaryan",
+      "coach": "Rishi",
+      "title": "B & Rishi - Week 02 (2024-07-01)",
+      "date": "2024-07-01",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "p0EtYJKma1A6zGfp2iDG",
+      "student": "Aaryan",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-04-23)",
+      "date": "2024-04-23",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "40EbExrFKOEpG9XKOA4U",
+      "student": "Aaryan",
+      "coach": "Jenny",
+      "title": "B & Jenny - Week 02 (2024-04-23)",
+      "date": "2024-04-23",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "Di98q2PjZz8cPDaoTUDM",
+      "student": "Aarav",
+      "coach": "Rishi",
+      "title": "B & Rishi - Week 02 (2024-07-03)",
+      "date": "2024-07-03",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "c807N9GmSXKqgweFmF9z",
+      "student": "Aarav",
+      "coach": "Rishi",
+      "title": "B & Rishi - Week 02 (2024-07-03)",
+      "date": "2024-07-03",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "ctlnR8ENqOPISiNRxehv",
+      "student": "Aarnav",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 02 (2024-03-11)",
+      "date": "2024-03-11",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "vXy4BFjDb9nDNCWBRJKN",
+      "student": "Aarnav",
+      "coach": "Unknown",
+      "title": "B & Andrew - Week 02 (2024-03-11)",
+      "date": "2024-03-11",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "mHz6h5zrN5vgcVK6qitc",
+      "student": "Zainab",
+      "coach": "Jamie",
+      "title": "Jamie & Zainab - Week 02 (2025-06-20)",
+      "date": "2025-06-20",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 30:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "mSKQXPgAUvgzwpMKNnwT",
+      "student": "Zainab",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 02 (2024-06-28)",
+      "date": "2024-06-28",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "c9ZBKqB0sixkgglpYKmB",
+      "student": "Zainab",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 02 (2024-06-28)",
+      "date": "2024-06-28",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "eslGBe8c47hDlpmVjkHF",
+      "student": "Kabir",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 02 (2024-06-28)",
+      "date": "2024-06-28",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "lpGWMXwpdmVsBRSGTVbR",
+      "student": "Kabir",
+      "coach": "Marissa",
+      "title": "B & Marissa - Week 02 (2024-06-28)",
+      "date": "2024-06-28",
+      "score": 40,
+      "signals": [
+        "Week number is 2",
+        "Long session duration: 5:00",
+        "Category is student_sessions"
+      ],
+      "confidence": "MEDIUM"
+    }
+  ],
+  "analyzedAt": "2025-07-11T17:58:40.081Z"
+}

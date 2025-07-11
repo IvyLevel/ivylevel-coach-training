@@ -4,6 +4,7 @@ import EnhancedSmartCoachOnboarding from './components/EnhancedSmartCoachOnboard
 import PersonalizedKnowledgeBase from './components/PersonalizedKnowledgeBase';
 import EnhancedPersonalizedKnowledgeBase from './components/EnhancedPersonalizedKnowledgeBase';
 import DebugKnowledgeBase from './components/DebugKnowledgeBase';
+import SimpleKnowledgeBase from './components/SimpleKnowledgeBase';
 import SmartCoachOnboarding from './components/SmartCoachOnboarding';
 import SmartOnboardingSystem from './components/SmartOnboardingSystem';
 import dataService from './services/dataService';
@@ -1093,7 +1094,7 @@ function App() {
             </button>
           </div>
         </div>
-        <EnhancedPersonalizedKnowledgeBase />
+        <SimpleKnowledgeBase />
       </div>
     );
   }

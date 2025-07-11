@@ -98,10 +98,10 @@ export const dataService = {
       // Try without orderBy first in case 'date' field doesn't exist
       let snapshot;
       try {
-        const q = query(videosRef, orderBy('sessionDate', 'desc'), limit(100));
+        const q = query(videosRef, orderBy('uploadDate', 'desc'), limit(100));
         snapshot = await getDocs(q);
       } catch (orderError) {
-        console.log('Order by sessionDate failed, trying without order:', orderError);
+        console.log('Order by uploadDate failed, trying without order:', orderError);
         const q = query(videosRef, limit(100));
         snapshot = await getDocs(q);
       }

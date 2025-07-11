@@ -8,3 +8,4 @@ build
 /credentials/*.json
 /credentials/service-account.json
 /credentials/firebase-admin.json
+.vercel

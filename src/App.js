@@ -603,10 +603,10 @@ function App() {
         </div>
 
         {/* Smart Onboarding Card */}
-        <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', padding: '24px', marginTop: '24px' }}>
+        <div style={{ backgroundColor: '#fef3c7', borderRadius: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', padding: '24px', marginTop: '24px', border: '2px solid #f59e0b' }}>
           <div style={{ textAlign: 'center' }}>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '12px' }}>
-              🎯 New Feature: Smart Coach Onboarding
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '12px', color: '#92400e' }}>
+              🎯 Smart Coach Onboarding & Knowledge Base
             </h3>
             <p style={{ color: '#6b7280', marginBottom: '16px' }}>
               Intelligent resource matching for Noor, Jamie, and Kelvin

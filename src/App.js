@@ -3,6 +3,7 @@ import knowledgeBaseService from './services/knowledgeBaseService';
 import EnhancedSmartCoachOnboarding from './components/EnhancedSmartCoachOnboardingBranded';
 import PersonalizedKnowledgeBase from './components/PersonalizedKnowledgeBase';
 import EnhancedPersonalizedKnowledgeBase from './components/EnhancedPersonalizedKnowledgeBase';
+import DebugKnowledgeBase from './components/DebugKnowledgeBase';
 import SmartCoachOnboarding from './components/SmartCoachOnboarding';
 import SmartOnboardingSystem from './components/SmartOnboardingSystem';
 import dataService from './services/dataService';
@@ -1092,7 +1093,7 @@ function App() {
             </button>
           </div>
         </div>
-        <EnhancedPersonalizedKnowledgeBase />
+        <DebugKnowledgeBase />
       </div>
     );
   }

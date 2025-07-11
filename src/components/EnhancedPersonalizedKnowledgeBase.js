@@ -35,7 +35,7 @@ const EnhancedPersonalizedKnowledgeBase = () => {
       
       // Subscribe to real-time updates
       const unsubscribe = enhancedDataService.subscribeToCoachData(
-        currentUser.id,
+        currentUser.name || currentUser.displayName || currentUser.id,
         (updatedSessions) => {
           setSessions(updatedSessions);
         }
@@ -56,7 +56,7 @@ const EnhancedPersonalizedKnowledgeBase = () => {
 
       // Load enriched sessions
       const enrichedSessions = await enhancedDataService.getEnrichedSessions({
-        coach: currentUser.id,
+        coach: currentUser.name || currentUser.displayName || currentUser.id,
         category: filters.category !== 'all' ? filters.category : null,
         dateRange: enhancedDataService.getDateRange(filters.timeRange)
       });
@@ -66,7 +66,7 @@ const EnhancedPersonalizedKnowledgeBase = () => {
       if (currentUser.student) {
         const comprehensiveResults = await comprehensiveKnowledgeBaseService.comprehensiveSearch({
           student: currentUser.student.name,
-          coach: currentUser.id,
+          coach: currentUser.name || currentUser.displayName || currentUser.id,
           dateRange: enhancedDataService.getDateRange(filters.timeRange),
           includeExecutionDocs: true,
           includeGamePlans: true,
@@ -83,7 +83,7 @@ const EnhancedPersonalizedKnowledgeBase = () => {
         // Get smart recommendations
         const recommended = await smartRecommendationEngine.getRecommendedSessions(
           currentUser.student,
-          currentUser.id,
+          currentUser.name || currentUser.displayName || currentUser.id,
           { limit: 10, minScore: 0.4 }
         );
         setRecommendations(recommended);
@@ -98,7 +98,7 @@ const EnhancedPersonalizedKnowledgeBase = () => {
 
       // Load analytics
       const coachAnalytics = await enhancedDataService.getCoachAnalytics(
-        currentUser.id,
+        currentUser.name || currentUser.displayName || currentUser.id,
         filters.timeRange
       );
       setAnalytics(coachAnalytics);

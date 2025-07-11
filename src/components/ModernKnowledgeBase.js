@@ -67,21 +67,39 @@ const ModernKnowledgeBase = () => {
         let studentName = data.parsedStudent || data.student;
         
         // Parse from filename if needed
-        if (filename && (filename.startsWith('Coaching_') || filename.startsWith('GamePlan_'))) {
+        if (filename) {
           const parts = filename.split('_');
-          if (parts.length >= 4) {
-            const filenameCoach = parts[2];
-            const filenameStudent = parts[3];
+          
+          // Special handling for GamePlan files: Coaching_GamePlan_B_Jenny_Ananyaa_...
+          if (filename.includes('GamePlan_') && parts.length >= 5) {
+            const gamePlanCoach = parts[3];  // Jenny is at index 3
+            const gamePlanStudent = parts[4]; // Student is at index 4
+            
+            // For game plans, ALWAYS use the coach from filename (Jenny)
+            if (gamePlanCoach && gamePlanCoach !== 'unknown') {
+              coachName = gamePlanCoach;
+            }
+            
+            if (!studentName || studentName === 'Unknown' || studentName === 'unknown') {
+              if (gamePlanStudent && gamePlanStudent !== 'unknown') {
+                studentName = gamePlanStudent;
+              }
+            }
+          } 
+          // Regular coaching sessions: Coaching_B_Coach_Student_...
+          else if (filename.startsWith('Coaching_') && parts.length >= 4) {
+            const regularCoach = parts[2];
+            const regularStudent = parts[3];
             
             if (!coachName || coachName === 'Unknown' || coachName === 'unknown') {
-              if (filenameCoach && filenameCoach !== 'unknown') {
-                coachName = filenameCoach;
+              if (regularCoach && regularCoach !== 'unknown' && regularCoach !== 'A' && regularCoach !== 'B' && regularCoach !== 'C') {
+                coachName = regularCoach;
               }
             }
             
             if (!studentName || studentName === 'Unknown' || studentName === 'unknown') {
-              if (filenameStudent && filenameStudent !== 'unknown') {
-                studentName = filenameStudent;
+              if (regularStudent && regularStudent !== 'unknown') {
+                studentName = regularStudent;
               }
             }
           }
@@ -92,14 +110,32 @@ const ModernKnowledgeBase = () => {
           const folderParts = folderPath.split('/');
           if (folderParts.length >= 4) {
             const folderFilename = folderParts[folderParts.length - 1];
-            if (folderFilename && (folderFilename.startsWith('Coaching_') || folderFilename.startsWith('GamePlan_'))) {
+            if (folderFilename) {
               const folderFilenameParts = folderFilename.split('_');
-              if (folderFilenameParts.length >= 4) {
+              
+              // GamePlan folders
+              if (folderFilename.includes('GamePlan_') && folderFilenameParts.length >= 5) {
+                const folderCoach = folderFilenameParts[3];  // Coach at index 3 for GamePlan
+                const folderStudent = folderFilenameParts[4]; // Student at index 4
+                
+                // Always use filename coach for game plans
+                if (folderCoach && folderCoach !== 'unknown') {
+                  coachName = folderCoach;
+                }
+                
+                if (!studentName || studentName === 'Unknown') {
+                  if (folderStudent && folderStudent !== 'unknown') {
+                    studentName = folderStudent;
+                  }
+                }
+              }
+              // Regular coaching folders
+              else if (folderFilename.startsWith('Coaching_') && folderFilenameParts.length >= 4) {
                 const folderCoach = folderFilenameParts[2];
                 const folderStudent = folderFilenameParts[3];
                 
                 if (!coachName || coachName === 'Unknown') {
-                  if (folderCoach && folderCoach !== 'unknown') {
+                  if (folderCoach && folderCoach !== 'unknown' && folderCoach !== 'A' && folderCoach !== 'B' && folderCoach !== 'C') {
                     coachName = folderCoach;
                   }
                 }

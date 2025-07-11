@@ -157,33 +157,45 @@ const BeautifulKnowledgeBase = () => {
     return weekMatch ? parseInt(weekMatch[1]) : null;
   };
 
-  const parseTitle = (title, coach, student) => {
-    // Clean up titles like "B & Jenny - Week 12 (2024-01-06)" or "Unknown Coach & Student"
+  const parseTitle = (title, coach, student, category) => {
     let cleaned = title;
-    
-    // Remove "B & " prefix
-    cleaned = cleaned.replace(/^B\s*&\s*/i, '');
-    
-    // Remove "Unknown Coach & " prefix
-    cleaned = cleaned.replace(/^Unknown Coach\s*&\s*/i, '');
-    
-    // Extract components
     const dateMatch = cleaned.match(/\((\d{4}-\d{2}-\d{2})\)/);
     const weekMatch = cleaned.match(/Week\s+(\d+)/i);
     
-    // Remove date from title
+    // Remove date from title if present
     if (dateMatch) {
       cleaned = cleaned.replace(/\s*\([^)]+\)\s*$/, '');
     }
     
-    // If title still contains "Unknown", create a better display title
-    if (cleaned.includes('Unknown') && coach && student) {
-      if (weekMatch) {
-        cleaned = `${coach} & ${student} - Week ${weekMatch[1]}`;
-      } else {
-        cleaned = `${coach} & ${student} Session`;
+    // Handle different title patterns
+    if (cleaned.startsWith('Gameplan & ')) {
+      // Fix "Gameplan & A/B - Week X" to "Coach & Student Game Plan - Week X"
+      if (coach && student && coach !== 'Unknown' && student !== 'Unknown') {
+        const weekPart = weekMatch ? ` - Week ${weekMatch[1]}` : '';
+        cleaned = `${coach} & ${student} Game Plan${weekPart}`;
+      }
+    } else if (cleaned.match(/^B\s*&\s*[A-Za-z]+\s*-\s*Week/i)) {
+      // Fix "B & Rishi - Week X" to "Rishi & Student - Week X"
+      if (coach && student && coach !== 'Unknown' && student !== 'Unknown') {
+        const weekPart = weekMatch ? ` - Week ${weekMatch[1]}` : '';
+        cleaned = `${coach} & ${student}${weekPart}`;
+      }
+    } else if (cleaned.match(/^[A-Za-z]+\s*-\s*Week/i)) {
+      // Fix "Rishi - Week X" to "Rishi & Student - Week X"
+      if (coach && student && coach !== 'Unknown' && student !== 'Unknown') {
+        const weekPart = weekMatch ? ` - Week ${weekMatch[1]}` : '';
+        cleaned = `${coach} & ${student}${weekPart}`;
+      }
+    } else if (cleaned.includes('Unknown')) {
+      // Fix any title with "Unknown" in it
+      if (coach && student && coach !== 'Unknown' && student !== 'Unknown') {
+        const weekPart = weekMatch ? ` - Week ${weekMatch[1]}` : '';
+        cleaned = `${coach} & ${student}${weekPart}`;
       }
     }
+    
+    // Clean up any remaining "B & " prefix
+    cleaned = cleaned.replace(/^B\s*&\s*/i, '');
     
     return {
       displayTitle: cleaned,
@@ -508,7 +520,7 @@ const BeautifulKnowledgeBase = () => {
         gap: '24px' 
       }}>
         {filteredVideos.map(video => {
-          const { displayTitle, date, week } = parseTitle(video.title, video.coach, video.student);
+          const { displayTitle, date, week } = parseTitle(video.title, video.coach, video.student, video.category);
           
           return (
             <div key={video.id} style={{

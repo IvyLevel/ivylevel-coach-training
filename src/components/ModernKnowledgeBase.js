@@ -19,7 +19,6 @@ const ModernKnowledgeBase = () => {
   const [selectedCoach, setSelectedCoach] = useState('all');
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [hoveredVideo, setHoveredVideo] = useState(null);
-  const [show168Only, setShow168Only] = useState(false);
 
   useEffect(() => {
     loadVideos();
@@ -27,7 +26,7 @@ const ModernKnowledgeBase = () => {
 
   useEffect(() => {
     filterVideos();
-  }, [videos, searchTerm, selectedCategory, selectedCoach, show168Only]);
+  }, [videos, searchTerm, selectedCategory, selectedCoach]);
 
   const loadVideos = async () => {
     try {
@@ -160,15 +159,15 @@ const ModernKnowledgeBase = () => {
     }
     
     if (selectedCategory !== 'all') {
-      filtered = filtered.filter(video => video.category === selectedCategory);
+      if (selectedCategory === '168_hour_sessions') {
+        filtered = filtered.filter(video => video.is168HourSession);
+      } else {
+        filtered = filtered.filter(video => video.category === selectedCategory);
+      }
     }
     
     if (selectedCoach !== 'all') {
       filtered = filtered.filter(video => video.coach === selectedCoach);
-    }
-    
-    if (show168Only) {
-      filtered = filtered.filter(video => video.is168HourSession);
     }
     
     setFilteredVideos(filtered);
@@ -181,7 +180,12 @@ const ModernKnowledgeBase = () => {
 
   const getCategories = () => {
     const categories = new Set(videos.map(v => v.category));
-    return ['all', ...Array.from(categories)];
+    const categoriesArray = ['all', ...Array.from(categories)];
+    // Add 168-hour sessions as a special category
+    if (videos.some(v => v.is168HourSession)) {
+      categoriesArray.push('168_hour_sessions');
+    }
+    return categoriesArray;
   };
 
   const formatDuration = (duration) => {
@@ -349,7 +353,7 @@ const ModernKnowledgeBase = () => {
             </h1>
             <div style={{ fontSize: '0.875rem', opacity: 0.6 }}>
               {filteredVideos.length} of {videos.length} videos
-              {show168Only && ` (${filteredVideos.length} are 168-hour sessions)`}
+              {selectedCategory === '168_hour_sessions' && ` (168-hour scheduling sessions)`}
             </div>
           </div>
           
@@ -395,7 +399,9 @@ const ModernKnowledgeBase = () => {
             >
               {getCategories().map(cat => (
                 <option key={cat} value={cat} style={{ background: '#000' }}>
-                  {cat === 'all' ? 'All Types' : cat.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  {cat === 'all' ? 'All Types' : 
+                   cat === '168_hour_sessions' ? '168-Hour Sessions' :
+                   cat.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                 </option>
               ))}
             </select>
@@ -420,27 +426,6 @@ const ModernKnowledgeBase = () => {
                 </option>
               ))}
             </select>
-            
-            <button
-              onClick={() => setShow168Only(!show168Only)}
-              style={{
-                padding: '12px 20px',
-                background: show168Only ? '#FF4A23' : 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '8px',
-                color: 'white',
-                fontSize: '0.875rem',
-                outline: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontWeight: show168Only ? '600' : '400'
-              }}
-            >
-              {show168Only && <CheckIcon size={16} color="#fff" />}
-              168-Hour Sessions
-            </button>
           </div>
         </div>
       </div>

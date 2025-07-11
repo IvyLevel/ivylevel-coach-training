@@ -63,15 +63,63 @@ const BeautifulKnowledgeBase = () => {
           return; // Skip non-coaching content
         }
         
-        // Extract coach name from filename if parsedCoach is missing or unknown
+        // Extract coach and student names from filename
         let coachName = data.parsedCoach || data.coach;
-        if (!coachName || coachName === 'Unknown' || coachName === 'Unknown Coach' || coachName === 'unknown') {
-          // Parse from filename structure: Coaching_A_CoachName_StudentName_...
+        let studentName = data.parsedStudent || data.student;
+        
+        // Parse from filename structure: Coaching_B_Rishi_Aaryan_Wk01_...
+        // or GamePlan_B_Andrew_Advay_Wk10_...
+        if (filename && (filename.startsWith('Coaching_') || filename.startsWith('GamePlan_'))) {
           const parts = filename.split('_');
           if (parts.length >= 4) {
-            const possibleCoach = parts[2]; // Coach is typically 3rd part
-            if (possibleCoach && possibleCoach !== 'unknown') {
-              coachName = possibleCoach;
+            // parts[0] = 'Coaching' or 'GamePlan'
+            // parts[1] = 'B' (or 'A')
+            // parts[2] = Coach name
+            // parts[3] = Student name
+            const filenameCoach = parts[2];
+            const filenameStudent = parts[3];
+            
+            // Use filename data if database data is missing or unknown
+            if (!coachName || coachName === 'Unknown' || coachName === 'Unknown Coach' || coachName === 'unknown') {
+              if (filenameCoach && filenameCoach !== 'unknown' && filenameCoach !== 'Unknown') {
+                coachName = filenameCoach;
+              }
+            }
+            
+            if (!studentName || studentName === 'Unknown' || studentName === 'Unknown Student' || studentName === 'unknown') {
+              if (filenameStudent && filenameStudent !== 'unknown' && filenameStudent !== 'Unknown') {
+                studentName = filenameStudent;
+              }
+            }
+          }
+        }
+        
+        // If still unknown, try to extract from folder path
+        // folderPath like: "Ivylevel Knowledge Base/Students/Aaryan/Coaching_B_Rishi_Aaryan_Wk01_..."
+        if ((coachName === 'Unknown' || coachName === 'unknown' || !coachName) || 
+            (studentName === 'Unknown' || studentName === 'unknown' || !studentName)) {
+          const folderPath = data.folderPath || '';
+          const folderParts = folderPath.split('/');
+          if (folderParts.length >= 4) {
+            const folderFilename = folderParts[folderParts.length - 1];
+            if (folderFilename && (folderFilename.startsWith('Coaching_') || folderFilename.startsWith('GamePlan_'))) {
+              const folderFilenameParts = folderFilename.split('_');
+              if (folderFilenameParts.length >= 4) {
+                const folderCoach = folderFilenameParts[2];
+                const folderStudent = folderFilenameParts[3];
+                
+                if (!coachName || coachName === 'Unknown' || coachName === 'unknown') {
+                  if (folderCoach && folderCoach !== 'unknown' && folderCoach !== 'Unknown') {
+                    coachName = folderCoach;
+                  }
+                }
+                
+                if (!studentName || studentName === 'Unknown' || studentName === 'unknown') {
+                  if (folderStudent && folderStudent !== 'unknown' && folderStudent !== 'Unknown') {
+                    studentName = folderStudent;
+                  }
+                }
+              }
             }
           }
         }
@@ -80,7 +128,7 @@ const BeautifulKnowledgeBase = () => {
           id: doc.id,
           title: data.title || data.properTitle || data.originalTitle || 'Untitled',
           coach: coachName || 'Unknown',
-          student: data.parsedStudent || data.student || 'Unknown',
+          student: studentName || 'Unknown',
           category: data.category || 'General',
           duration: data.duration || '30:00',
           date: data.sessionDate || data.uploadDate,

@@ -19,6 +19,7 @@ const ModernKnowledgeBase = () => {
   const [selectedCoach, setSelectedCoach] = useState('all');
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [hoveredVideo, setHoveredVideo] = useState(null);
+  const [show168Only, setShow168Only] = useState(false);
 
   useEffect(() => {
     loadVideos();
@@ -26,7 +27,7 @@ const ModernKnowledgeBase = () => {
 
   useEffect(() => {
     filterVideos();
-  }, [videos, searchTerm, selectedCategory, selectedCoach]);
+  }, [videos, searchTerm, selectedCategory, selectedCoach, show168Only]);
 
   const loadVideos = async () => {
     try {
@@ -131,7 +132,8 @@ const ModernKnowledgeBase = () => {
           driveId: data.driveId,
           sessionType: isGamePlan ? 'game_plan' : 'coaching_session',
           thumbnail: `https://drive.google.com/thumbnail?id=${data.driveId}&sz=w400`,
-          filename: filename
+          filename: filename,
+          is168HourSession: data.is168HourSession || false
         });
       });
       
@@ -163,6 +165,10 @@ const ModernKnowledgeBase = () => {
     
     if (selectedCoach !== 'all') {
       filtered = filtered.filter(video => video.coach === selectedCoach);
+    }
+    
+    if (show168Only) {
+      filtered = filtered.filter(video => video.is168HourSession);
     }
     
     setFilteredVideos(filtered);
@@ -343,6 +349,7 @@ const ModernKnowledgeBase = () => {
             </h1>
             <div style={{ fontSize: '0.875rem', opacity: 0.6 }}>
               {filteredVideos.length} of {videos.length} videos
+              {show168Only && ` (${filteredVideos.length} are 168-hour sessions)`}
             </div>
           </div>
           
@@ -413,6 +420,27 @@ const ModernKnowledgeBase = () => {
                 </option>
               ))}
             </select>
+            
+            <button
+              onClick={() => setShow168Only(!show168Only)}
+              style={{
+                padding: '12px 20px',
+                background: show168Only ? '#FF4A23' : 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '8px',
+                color: 'white',
+                fontSize: '0.875rem',
+                outline: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontWeight: show168Only ? '600' : '400'
+              }}
+            >
+              {show168Only && <CheckIcon size={16} color="#fff" />}
+              168-Hour Sessions
+            </button>
           </div>
         </div>
       </div>
@@ -510,7 +538,7 @@ const ModernKnowledgeBase = () => {
                   Game Plan
                 </div>
               )}
-              {(video.sessionType === '168_hour_scheduling' || video.filename?.includes('_168_')) && (
+              {(video.is168HourSession || video.sessionType === '168_hour_scheduling' || video.filename?.includes('_168_')) && (
                 <div style={{
                   position: 'absolute',
                   top: '8px',

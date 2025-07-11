@@ -866,8 +866,7 @@ function App() {
         <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
           <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <IvylevelLogoSmall />
-              <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Elite Coach Training Platform</div>
+              <IvylevelLogo />
             </div>
             <div style={{display: 'flex', alignItems: 'center', gap: '24px'}}>
               <div style={{textAlign: 'right'}}>
@@ -1027,17 +1026,24 @@ function App() {
                   background: '#f3f4f6',
                   padding: '4px 8px',
                   borderRadius: '4px',
-                  color: '#6b7280'
+                  color: '#6b7280',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
                 }}>
-                  <StarIcon size={14} color="#6b7280" style={{marginRight: '4px'}} />
+                  <StarIcon size={14} color="#6b7280" />
                   AI-Powered
                 </span>
                 <span style={{
                   background: '#f3f4f6',
                   padding: '4px 8px',
                   borderRadius: '4px',
-                  color: '#6b7280'
+                  color: '#6b7280',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
                 }}>
+                  <VideoIcon size={14} color="#6b7280" />
                   {realData.videos.length} Sessions
                 </span>
               </div>

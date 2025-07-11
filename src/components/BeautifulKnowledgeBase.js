@@ -319,7 +319,7 @@ const BeautifulKnowledgeBase = () => {
           marginBottom: '12px',
           lineHeight: '1.2'
         }}>
-          IvyLevel Knowledge Base
+          Ivylevel Knowledge Base
         </h1>
         <p style={{ color: '#6b7280', fontSize: '1.25rem', marginBottom: '24px' }}>
           Explore {videos.length} coaching sessions to enhance your skills

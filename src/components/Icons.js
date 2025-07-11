@@ -88,6 +88,7 @@ export const BookIcon = ({ size = 24, color = ICON_COLORS.default, style = {} })
   <IconWrapper size={size} color={color} style={style}>
     <path d="M22 4.7V16.8C22 17.9 21.1 18.9 19.9 19L12.4 19.8C12.1 19.8 11.9 19.8 11.6 19.8L4.1 19C2.9 18.9 2 17.9 2 16.8V4.7C2 3.4 3.1 2.4 4.3 2.5L11.4 3.2C11.8 3.2 12 3.5 12 3.9V20" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M12 3.5V19.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M22 4.7L12 3.9" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M6 7H9" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M6 11H9" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </IconWrapper>

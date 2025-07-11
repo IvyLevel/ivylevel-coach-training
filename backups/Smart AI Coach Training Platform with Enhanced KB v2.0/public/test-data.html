@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IvyLevel Data Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .section { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        h2 { color: #333; }
+        .video { padding: 10px; margin: 5px 0; background: #f5f5f5; border-radius: 4px; }
+        .coach { font-weight: bold; color: #0066cc; }
+        .student { color: #009900; }
+        .category { color: #666; font-style: italic; }
+    </style>
+</head>
+<body>
+    <h1>IvyLevel Real Data Test</h1>
+    
+    <div class="section">
+        <h2>Loading Real Coaching Videos...</h2>
+        <div id="videos">Loading...</div>
+    </div>
+    
+    <div class="section">
+        <h2>Unique Coaches</h2>
+        <div id="coaches">Loading...</div>
+    </div>
+    
+    <div class="section">
+        <h2>Unique Students</h2>
+        <div id="students">Loading...</div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        
+        // Firebase configuration (using your project)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBJKP62KoCCY51Zq5xKj5PTnL9XOMtf0Pw",
+            authDomain: "ivylevel-coach-training.firebaseapp.com",
+            projectId: "ivylevel-coach-training",
+            storageBucket: "ivylevel-coach-training.appspot.com",
+            messagingSenderId: "638303289892",
+            appId: "1:638303289892:web:e31d2fdfac2e0bc9f8f96b"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        async function loadData() {
+            try {
+                // Get videos
+                const videosRef = collection(db, 'indexed_videos');
+                const q = query(videosRef, orderBy('indexedAt', 'desc'), limit(20));
+                const snapshot = await getDocs(q);
+                
+                const coaches = new Set();
+                const students = new Set();
+                
+                let videosHtml = '';
+                snapshot.docs.forEach(doc => {
+                    const data = doc.data();
+                    const coach = data.parsedCoach || 'Unknown';
+                    const student = data.parsedStudent || 'Unknown';
+                    const category = data.category || 'General';
+                    const date = data.sessionDate || 'N/A';
+                    
+                    if (coach !== 'Unknown Coach') coaches.add(coach);
+                    if (student !== 'Unknown Student') students.add(student);
+                    
+                    videosHtml += `
+                        <div class="video">
+                            <span class="coach">${coach}</span> & 
+                            <span class="student">${student}</span> - 
+                            <span class="category">${category}</span>
+                            (${date})
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('videos').innerHTML = videosHtml || 'No videos found';
+                document.getElementById('coaches').innerHTML = Array.from(coaches).sort().join(', ');
+                document.getElementById('students').innerHTML = Array.from(students).sort().join(', ');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('videos').innerHTML = 'Error loading data: ' + error.message;
+            }
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>

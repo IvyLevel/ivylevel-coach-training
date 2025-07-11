@@ -4,7 +4,8 @@ import { collection, getDocs, query, where, limit } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const DebugKnowledgeBase = () => {
-  const { currentUser } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+  const currentUser = authContext.user || authContext.userData || authContext.currentUser;
   const [loading, setLoading] = useState(true);
   const [videos, setVideos] = useState([]);
   const [error, setError] = useState(null);
@@ -20,8 +21,9 @@ const DebugKnowledgeBase = () => {
     
     try {
       // Log current user info
+      console.log('Debug: Auth Context:', authContext);
       console.log('Debug: Current User:', currentUser);
-      setDebugInfo(prev => ({ ...prev, currentUser }));
+      setDebugInfo(prev => ({ ...prev, authContext, currentUser }));
 
       // Try simple query first
       console.log('Debug: Attempting simple query...');

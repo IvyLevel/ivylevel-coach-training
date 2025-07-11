@@ -12,7 +12,8 @@ import {
 } from './Icons';
 
 const EnhancedPersonalizedKnowledgeBase = () => {
-  const { currentUser } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+  const currentUser = authContext.user || authContext.userData || authContext.currentUser;
   const [activeTab, setActiveTab] = useState('recommended');
   const [sessions, setSessions] = useState([]);
   const [recommendations, setRecommendations] = useState([]);

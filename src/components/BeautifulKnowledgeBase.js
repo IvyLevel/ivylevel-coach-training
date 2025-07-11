@@ -31,42 +31,49 @@ const BeautifulKnowledgeBase = () => {
     try {
       console.log('Loading videos for Knowledge Base...');
       const videosRef = collection(db, 'indexed_videos');
-      const q = query(videosRef, orderBy('uploadDate', 'desc'), limit(200));
+      const q = query(videosRef, orderBy('uploadDate', 'desc'), limit(500));
       const snapshot = await getDocs(q);
       
       const videoData = [];
       snapshot.forEach(doc => {
         const data = doc.data();
-        
-        // Extract coach name from filename if parsedCoach is missing
-        let coachName = data.parsedCoach || data.coach;
-        if (!coachName || coachName === 'Unknown') {
-          // Try to extract from filename: Coaching_B_Andrew_Advay_Wk10_...
-          const filename = data.filename || '';
-          const filenameParts = filename.split('_');
-          if (filenameParts.length >= 4 && filenameParts[0] === 'Coaching') {
-            coachName = filenameParts[2]; // The coach name is typically the 3rd part
-          }
-        }
-        
-        // Only include videos from Students & Coaches folders
+        const filename = data.filename || '';
         const folderPath = data.folderPath || '';
-        const isStudentOrCoachSession = 
-          folderPath.includes('/Students/') || 
-          folderPath.includes('/Coaches/') ||
-          data.category === 'student_sessions' ||
-          data.category === 'game_plan_reports' ||
-          data.sessionType === 'coaching_session' ||
-          data.sessionType === 'game_plan_session';
         
-        // Skip miscellaneous, quick check-ins, and other non-coaching content
-        if (!isStudentOrCoachSession) {
-          return; // Skip this video
-        }
-        
-        // Skip trivial sessions
+        // FIRST: Skip all Quick Check-ins (TRIVIAL_ files)
         if (filename.includes('TRIVIAL_') || data.category === 'Quick Check-in') {
           return; // Skip this video
+        }
+        
+        // SECOND: Skip all Miscellaneous content
+        if (folderPath.includes('/Miscellaneous/') || 
+            filename.includes('MISC_') || 
+            data.category === 'Miscellaneous') {
+          return; // Skip this video
+        }
+        
+        // THIRD: Only include proper coaching sessions
+        const isCoachingSession = 
+          filename.startsWith('Coaching_') || 
+          filename.startsWith('GamePlan_') ||
+          data.category === 'student_sessions' ||
+          data.category === 'game_plan_reports';
+          
+        if (!isCoachingSession) {
+          return; // Skip non-coaching content
+        }
+        
+        // Extract coach name from filename if parsedCoach is missing or unknown
+        let coachName = data.parsedCoach || data.coach;
+        if (!coachName || coachName === 'Unknown' || coachName === 'Unknown Coach' || coachName === 'unknown') {
+          // Parse from filename structure: Coaching_A_CoachName_StudentName_...
+          const parts = filename.split('_');
+          if (parts.length >= 4) {
+            const possibleCoach = parts[2]; // Coach is typically 3rd part
+            if (possibleCoach && possibleCoach !== 'unknown') {
+              coachName = possibleCoach;
+            }
+          }
         }
         
         videoData.push({
@@ -102,12 +109,15 @@ const BeautifulKnowledgeBase = () => {
     return weekMatch ? parseInt(weekMatch[1]) : null;
   };
 
-  const parseTitle = (title) => {
-    // Clean up titles like "B & Jenny - Week 12 (2024-01-06)"
+  const parseTitle = (title, coach, student) => {
+    // Clean up titles like "B & Jenny - Week 12 (2024-01-06)" or "Unknown Coach & Student"
     let cleaned = title;
     
     // Remove "B & " prefix
     cleaned = cleaned.replace(/^B\s*&\s*/i, '');
+    
+    // Remove "Unknown Coach & " prefix
+    cleaned = cleaned.replace(/^Unknown Coach\s*&\s*/i, '');
     
     // Extract components
     const dateMatch = cleaned.match(/\((\d{4}-\d{2}-\d{2})\)/);
@@ -116,6 +126,15 @@ const BeautifulKnowledgeBase = () => {
     // Remove date from title
     if (dateMatch) {
       cleaned = cleaned.replace(/\s*\([^)]+\)\s*$/, '');
+    }
+    
+    // If title still contains "Unknown", create a better display title
+    if (cleaned.includes('Unknown') && coach && student) {
+      if (weekMatch) {
+        cleaned = `${coach} & ${student} - Week ${weekMatch[1]}`;
+      } else {
+        cleaned = `${coach} & ${student} Session`;
+      }
     }
     
     return {
@@ -441,7 +460,7 @@ const BeautifulKnowledgeBase = () => {
         gap: '24px' 
       }}>
         {filteredVideos.map(video => {
-          const { displayTitle, date, week } = parseTitle(video.title);
+          const { displayTitle, date, week } = parseTitle(video.title, video.coach, video.student);
           
           return (
             <div key={video.id} style={{

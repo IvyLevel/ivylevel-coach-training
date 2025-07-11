@@ -4,7 +4,7 @@
 import { db } from '../firebase';
 import { 
   collection, query, where, getDocs, doc, getDoc, 
-  orderBy, limit, startAfter, onSnapshot 
+  orderBy, limit, startAfter, onSnapshot, Timestamp 
 } from 'firebase/firestore';
 import smartRecommendationEngine from './smartRecommendationEngine';
 
@@ -52,10 +52,10 @@ class EnhancedDataService {
       if (category) constraints.push(where('category', '==', category));
       
       if (dateRange?.start) {
-        constraints.push(where('date', '>=', dateRange.start));
+        constraints.push(where('uploadDate', '>=', Timestamp.fromDate(new Date(dateRange.start))));
       }
       if (dateRange?.end) {
-        constraints.push(where('date', '<=', dateRange.end));
+        constraints.push(where('uploadDate', '<=', Timestamp.fromDate(new Date(dateRange.end))));
       }
 
       constraints.push(orderBy('uploadDate', 'desc'));
@@ -313,6 +313,8 @@ class EnhancedDataService {
 
   // Get date range based on time period
   getDateRange(timeRange) {
+    if (!timeRange || timeRange === 'all') return null;
+    
     const end = new Date();
     const start = new Date();
     

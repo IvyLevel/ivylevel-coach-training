@@ -100,33 +100,9 @@ class ComprehensiveKnowledgeBaseService {
   async syncZoomCloudRecordings() {
     try {
       // In production, this would connect to Zoom API
-      // For now, we'll simulate the structure
-      const zoomSessions = await this.fetchZoomCloudData();
-      
-      const batch = writeBatch(db);
-      let processed = 0;
-      
-      for (const session of zoomSessions) {
-        const enrichedSession = await this.enrichZoomSession(session);
-        const docRef = doc(db, 'indexed_videos', `zoom_${session.meetingId}`);
-        
-        batch.set(docRef, {
-          ...enrichedSession,
-          source: 'zoom_cloud',
-          indexed_at: Timestamp.now(),
-          category: this.categorizeSession(session),
-          searchableText: this.generateSearchableText(enrichedSession)
-        }, { merge: true });
-        
-        processed++;
-        if (processed % 50 === 0) {
-          await batch.commit();
-          console.log(`Processed ${processed} Zoom sessions...`);
-        }
-      }
-      
-      await batch.commit();
-      console.log(`Synced ${processed} Zoom Cloud recordings`);
+      // For now, just return success
+      console.log('Synced 0 Zoom Cloud recordings (feature not implemented)');
+      return;
       
     } catch (error) {
       console.error('Error syncing Zoom recordings:', error);

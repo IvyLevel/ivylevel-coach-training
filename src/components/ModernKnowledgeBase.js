@@ -32,7 +32,7 @@ const ModernKnowledgeBase = () => {
     try {
       console.log('Loading videos for Modern Knowledge Base...');
       const videosRef = collection(db, 'indexed_videos');
-      const q = query(videosRef, orderBy('uploadDate', 'desc'), limit(500));
+      const q = query(videosRef, orderBy('uploadDate', 'desc'));
       const snapshot = await getDocs(q);
       
       const videoData = [];
@@ -135,7 +135,7 @@ const ModernKnowledgeBase = () => {
         });
       });
       
-      console.log(`Loaded ${videoData.length} coaching videos`);
+      console.log(`Loaded ${videoData.length} coaching videos (from ${snapshot.size} total documents)`);
       setVideos(videoData);
       setFilteredVideos(videoData);
     } catch (err) {
@@ -339,10 +339,10 @@ const ModernKnowledgeBase = () => {
         <div style={{ maxWidth: '1800px', margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
             <h1 style={{ fontSize: '2rem', fontWeight: '600', margin: 0 }}>
-              Coaching Sessions
+              Ivylevel Coaching Sessions
             </h1>
             <div style={{ fontSize: '0.875rem', opacity: 0.6 }}>
-              {filteredVideos.length} videos
+              {filteredVideos.length} of {videos.length} videos
             </div>
           </div>
           

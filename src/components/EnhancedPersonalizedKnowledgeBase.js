@@ -64,37 +64,42 @@ const EnhancedPersonalizedKnowledgeBase = () => {
       setSessions(enrichedSessions);
 
       // Get comprehensive search results including execution docs and game plans
-      if (currentUser.student) {
-        const comprehensiveResults = await comprehensiveKnowledgeBaseService.comprehensiveSearch({
-          student: currentUser.student.name,
-          coach: currentUser.name || currentUser.displayName || currentUser.id,
-          dateRange: enhancedDataService.getDateRange(filters.timeRange),
-          includeExecutionDocs: true,
-          includeGamePlans: true,
-          limit: 50
-        });
-        setComprehensiveData(comprehensiveResults);
+      const studentData = authContext.userData?.student || currentUser?.student;
+      if (studentData && studentData.name) {
+        try {
+          const comprehensiveResults = await comprehensiveKnowledgeBaseService.comprehensiveSearch({
+            student: studentData.name,
+            coach: authContext.userData?.name || currentUser?.name || currentUser?.displayName || currentUser?.id,
+            dateRange: enhancedDataService.getDateRange(filters.timeRange),
+            includeExecutionDocs: true,
+            includeGamePlans: true,
+            limit: 50
+          });
+          setComprehensiveData(comprehensiveResults);
 
-        // Get student journey analysis
-        const journeyAnalysis = await advancedAnalyticsService.analyzeStudentOutcomes(
-          currentUser.student.name
-        );
-        setStudentJourney(journeyAnalysis);
+          // Get student journey analysis
+          const journeyAnalysis = await advancedAnalyticsService.analyzeStudentOutcomes(
+            studentData.name
+          );
+          setStudentJourney(journeyAnalysis);
 
-        // Get smart recommendations
-        const recommended = await smartRecommendationEngine.getRecommendedSessions(
-          currentUser.student,
-          currentUser.name || currentUser.displayName || currentUser.id,
-          { limit: 10, minScore: 0.4 }
-        );
-        setRecommendations(recommended);
+          // Get smart recommendations
+          const recommended = await smartRecommendationEngine.getRecommendedSessions(
+            studentData,
+            authContext.userData?.name || currentUser?.name || currentUser?.displayName || currentUser?.id,
+            { limit: 10, minScore: 0.4 }
+          );
+          setRecommendations(recommended);
 
-        // Get personalized insights
-        const personalizedInsights = await smartRecommendationEngine.getPersonalizedInsights(
-          currentUser.student,
-          enrichedSessions.slice(0, 10)
-        );
-        setInsights(personalizedInsights);
+          // Get personalized insights
+          const personalizedInsights = await smartRecommendationEngine.getPersonalizedInsights(
+            studentData,
+            enrichedSessions.slice(0, 10)
+          );
+          setInsights(personalizedInsights);
+        } catch (error) {
+          console.error('Error loading student-specific data:', error);
+        }
       }
 
       // Load analytics

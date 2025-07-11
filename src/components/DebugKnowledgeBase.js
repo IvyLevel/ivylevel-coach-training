@@ -42,22 +42,36 @@ const DebugKnowledgeBase = () => {
       setDebugInfo(prev => ({ ...prev, videoCount: videoData.length }));
       
       // If we have a user, try filtered query
-      if (currentUser && currentUser.name) {
-        console.log('Debug: Attempting filtered query for coach:', currentUser.name);
+      const coachName = authContext.userData?.name || currentUser?.name;
+      if (coachName) {
+        console.log('Debug: Attempting filtered query for coach:', coachName);
         const coachQuery = query(
           videosRef, 
-          where('parsedCoach', '==', currentUser.name),
+          where('parsedCoach', '==', coachName),
           limit(10)
         );
         
         try {
           const coachSnapshot = await getDocs(coachQuery);
-          console.log(`Debug: Found ${coachSnapshot.size} videos for coach`);
-          setDebugInfo(prev => ({ ...prev, coachVideoCount: coachSnapshot.size }));
+          console.log(`Debug: Found ${coachSnapshot.size} videos for coach ${coachName}`);
+          
+          const coachVideos = [];
+          coachSnapshot.forEach(doc => {
+            coachVideos.push({ id: doc.id, ...doc.data() });
+          });
+          
+          setDebugInfo(prev => ({ 
+            ...prev, 
+            coachName,
+            coachVideoCount: coachSnapshot.size,
+            coachVideos: coachVideos.slice(0, 3) // Show first 3 for debug
+          }));
         } catch (queryError) {
           console.error('Debug: Coach query failed:', queryError);
           setDebugInfo(prev => ({ ...prev, coachQueryError: queryError.message }));
         }
+      } else {
+        setDebugInfo(prev => ({ ...prev, noCoachName: true }));
       }
       
     } catch (err) {

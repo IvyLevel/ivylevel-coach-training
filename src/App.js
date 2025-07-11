@@ -6,6 +6,7 @@ import EnhancedPersonalizedKnowledgeBase from './components/EnhancedPersonalized
 import DebugKnowledgeBase from './components/DebugKnowledgeBase';
 import SimpleKnowledgeBase from './components/SimpleKnowledgeBase';
 import BeautifulKnowledgeBase from './components/BeautifulKnowledgeBase';
+import ModernKnowledgeBase from './components/ModernKnowledgeBase';
 import SmartCoachOnboarding from './components/SmartCoachOnboarding';
 import SmartOnboardingSystem from './components/SmartOnboardingSystem';
 import dataService from './services/dataService';
@@ -1100,7 +1101,7 @@ function App() {
             </button>
           </div>
         </div>
-        <BeautifulKnowledgeBase />
+        <ModernKnowledgeBase />
       </div>
     );
   }

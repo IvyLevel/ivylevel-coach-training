@@ -234,4 +234,19 @@ export const ExternalLinkIcon = ({ size = 24, color = ICON_COLORS.default, style
   </IconWrapper>
 );
 
+// Search Icon
+export const SearchIcon = ({ size = 24, color = ICON_COLORS.default, style = {} }) => (
+  <IconWrapper size={size} color={color} style={style}>
+    <path d="M21 21L15 15" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </IconWrapper>
+);
+
+// Filter Icon
+export const FilterIcon = ({ size = 24, color = ICON_COLORS.default, style = {} }) => (
+  <IconWrapper size={size} color={color} style={style}>
+    <path d="M22 3H2L10 12.46V19L14 21V12.46L22 3Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </IconWrapper>
+);
+
 export { ICON_COLORS };

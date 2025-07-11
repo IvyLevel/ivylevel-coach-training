@@ -866,7 +866,7 @@ function App() {
         <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
           <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <IvylevelLogo />
+              <IvylevelFullLogo />
             </div>
             <div style={{display: 'flex', alignItems: 'center', gap: '24px'}}>
               <div style={{textAlign: 'right'}}>
@@ -1082,8 +1082,7 @@ function App() {
         <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
           <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <IvylevelLogoSmall />
-              <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Personalized Knowledge Base</div>
+              <IvylevelFullLogo />
             </div>
             <button
               onClick={() => setView('home')}
@@ -1114,8 +1113,7 @@ function App() {
         <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
           <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <IvylevelLogoSmall />
-              <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Smart Onboarding System</div>
+              <IvylevelFullLogo />
             </div>
             <button
               onClick={() => setView('home')}

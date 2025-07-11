@@ -397,6 +397,7 @@ const LoginPage = ({ onLogin }) => {
         
         {/* Right Side - Branding */}
         <div style={{flex: 1}}>
+          <IvylevelFullLogo style={{ marginBottom: '24px' }} />
           <h2 style={{fontSize: '2.5rem', fontWeight: 'bold', color: '#641432', marginBottom: '16px'}}>
             Ivylevel Elite Coach Portal
           </h2>

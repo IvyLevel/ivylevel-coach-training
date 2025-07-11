@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { newCoachesData } from '../data/newCoachesData';
 import knowledgeBaseService from '../services/knowledgeBaseService';
+import { 
+  CalendarIcon, ClockIcon, UserIcon, VideoIcon, 
+  DocumentIcon, ChartIcon, ArrowRightIcon, CloseIcon,
+  ServiceIcon, ICON_COLORS 
+} from './Icons';
 
 const EnhancedSmartCoachOnboarding = ({ onBack }) => {
   const [selectedCoach, setSelectedCoach] = useState('kelvin');
@@ -125,7 +130,7 @@ const EnhancedSmartCoachOnboarding = ({ onBack }) => {
       {/* Header */}
       <div style={headerStyle}>
         <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#641432', marginBottom: '8px' }}>
-          🚀 Enhanced Knowledge Base Platform
+          Enhanced Knowledge Base Platform
         </h1>
         <p style={{ color: '#6b7280', marginBottom: '16px' }}>
           Access 316+ real coaching sessions with enriched data
@@ -237,10 +242,19 @@ const EnhancedSmartCoachOnboarding = ({ onBack }) => {
                         e.currentTarget.style.backgroundColor = '#f9fafb';
                       }}>
                         <h4 style={{ fontWeight: '600', marginBottom: '8px', color: '#641432' }}>{recording.topic}</h4>
-                        <div style={{ display: 'flex', gap: '16px', fontSize: '14px', color: '#6b7280' }}>
-                          <span>📅 {new Date(recording.date).toLocaleDateString()}</span>
-                          <span>⏱️ {recording.duration} mins</span>
-                          <span>👤 {recording.student}</span>
+                        <div style={{ display: 'flex', gap: '16px', fontSize: '14px', color: '#6b7280', alignItems: 'center' }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <CalendarIcon size={16} color={ICON_COLORS.default} />
+                            {new Date(recording.date).toLocaleDateString()}
+                          </span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <ClockIcon size={16} color={ICON_COLORS.default} />
+                            {recording.duration} mins
+                          </span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <UserIcon size={16} color={ICON_COLORS.default} />
+                            {recording.student}
+                          </span>
                           {recording.hasVideo && (
                             <span 
                               onClick={() => handleVideoClick(recording)}
@@ -251,11 +265,22 @@ const EnhancedSmartCoachOnboarding = ({ onBack }) => {
                               }}
                               title="Click to watch video"
                             >
-                              🎥 Watch Video
+                              <VideoIcon size={16} color={ICON_COLORS.primary} style={{ marginRight: '4px' }} />
+                              Watch Video
                             </span>
                           )}
-                          {recording.hasTranscript && <span>📝 Transcript</span>}
-                          {recording.hasInsights && <span>🧠 AI Insights</span>}
+                          {recording.hasTranscript && (
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                              <DocumentIcon size={16} color={ICON_COLORS.default} />
+                              Transcript
+                            </span>
+                          )}
+                          {recording.hasInsights && (
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                              <ChartIcon size={16} color={ICON_COLORS.default} />
+                              AI Insights
+                            </span>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -380,7 +405,7 @@ const EnhancedSmartCoachOnboarding = ({ onBack }) => {
                   color: '#6b7280'
                 }}
               >
-                ✕
+                <CloseIcon size={24} color={ICON_COLORS.default} />
               </button>
             </div>
             
@@ -420,10 +445,22 @@ const EnhancedSmartCoachOnboarding = ({ onBack }) => {
               display: 'flex',
               gap: '24px'
             }}>
-              <span>📅 {new Date(selectedVideo.date).toLocaleDateString()}</span>
-              <span>⏱️ {selectedVideo.duration} mins</span>
-              <span>👤 {selectedVideo.student}</span>
-              <span>🎯 {selectedVideo.coach}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <CalendarIcon size={16} color={ICON_COLORS.default} />
+                {new Date(selectedVideo.date).toLocaleDateString()}
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <ClockIcon size={16} color={ICON_COLORS.default} />
+                {selectedVideo.duration} mins
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <UserIcon size={16} color={ICON_COLORS.default} />
+                {selectedVideo.student}
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <ServiceIcon size={16} color={ICON_COLORS.default} />
+                {selectedVideo.coach}
+              </span>
             </div>
           </div>
         </div>

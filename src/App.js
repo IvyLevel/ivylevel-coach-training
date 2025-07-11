@@ -1,8 +1,19 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import knowledgeBaseService from './services/knowledgeBaseService';
 import EnhancedSmartCoachOnboarding from './components/EnhancedSmartCoachOnboardingBranded';
+import PersonalizedKnowledgeBase from './components/PersonalizedKnowledgeBase';
+import EnhancedPersonalizedKnowledgeBase from './components/EnhancedPersonalizedKnowledgeBase';
 import SmartCoachOnboarding from './components/SmartCoachOnboarding';
+import SmartOnboardingSystem from './components/SmartOnboardingSystem';
 import dataService from './services/dataService';
+import { 
+  StarIcon, IdentityIcon, PassionIcon, ServiceIcon, 
+  TargetIcon, BookIcon, ComputerIcon, VideoIcon, 
+  TrophyIcon, CheckIcon, PlayIcon, CalendarIcon, 
+  ClockIcon, UserIcon, ChartIcon, DocumentIcon, 
+  DollarIcon, ArrowRightIcon, ArrowLeftIcon, EyeIcon, CloseIcon,
+  ICON_COLORS 
+} from './components/Icons';
 
 // Brand Logo Components
 const IvylevelLogo = ({ style = {} }) => (
@@ -36,7 +47,7 @@ const IvylevelFullLogo = ({ style = {} }) => (
 );
 
 // Mock Auth Context - Simulates Firebase Auth
-const AuthContext = createContext({});
+export const AuthContext = createContext({});
 
 // Mock database - stores data in memory during session
 const mockDatabase = {
@@ -48,19 +59,22 @@ const mockDatabase = {
       role: 'admin',
       createdAt: new Date().toISOString()
     },
-    'coach1-uid': {
-      id: 'coach1-uid',
-      email: 'coach1@ivylevel.com',
-      name: 'Sarah Johnson',
+    'kelvin-uid': {
+      id: 'kelvin-uid',
+      email: 'kelvin@ivylevel.com',
+      name: 'Kelvin Nguyen',
       role: 'coach',
-      status: 'pending',
+      status: 'active',
       createdAt: new Date().toISOString(),
-      expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
       student: {
-        name: 'Emma Chen',
+        name: 'Abhi',
         grade: '11th Grade',
-        focusArea: 'pre-med',
-        culturalBackground: 'Asian-American'
+        focusArea: 'Computer Science & Business',
+        culturalBackground: 'South Asian',
+        school: 'High School',
+        targetSchools: ['MIT', 'Stanford', 'Harvard', 'Princeton'],
+        strengths: ['Math competitions', 'Robotics', 'Leadership'],
+        challenges: ['Essay writing', 'Time management']
       },
       progress: {
         welcome: { completed: false },
@@ -70,19 +84,63 @@ const mockDatabase = {
         certification: { completed: false }
       }
     },
-    'coach2-uid': {
-      id: 'coach2-uid',
-      email: 'coach2@ivylevel.com',
-      name: 'Michael Roberts',
+    'noor-uid': {
+      id: 'noor-uid',
+      email: 'noor@ivylevel.com',
+      name: 'Noor Patel',
       role: 'coach',
-      status: 'pending',
+      status: 'active',
       createdAt: new Date().toISOString(),
-      expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
+      students: [
+        {
+          name: 'Beya',
+          grade: '11th Grade',
+          focusArea: 'Liberal Arts',
+          culturalBackground: 'Middle Eastern',
+          targetSchools: ['Yale', 'Columbia', 'Brown'],
+          strengths: ['Creative writing', 'Cultural awareness'],
+          challenges: ['STEM courses', 'Standardized tests']
+        },
+        {
+          name: 'Hiba',
+          grade: '10th Grade',
+          focusArea: 'Pre-med',
+          culturalBackground: 'Middle Eastern',
+          targetSchools: ['Johns Hopkins', 'Duke', 'Northwestern'],
+          strengths: ['Science olympiads', 'Community service'],
+          challenges: ['Leadership roles', 'Public speaking']
+        }
+      ],
       student: {
-        name: 'Alex Kumar',
-        grade: '12th Grade',
-        focusArea: 'engineering',
-        culturalBackground: 'South Asian'
+        name: 'Beya & Hiba',
+        grade: '11th & 10th Grade',
+        focusArea: 'Liberal Arts & Pre-med',
+        culturalBackground: 'Middle Eastern'
+      },
+      progress: {
+        welcome: { completed: false },
+        mastery: { completed: false, score: 0 },
+        technical: { completed: false },
+        simulation: { completed: false, score: 0 },
+        certification: { completed: false }
+      }
+    },
+    'jamie-uid': {
+      id: 'jamie-uid',
+      email: 'jamie@ivylevel.com',
+      name: 'Jamie Thompson',
+      role: 'coach',
+      status: 'active',
+      createdAt: new Date().toISOString(),
+      student: {
+        name: 'Zainab',
+        grade: '11th Grade',
+        focusArea: 'BioMed',
+        culturalBackground: 'South Asian',
+        school: 'High School',
+        targetSchools: ['Johns Hopkins', 'Duke', 'UPenn', 'Cornell'],
+        strengths: ['Biology research', 'Volunteer work'],
+        challenges: ['Average academics', 'Confidence', 'Essay writing']
       },
       progress: {
         welcome: { completed: false },
@@ -95,8 +153,9 @@ const mockDatabase = {
   },
   credentials: {
     'admin@ivylevel.com': { password: 'Admin123!', uid: 'admin-uid' },
-    'coach1@ivylevel.com': { password: 'Coach123!', uid: 'coach1-uid' },
-    'coach2@ivylevel.com': { password: 'Coach123!', uid: 'coach2-uid' }
+    'kelvin@ivylevel.com': { password: 'Coach123!', uid: 'kelvin-uid' },
+    'noor@ivylevel.com': { password: 'Coach123!', uid: 'noor-uid' },
+    'jamie@ivylevel.com': { password: 'Coach123!', uid: 'jamie-uid' }
   }
 };
 
@@ -173,8 +232,9 @@ const LoginPage = ({ onLogin }) => {
   // Test credentials for easy access
   const testCredentials = [
     { email: 'admin@ivylevel.com', password: 'Admin123!', role: 'Admin' },
-    { email: 'coach1@ivylevel.com', password: 'Coach123!', role: 'Coach (Sarah)' },
-    { email: 'coach2@ivylevel.com', password: 'Coach123!', role: 'Coach (Michael)' }
+    { email: 'kelvin@ivylevel.com', password: 'Coach123!', role: 'Coach (Kelvin)' },
+    { email: 'noor@ivylevel.com', password: 'Coach123!', role: 'Coach (Noor)' },
+    { email: 'jamie@ivylevel.com', password: 'Coach123!', role: 'Coach (Jamie)' }
   ];
   
   const handleSubmit = async (e) => {
@@ -273,7 +333,7 @@ const LoginPage = ({ onLogin }) => {
                     color: '#6b7280'
                   }}
                 >
-                  {showPassword ? '🙈' : '👁️'}
+                  {showPassword ? <CloseIcon size={20} color={ICON_COLORS.default} /> : <EyeIcon size={20} color={ICON_COLORS.default} />}
                 </button>
               </div>
             </div>
@@ -344,9 +404,7 @@ const LoginPage = ({ onLogin }) => {
           <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
               <div style={{width: '48px', height: '48px', background: '#FFE5DF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <svg style={{width: '24px', height: '24px', color: '#FF4A23'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
+                <BookIcon size={24} color={ICON_COLORS.primary} />
               </div>
               <div>
                 <h3 style={{fontWeight: '600', color: '#111827'}}>Comprehensive Training</h3>
@@ -356,9 +414,7 @@ const LoginPage = ({ onLogin }) => {
             
             <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
               <div style={{width: '48px', height: '48px', background: '#FFE5DF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <svg style={{width: '24px', height: '24px', color: '#FF4A23'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
+                <ServiceIcon size={24} color={ICON_COLORS.primary} />
               </div>
               <div>
                 <h3 style={{fontWeight: '600', color: '#111827'}}>Impact Lives</h3>
@@ -368,9 +424,7 @@ const LoginPage = ({ onLogin }) => {
             
             <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
               <div style={{width: '48px', height: '48px', background: '#FFE5DF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <svg style={{width: '24px', height: '24px', color: '#FF4A23'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <DollarIcon size={24} color={ICON_COLORS.primary} />
               </div>
               <div>
                 <h3 style={{fontWeight: '600', color: '#111827'}}>Earn $25,000+</h3>
@@ -391,11 +445,11 @@ const TrainingModules = ({ userData, onComplete }) => {
   const [moduleData, setModuleData] = useState({});
   
   const modules = [
-    { id: 'welcome', name: 'Welcome & Commitment', icon: '🎯' },
-    { id: 'mastery', name: 'Student Mastery', icon: '📚' },
-    { id: 'technical', name: 'Technical Setup', icon: '💻' },
-    { id: 'simulation', name: 'Session Practice', icon: '🎬' },
-    { id: 'certification', name: 'Final Certification', icon: '🏆' }
+    { id: 'welcome', name: 'Welcome & Commitment', icon: <TargetIcon size={20} color={ICON_COLORS.default} /> },
+    { id: 'mastery', name: 'Student Mastery', icon: <BookIcon size={20} color={ICON_COLORS.default} /> },
+    { id: 'technical', name: 'Technical Setup', icon: <ComputerIcon size={20} color={ICON_COLORS.default} /> },
+    { id: 'simulation', name: 'Session Practice', icon: <VideoIcon size={20} color={ICON_COLORS.default} /> },
+    { id: 'certification', name: 'Final Certification', icon: <TrophyIcon size={20} color={ICON_COLORS.default} /> }
   ];
   
   const handleModuleComplete = (moduleId, data = {}) => {
@@ -581,15 +635,21 @@ const TrainingModules = ({ userData, onComplete }) => {
             </h2>
             <div style={{display: 'grid', gap: '16px', marginBottom: '24px'}}>
               <div style={{padding: '24px', background: '#f9fafb', borderRadius: '8px', border: '2px solid #e5e7eb'}}>
-                <h3 style={{fontWeight: '600', marginBottom: '8px'}}>✓ Zoom Professional Account</h3>
+                <h3 style={{fontWeight: '600', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+                  <CheckIcon size={20} color={ICON_COLORS.success} /> Zoom Professional Account
+                </h3>
                 <p style={{color: '#6b7280'}}>Required for extended coaching sessions</p>
               </div>
               <div style={{padding: '24px', background: '#f9fafb', borderRadius: '8px', border: '2px solid #e5e7eb'}}>
-                <h3 style={{fontWeight: '600', marginBottom: '8px'}}>✓ Google Workspace Access</h3>
+                <h3 style={{fontWeight: '600', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+                  <CheckIcon size={20} color={ICON_COLORS.success} /> Google Workspace Access
+                </h3>
                 <p style={{color: '#6b7280'}}>For collaborative document editing</p>
               </div>
               <div style={{padding: '24px', background: '#f9fafb', borderRadius: '8px', border: '2px solid #e5e7eb'}}>
-                <h3 style={{fontWeight: '600', marginBottom: '8px'}}>✓ IvyLevel Platform Login</h3>
+                <h3 style={{fontWeight: '600', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
+                  <CheckIcon size={20} color={ICON_COLORS.success} /> IvyLevel Platform Login
+                </h3>
                 <p style={{color: '#6b7280'}}>Your coaching dashboard and resources</p>
               </div>
             </div>
@@ -659,7 +719,9 @@ const TrainingModules = ({ userData, onComplete }) => {
       case 'certification':
         return (
           <div style={{textAlign: 'center'}}>
-            <div style={{fontSize: '4rem', marginBottom: '24px'}}>🎉</div>
+            <div style={{marginBottom: '24px'}}>
+              <TrophyIcon size={64} color={ICON_COLORS.primary} />
+            </div>
             <h2 style={{fontSize: '2rem', fontWeight: 'bold', marginBottom: '16px', color: '#641432'}}>
               Congratulations!
             </h2>
@@ -742,7 +804,7 @@ const TrainingModules = ({ userData, onComplete }) => {
               >
                 <span>{module.icon}</span>
                 <span>{module.name}</span>
-                {isCompleted && <span>✓</span>}
+                {isCompleted && <CheckIcon size={16} color={ICON_COLORS.white} />}
               </button>
             );
           })}
@@ -833,11 +895,12 @@ function App() {
             Welcome to Ivylevel Elite Coach Portal
           </h1>
 
-          {/* Feature Cards */}
+          {/* Feature Cards - Reordered for proper user journey */}
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px'}}>
-            {/* Enhanced Knowledge Base */}
+            
+            {/* STEP 1: Smart Onboarding - First card for new coaches */}
             <div
-              onClick={() => setView('enhanced-kb')}
+              onClick={() => setView('smart-onboarding')}
               style={{
                 background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
                 color: 'white',
@@ -845,24 +908,43 @@ function App() {
                 padding: '32px',
                 cursor: 'pointer',
                 transition: 'transform 0.2s',
-                boxShadow: '0 20px 40px rgba(255, 74, 35, 0.3)'
+                boxShadow: '0 20px 40px rgba(255, 74, 35, 0.3)',
+                position: 'relative',
+                overflow: 'hidden'
               }}
               onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
-              <div style={{fontSize: '48px', marginBottom: '16px'}}>📚</div>
+              <div style={{
+                position: 'absolute',
+                top: '-20px',
+                right: '-20px',
+                width: '100px',
+                height: '100px',
+                background: 'rgba(255,255,255,0.1)',
+                borderRadius: '50%'
+              }} />
+              <div style={{marginBottom: '16px'}}>
+                <TargetIcon size={48} color={ICON_COLORS.white} />
+              </div>
               <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px'}}>
-                Enhanced Knowledge Base
+                1. Smart Onboarding System
               </h3>
-              <p style={{opacity: 0.9}}>
-                Access 316+ coaching sessions with AI insights and comprehensive analytics
+              <p style={{opacity: 0.9, marginBottom: '12px'}}>
+                Get started quickly with tech setup & essential coaching prep
               </p>
-              <div style={{marginTop: '16px', fontSize: '0.875rem', opacity: 0.8}}>
-                {realData.videos.length} videos available
+              <div style={{
+                background: 'rgba(255,255,255,0.2)',
+                padding: '8px',
+                borderRadius: '4px',
+                fontSize: '0.875rem',
+                marginTop: '16px'
+              }}>
+                <strong>Start Here:</strong> Automated onboarding replaces manual process
               </div>
             </div>
 
-            {/* Coach Training */}
+            {/* STEP 2: Coach Training & Certification */}
             <div
               onClick={() => setView('training')}
               style={{
@@ -883,21 +965,28 @@ function App() {
                 e.currentTarget.style.transform = 'scale(1)';
               }}
             >
-              <div style={{fontSize: '48px', marginBottom: '16px'}}>🎓</div>
+              <div style={{marginBottom: '16px'}}>
+                <TrophyIcon size={48} color={ICON_COLORS.primary} />
+              </div>
               <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px', color: '#641432'}}>
-                Complete Training Program
+                2. Training & Certification
               </h3>
               <p style={{color: '#6b7280'}}>
-                5-module certification program with quizzes and simulations
+                Complete 5 modules with quizzes to prepare for your first session
               </p>
               <div style={{marginTop: '16px', fontSize: '0.875rem', color: '#FF4A23', fontWeight: '600'}}>
-                {userData.role === 'coach' ? 'Continue Training →' : 'View Program →'}
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  {userData.role === 'coach' && userData.progress ? 
+                    `Module ${Object.keys(userData.progress).filter(m => userData.progress[m].completed).length + 1} of 5` : 
+                    'Begin Training'}
+                  <ArrowRightIcon size={16} color={ICON_COLORS.primary} />
+                </span>
               </div>
             </div>
 
-            {/* Smart Onboarding */}
+            {/* STEP 3: Personalized Knowledge Base - Ongoing resource */}
             <div
-              onClick={() => setView('smart-onboarding')}
+              onClick={() => setView('enhanced-kb')}
               style={{
                 background: 'white',
                 borderRadius: '12px',
@@ -916,15 +1005,38 @@ function App() {
                 e.currentTarget.style.transform = 'scale(1)';
               }}
             >
-              <div style={{fontSize: '48px', marginBottom: '16px'}}>🎯</div>
+              <div style={{marginBottom: '16px'}}>
+                <BookIcon size={48} color={ICON_COLORS.primary} />
+              </div>
               <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px', color: '#641432'}}>
-                Smart Onboarding System
+                3. Knowledge Base & Resources
               </h3>
               <p style={{color: '#6b7280'}}>
-                AI-powered resource matching for personalized training
+                Access 316+ sessions with AI insights for ongoing support
               </p>
-              <div style={{marginTop: '16px', fontSize: '0.875rem', color: '#FF4A23', fontWeight: '600'}}>
-                Explore Resources →
+              <div style={{
+                display: 'flex',
+                gap: '8px',
+                marginTop: '16px',
+                fontSize: '0.875rem'
+              }}>
+                <span style={{
+                  background: '#f3f4f6',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  color: '#6b7280'
+                }}>
+                  <StarIcon size={14} color="#6b7280" style={{marginRight: '4px'}} />
+                  AI-Powered
+                </span>
+                <span style={{
+                  background: '#f3f4f6',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  color: '#6b7280'
+                }}>
+                  {realData.videos.length} Sessions
+                </span>
               </div>
             </div>
           </div>
@@ -953,31 +1065,72 @@ function App() {
     );
   }
 
-  // Enhanced Knowledge Base View
+  // Enhanced Knowledge Base View - Now with personalized hero coaches
   if (view === 'enhanced-kb') {
-    return <EnhancedSmartCoachOnboarding onBack={() => setView('home')} />;
+    return (
+      <div style={{minHeight: '100vh', background: '#f9fafb'}}>
+        {/* Header */}
+        <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
+          <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+              <IvylevelLogoSmall />
+              <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Personalized Knowledge Base</div>
+            </div>
+            <button
+              onClick={() => setView('home')}
+              style={{
+                padding: '8px 16px',
+                background: '#FFE5DF',
+                color: '#641432',
+                borderRadius: '6px',
+                border: 'none',
+                cursor: 'pointer',
+                fontWeight: '500'
+              }}
+            >
+              Back to Dashboard
+            </button>
+          </div>
+        </div>
+        <EnhancedPersonalizedKnowledgeBase />
+      </div>
+    );
   }
 
-  // Smart Onboarding View
+  // Smart Onboarding System View - New automated onboarding
   if (view === 'smart-onboarding') {
     return (
-      <div>
-        <button 
-          onClick={() => setView('home')} 
-          style={{
-            padding: '8px 16px', 
-            margin: '16px',
-            background: '#FFE5DF',
-            color: '#641432',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontWeight: '500'
+      <div style={{minHeight: '100vh', background: '#f9fafb'}}>
+        {/* Header */}
+        <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
+          <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+              <IvylevelLogoSmall />
+              <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Smart Onboarding System</div>
+            </div>
+            <button
+              onClick={() => setView('home')}
+              style={{
+                padding: '8px 16px',
+                background: '#FFE5DF',
+                color: '#641432',
+                borderRadius: '6px',
+                border: 'none',
+                cursor: 'pointer',
+                fontWeight: '500'
+              }}
+            >
+              Back to Dashboard
+            </button>
+          </div>
+        </div>
+        <SmartOnboardingSystem 
+          currentUser={userData} 
+          onComplete={() => {
+            alert('Onboarding complete! You\'re ready to start coaching.');
+            setView('home');
           }}
-        >
-          ← Back
-        </button>
-        <SmartCoachOnboarding />
+        />
       </div>
     );
   }

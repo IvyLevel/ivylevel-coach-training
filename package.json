@@ -8,6 +8,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "dotenv": "^17.2.0",
     "firebase": "^11.8.1",
     "firebase-admin": "^11.10.1",
     "googleapis": "^105.0.0",
@@ -42,7 +43,10 @@
     "quality:patches": "node scripts/monitorDataQuality.js patches",
     "critical:batch": "node scripts/criticalSessionIdentifier.js batch",
     "critical:student": "node scripts/criticalSessionIdentifier.js student",
-    "critical:onboard": "node scripts/criticalSessionIdentifier.js onboard"
+    "critical:onboard": "node scripts/criticalSessionIdentifier.js onboard",
+    "reindex:firebase": "node scripts/runReindexing.js",
+    "reindex:validate": "node scripts/validateReindexing.js",
+    "reindex:admin": "node scripts/reindexFirebaseAdmin.js"
   },
   "eslintConfig": {
     "extends": [

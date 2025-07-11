@@ -9,3 +9,4 @@ build
 /credentials/service-account.json
 /credentials/firebase-admin.json
 .vercel
+serviceAccountKey.json

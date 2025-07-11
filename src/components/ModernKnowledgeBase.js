@@ -173,6 +173,11 @@ const ModernKnowledgeBase = () => {
     return ['all', ...Array.from(coaches).sort()];
   };
 
+  const getCategories = () => {
+    const categories = new Set(videos.map(v => v.category));
+    return ['all', ...Array.from(categories)];
+  };
+
   const formatDuration = (duration) => {
     if (!duration || duration === '30:00') return '30m';
     const parts = duration.split(':');
@@ -368,6 +373,27 @@ const ModernKnowledgeBase = () => {
             </div>
             
             <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              style={{
+                padding: '12px 20px',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '8px',
+                color: 'white',
+                fontSize: '0.875rem',
+                outline: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              {getCategories().map(cat => (
+                <option key={cat} value={cat} style={{ background: '#000' }}>
+                  {cat === 'all' ? 'All Types' : cat.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                </option>
+              ))}
+            </select>
+            
+            <select
               value={selectedCoach}
               onChange={(e) => setSelectedCoach(e.target.value)}
               style={{
@@ -466,6 +492,24 @@ const ModernKnowledgeBase = () => {
               }}>
                 {formatDuration(video.duration)}
               </div>
+              
+              {/* Session type badge */}
+              {video.sessionType === 'game_plan' && (
+                <div style={{
+                  position: 'absolute',
+                  top: '8px',
+                  left: '8px',
+                  background: 'rgba(100, 20, 50, 0.9)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
+                  fontSize: '0.7rem',
+                  fontWeight: '600',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}>
+                  Game Plan
+                </div>
+              )}
             </div>
             
             {/* Video info */}

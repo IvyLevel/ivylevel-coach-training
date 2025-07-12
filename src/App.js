@@ -10,7 +10,6 @@ import CoachWelcome from './components/CoachWelcome';
 import AdminDashboard from './components/AdminDashboard';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
 import EmailManager from './components/EmailManager';
-import FirebaseTest from './components/FirebaseTest';
 import { 
   UserIcon, ChartIcon, SendIcon, ICON_COLORS 
 } from './components/Icons';
@@ -131,11 +130,6 @@ function App() {
     );
   }
 
-  // Firebase Test View (for debugging)
-  if (window.location.pathname === '/test-firebase') {
-    return <FirebaseTest />;
-  }
-
   // Login View
   if (view === 'login') {
     return (
@@ -225,20 +219,6 @@ function App() {
               Sign In
             </button>
           </form>
-          
-          {/* Debug link - remove in production */}
-          <div style={{ marginTop: '24px', textAlign: 'center' }}>
-            <a 
-              href="/test-firebase" 
-              style={{ 
-                fontSize: '0.875rem', 
-                color: '#6b7280',
-                textDecoration: 'underline'
-              }}
-            >
-              Test Firebase Connection
-            </a>
-          </div>
         </div>
       </div>
     );
@@ -254,16 +234,89 @@ function App() {
     );
   }
 
-  // Home Dashboard
+  // Home Dashboard - Go directly to video library
   if (view === 'home') {
     return (
       <div style={{minHeight: '100vh', background: '#f9fafb'}}>
-        {/* Header */}
+        {/* Header with admin controls */}
         <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
           <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <IvylevelFullLogo />
-            <div style={{display: 'flex', alignItems: 'center', gap: '24px'}}>
-              <div style={{textAlign: 'right'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
+              {/* Admin Controls in Header */}
+              {userData?.role === 'admin' && (
+                <>
+                  <button
+                    onClick={() => setShowAdminProvisioning(true)}
+                    title="Add New Coach"
+                    style={{
+                      padding: '8px 12px',
+                      background: 'transparent',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      color: '#641432'
+                    }}
+                  >
+                    <UserIcon size={18} color="#641432" />
+                    <span style={{fontSize: '0.875rem'}}>Add Coach</span>
+                  </button>
+                  <button
+                    onClick={() => setShowAdminDashboard(true)}
+                    title="Admin Dashboard"
+                    style={{
+                      padding: '8px 12px',
+                      background: 'transparent',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      color: '#641432'
+                    }}
+                  >
+                    <ChartIcon size={18} color="#641432" />
+                    <span style={{fontSize: '0.875rem'}}>Dashboard</span>
+                  </button>
+                  <button
+                    onClick={() => setShowAnalytics(true)}
+                    title="Analytics"
+                    style={{
+                      padding: '8px',
+                      background: 'transparent',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      color: '#641432'
+                    }}
+                  >
+                    <ChartIcon size={18} color="#3b82f6" />
+                  </button>
+                  <button
+                    onClick={() => setShowEmailManager(true)}
+                    title="Email Manager"
+                    style={{
+                      padding: '8px',
+                      background: 'transparent',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      color: '#641432'
+                    }}
+                  >
+                    <SendIcon size={18} color="#22c55e" />
+                  </button>
+                </>
+              )}
+              <div style={{textAlign: 'right', borderLeft: '1px solid #e5e7eb', paddingLeft: '16px'}}>
                 <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Welcome back</div>
                 <div style={{fontWeight: '600', color: '#641432'}}>{userData?.name}</div>
               </div>
@@ -284,159 +337,19 @@ function App() {
             </div>
           </div>
         </div>
+        
+        {/* Main Video Library */}
+        <ModernKnowledgeBase />
 
-        {/* Main Content */}
-        <div style={{maxWidth: '1200px', margin: '0 auto', padding: '32px 24px'}}>
-          <h1 style={{fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '32px', textAlign: 'center', color: '#641432'}}>
-            IvyLevel Coach Portal
-          </h1>
-
-          {/* Admin Controls */}
-          {userData?.role === 'admin' && (
-            <div style={{ marginBottom: '32px', textAlign: 'center', display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <button
-                onClick={() => setShowAdminProvisioning(true)}
-                style={{
-                  padding: '12px 24px',
-                  background: '#641432',
-                  color: 'white',
-                  borderRadius: '8px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                <UserIcon size={20} color="white" />
-                Add New Coach
-              </button>
-              <button
-                onClick={() => setShowAdminDashboard(true)}
-                style={{
-                  padding: '12px 24px',
-                  background: ICON_COLORS.primary,
-                  color: 'white',
-                  borderRadius: '8px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                <ChartIcon size={20} color="white" />
-                Admin Dashboard
-              </button>
-              <button
-                onClick={() => setShowAnalytics(true)}
-                style={{
-                  padding: '12px 24px',
-                  background: '#3b82f6',
-                  color: 'white',
-                  borderRadius: '8px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                <ChartIcon size={20} color="white" />
-                Analytics
-              </button>
-              <button
-                onClick={() => setShowEmailManager(true)}
-                style={{
-                  padding: '12px 24px',
-                  background: '#22c55e',
-                  color: 'white',
-                  borderRadius: '8px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                <SendIcon size={20} color="white" />
-                Email Manager
-              </button>
-            </div>
-          )}
-
-          {/* Video Library Button */}
-          <div style={{ textAlign: 'center' }}>
-            <button
-              onClick={() => setView('videos')}
-              style={{
-                padding: '16px 32px',
-                background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
-                color: 'white',
-                borderRadius: '12px',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '1.125rem',
-                fontWeight: '600',
-                boxShadow: '0 10px 20px rgba(255, 74, 35, 0.2)'
-              }}
-            >
-              Access Video Library
-            </button>
-          </div>
-        </div>
-
-        {/* Admin Provisioning Modal */}
+        {/* Admin Modals */}
         {showAdminProvisioning && <AdminProvisioning onClose={() => setShowAdminProvisioning(false)} />}
-        
-        {/* Admin Dashboard Modal */}
         {showAdminDashboard && <AdminDashboard onClose={() => setShowAdminDashboard(false)} />}
-        
-        {/* Analytics Dashboard Modal */}
         {showAnalytics && <AnalyticsDashboard onClose={() => setShowAnalytics(false)} />}
-        
-        {/* Email Manager Modal */}
         {showEmailManager && <EmailManager onClose={() => setShowEmailManager(false)} />}
       </div>
     );
   }
 
-  // Video Library View
-  if (view === 'videos') {
-    return (
-      <div style={{minHeight: '100vh', background: '#f9fafb'}}>
-        {/* Header */}
-        <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
-          <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-            <IvylevelFullLogo />
-            <button
-              onClick={() => setView('home')}
-              style={{
-                padding: '8px 16px',
-                background: '#FFE5DF',
-                color: '#641432',
-                borderRadius: '6px',
-                border: 'none',
-                cursor: 'pointer',
-                fontWeight: '500'
-              }}
-            >
-              Back to Dashboard
-            </button>
-          </div>
-        </div>
-        <ModernKnowledgeBase />
-      </div>
-    );
-  }
 
   return null;
 }

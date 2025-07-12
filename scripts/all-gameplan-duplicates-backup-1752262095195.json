@@ -1,0 +1,374 @@
+[
+  {
+    "student": "Iqra",
+    "documentId": "Wt6lsXuY535zgzQPyGoP",
+    "data": {
+      "driveId": "12gbq5XnEc80hqPX0Q0tVMWlO9cpjEw7x",
+      "filename": "Coaching_GamePlan_B_Jenny_Prep_Wk1_2024-03-25_M_6650e18bc7e5e615U_6650e18bc7e5e615.mp4",
+      "fileSize": 0,
+      "folderPath": "Ivylevel Knowledge Base/Students/Iqra/GamePlan_B_Jenny_Iqra_Wk00_2024-03-25_M_6650e18bc7e5e615U_6650e18bc7e5e615",
+      "week": "Week 1",
+      "sessionDate": "2024-03-25",
+      "type": "Coaching",
+      "uploadDate": {
+        "_seconds": 1751884408,
+        "_nanoseconds": 854000000
+      },
+      "modifiedDate": {
+        "_seconds": 1751884408,
+        "_nanoseconds": 854000000
+      },
+      "indexed": true,
+      "source": "google-drive",
+      "viewCount": 0,
+      "lastViewed": null,
+      "tags": [
+        "gameplan",
+        "b",
+        "general coaching"
+      ],
+      "indexedAt": {
+        "_seconds": 1751944066,
+        "_nanoseconds": 481000000
+      },
+      "indexingMethod": "admin_sdk_production",
+      "reindexedAt": {
+        "_seconds": 1752229392,
+        "_nanoseconds": 617000000
+      },
+      "sessionType": "game_plan_session",
+      "category": "game_plan_reports",
+      "parsedWeek": "1",
+      "dataVersion": "4.0",
+      "fixedAt": {
+        "_seconds": 1752230583,
+        "_nanoseconds": 975000000
+      },
+      "originalTitle": "Gameplan & B - Week 1 (2024-03-25)",
+      "parsingConfidence": "high",
+      "parsedCoach": "Jenny",
+      "properTitle": "Game Plan - Iqra - Week 1",
+      "dataSource": "B",
+      "parsedStudent": "Iqra",
+      "originalTitleBeforeFix2": "Gameplan & B - Week 1 (2024-03-25)",
+      "title": "Jenny & Iqra - Game Plan - Week 1 (2024-03-25)",
+      "titleFixed2": true,
+      "titleFixedAt2": {
+        "_seconds": 1752258158,
+        "_nanoseconds": 582000000
+      },
+      "duration": "90:00",
+      "durationFixed": true
+    }
+  },
+  {
+    "student": "Iqra",
+    "documentId": "YWrVm81eYVNwP4m7ghw2",
+    "data": {
+      "driveId": "15ksRi28F8VVBQgVo78MSvJHDQpXF25Ir",
+      "filename": "Coaching_GamePlan_B_Jenny_Prep_Wk1_2024-04-03_M_b7d691c4e1a243e1U_b7d691c4e1a243e1.mp4",
+      "fileSize": 0,
+      "folderPath": "Ivylevel Knowledge Base/Students/Iqra/GamePlan_B_Jenny_Iqra_Wk00_2024-04-03_M_b7d691c4e1a243e1U_b7d691c4e1a243e1",
+      "week": "Week 1",
+      "sessionDate": "2024-04-03",
+      "type": "Coaching",
+      "uploadDate": {
+        "_seconds": 1751884419,
+        "_nanoseconds": 740000000
+      },
+      "modifiedDate": {
+        "_seconds": 1751884419,
+        "_nanoseconds": 740000000
+      },
+      "indexed": true,
+      "source": "google-drive",
+      "viewCount": 0,
+      "lastViewed": null,
+      "tags": [
+        "gameplan",
+        "b",
+        "general coaching"
+      ],
+      "indexedAt": {
+        "_seconds": 1751944066,
+        "_nanoseconds": 239000000
+      },
+      "indexingMethod": "admin_sdk_production",
+      "reindexedAt": {
+        "_seconds": 1752229392,
+        "_nanoseconds": 617000000
+      },
+      "sessionType": "game_plan_session",
+      "category": "game_plan_reports",
+      "parsedWeek": "1",
+      "dataVersion": "4.0",
+      "fixedAt": {
+        "_seconds": 1752230583,
+        "_nanoseconds": 975000000
+      },
+      "originalTitle": "Gameplan & B - Week 1 (2024-04-03)",
+      "parsingConfidence": "high",
+      "parsedCoach": "Jenny",
+      "properTitle": "Game Plan - Iqra - Week 1",
+      "dataSource": "B",
+      "parsedStudent": "Iqra",
+      "originalTitleBeforeFix2": "Gameplan & B - Week 1 (2024-04-03)",
+      "title": "Jenny & Iqra - Game Plan - Week 1 (2024-04-03)",
+      "titleFixed2": true,
+      "titleFixedAt2": {
+        "_seconds": 1752258158,
+        "_nanoseconds": 582000000
+      },
+      "duration": "90:00",
+      "durationFixed": true
+    }
+  },
+  {
+    "student": "Kavya",
+    "documentId": "IU1fwtJAK1zEuHhqGx3e",
+    "data": {
+      "driveId": "1upe1Qd14FTQ69tL8YlllHzjGtS5j1bte",
+      "filename": "Coaching_GamePlan_B_Jenny_Kavya_Wk1_2024-06-23_M_416ea41fb9d93e7eU_416ea41fb9d93e7e.mp4",
+      "fileSize": 0,
+      "folderPath": "Ivylevel Knowledge Base/Students/Kavya/Coaching_GamePlan_B_Jenny_Kavya_Wk1_2024-06-23_M_416ea41fb9d93e7eU_416ea41fb9d93e7e",
+      "week": "Week 1",
+      "sessionDate": "2024-06-23",
+      "type": "Coaching",
+      "uploadDate": {
+        "_seconds": 1751883900,
+        "_nanoseconds": 558000000
+      },
+      "modifiedDate": {
+        "_seconds": 1751883900,
+        "_nanoseconds": 558000000
+      },
+      "indexed": true,
+      "source": "google-drive",
+      "viewCount": 0,
+      "lastViewed": null,
+      "tags": [
+        "gameplan",
+        "b",
+        "general coaching"
+      ],
+      "indexedAt": {
+        "_seconds": 1751944083,
+        "_nanoseconds": 811000000
+      },
+      "indexingMethod": "admin_sdk_production",
+      "reindexedAt": {
+        "_seconds": 1752229392,
+        "_nanoseconds": 617000000
+      },
+      "sessionType": "game_plan_session",
+      "category": "game_plan_reports",
+      "parsedWeek": "1",
+      "dataVersion": "4.0",
+      "fixedAt": {
+        "_seconds": 1752230582,
+        "_nanoseconds": 316000000
+      },
+      "originalTitle": "Gameplan & B - Week 1 (2024-06-23)",
+      "parsingConfidence": "high",
+      "parsedCoach": "Jenny",
+      "properTitle": "Game Plan - Kavya - Week 1",
+      "dataSource": "B",
+      "parsedStudent": "Kavya",
+      "originalTitleBeforeFix2": "Gameplan & B - Week 1 (2024-06-23)",
+      "title": "Jenny & Kavya - Game Plan - Week 1 (2024-06-23)",
+      "titleFixed2": true,
+      "titleFixedAt2": {
+        "_seconds": 1752258158,
+        "_nanoseconds": 582000000
+      },
+      "duration": "90:00",
+      "durationFixed": true
+    }
+  },
+  {
+    "student": "Advay",
+    "documentId": "vi0qLvUQQo93gCnMKRQU",
+    "data": {
+      "driveId": "1fdqGEomUgTaXeCbFzQK55mb8cXzolvDA",
+      "filename": "Coaching_B_unknown_Unknown_Wk01_2025-07-07_M_5b31180545b65a78U_5b31180545b65a78.mp4",
+      "fileSize": 0,
+      "folderPath": "Ivylevel Knowledge Base/Students/Advay/GamePlan_B_Andrew_Advay_Wk00_2024-10-26_M_5b31180545b65a78U_5b31180545b65a78",
+      "week": "Week 01",
+      "sessionDate": "2025-07-07",
+      "type": "Coaching",
+      "uploadDate": {
+        "_seconds": 1751884378,
+        "_nanoseconds": 973000000
+      },
+      "modifiedDate": {
+        "_seconds": 1751884378,
+        "_nanoseconds": 973000000
+      },
+      "indexed": true,
+      "source": "google-drive",
+      "viewCount": 0,
+      "lastViewed": null,
+      "tags": [
+        "b",
+        "unknown student",
+        "general coaching"
+      ],
+      "indexedAt": {
+        "_seconds": 1751944073,
+        "_nanoseconds": 426000000
+      },
+      "indexingMethod": "admin_sdk_production",
+      "reindexedAt": {
+        "_seconds": 1752229393,
+        "_nanoseconds": 762000000
+      },
+      "parsedWeek": "01",
+      "dataVersion": "4.0",
+      "fixedAt": {
+        "_seconds": 1752230583,
+        "_nanoseconds": 975000000
+      },
+      "originalTitle": "B & Unknown Student - Week 01 (2025-07-07)",
+      "parsingConfidence": "high",
+      "parsedCoach": null,
+      "properTitle": "Game Plan - Advay - Week 01",
+      "sessionType": "game_plan_session",
+      "category": "game_plan_reports",
+      "dataSource": "B",
+      "parsedStudent": "Advay",
+      "originalTitleBeforeFix2": "B & Unknown Student - Week 01 (2025-07-07)",
+      "title": "Unknown & Advay - Week 01 (2025-07-07)",
+      "titleFixed2": true,
+      "titleFixedAt2": {
+        "_seconds": 1752258158,
+        "_nanoseconds": 582000000
+      },
+      "duration": "90:00",
+      "durationFixed": true
+    }
+  },
+  {
+    "student": "Aarav",
+    "documentId": "yP4Bgw3dmZfCIMFbENB9",
+    "data": {
+      "driveId": "15D0rECwCVw6hiE-ZHEfVk-yGMuXHZlrT",
+      "filename": "Coaching_GamePlan_B_Jenny_Aarav_Wk1_2024-04-16_M_1493ca711ee27a70U_1493ca711ee27a70.mp4",
+      "fileSize": 0,
+      "folderPath": "Ivylevel Knowledge Base/Students/Aarav/Coaching_GamePlan_B_Jenny_Aarav_Wk1_2024-04-16_M_1493ca711ee27a70U_1493ca711ee27a70",
+      "week": "Week 1",
+      "sessionDate": "2024-04-16",
+      "type": "Coaching",
+      "uploadDate": {
+        "_seconds": 1751899839,
+        "_nanoseconds": 669000000
+      },
+      "modifiedDate": {
+        "_seconds": 1751899839,
+        "_nanoseconds": 669000000
+      },
+      "indexed": true,
+      "source": "google-drive",
+      "viewCount": 0,
+      "lastViewed": null,
+      "tags": [
+        "gameplan",
+        "b",
+        "general coaching"
+      ],
+      "indexedAt": {
+        "_seconds": 1751944050,
+        "_nanoseconds": 81000000
+      },
+      "indexingMethod": "admin_sdk_production",
+      "reindexedAt": {
+        "_seconds": 1752229393,
+        "_nanoseconds": 762000000
+      },
+      "sessionType": "game_plan_session",
+      "category": "game_plan_reports",
+      "parsedWeek": "1",
+      "dataVersion": "4.0",
+      "fixedAt": {
+        "_seconds": 1752230583,
+        "_nanoseconds": 975000000
+      },
+      "originalTitle": "Gameplan & B - Week 1 (2024-04-16)",
+      "parsingConfidence": "high",
+      "parsedCoach": "Jenny",
+      "properTitle": "Game Plan - Aarav - Week 1",
+      "dataSource": "B",
+      "parsedStudent": "Aarav",
+      "originalTitleBeforeFix2": "Gameplan & B - Week 1 (2024-04-16)",
+      "title": "Jenny & Aarav - Game Plan - Week 1 (2024-04-16)",
+      "titleFixed2": true,
+      "titleFixedAt2": {
+        "_seconds": 1752258158,
+        "_nanoseconds": 582000000
+      },
+      "duration": "90:00",
+      "durationFixed": true
+    }
+  },
+  {
+    "student": "Arshiya",
+    "documentId": "fIfZzSPPsBsRWCeCbbpU",
+    "data": {
+      "driveId": "1i2_nRlHhlJvQ_sxHOznPcZrQ7oIUOLXI",
+      "filename": "Coaching_GamePlan_B_Jenny_Arshiya_Wk1_2024-09-14_M_1f13033149ce561dU_1f13033149ce561d.mp4",
+      "fileSize": 0,
+      "folderPath": "Ivylevel Knowledge Base/Students/Arshiya/Coaching_GamePlan_B_Jenny_Arshiya_Wk1_2024-09-14_M_1f13033149ce561dU_1f13033149ce561d",
+      "week": "Week 1",
+      "sessionDate": "2024-09-14",
+      "type": "Coaching",
+      "uploadDate": {
+        "_seconds": 1751881067,
+        "_nanoseconds": 55000000
+      },
+      "modifiedDate": {
+        "_seconds": 1751881067,
+        "_nanoseconds": 55000000
+      },
+      "indexed": true,
+      "source": "google-drive",
+      "viewCount": 0,
+      "lastViewed": null,
+      "tags": [
+        "gameplan",
+        "b",
+        "general coaching"
+      ],
+      "indexedAt": {
+        "_seconds": 1751944134,
+        "_nanoseconds": 336000000
+      },
+      "indexingMethod": "admin_sdk_production",
+      "reindexedAt": {
+        "_seconds": 1752229392,
+        "_nanoseconds": 617000000
+      },
+      "sessionType": "game_plan_session",
+      "category": "game_plan_reports",
+      "parsedWeek": "1",
+      "dataVersion": "4.0",
+      "fixedAt": {
+        "_seconds": 1752230583,
+        "_nanoseconds": 975000000
+      },
+      "originalTitle": "Gameplan & B - Week 1 (2024-09-14)",
+      "parsingConfidence": "high",
+      "parsedCoach": "Jenny",
+      "properTitle": "Game Plan - Arshiya - Week 1",
+      "dataSource": "B",
+      "parsedStudent": "Arshiya",
+      "originalTitleBeforeFix2": "Gameplan & B - Week 1 (2024-09-14)",
+      "title": "Jenny & Arshiya - Game Plan - Week 1 (2024-09-14)",
+      "titleFixed2": true,
+      "titleFixedAt2": {
+        "_seconds": 1752258158,
+        "_nanoseconds": 582000000
+      },
+      "duration": "90:00",
+      "durationFixed": true
+    }
+  }
+]

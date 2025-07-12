@@ -1,39 +1,21 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
-import knowledgeBaseService from './services/knowledgeBaseService';
-import EnhancedSmartCoachOnboarding from './components/EnhancedSmartCoachOnboardingBranded';
-import PersonalizedKnowledgeBase from './components/PersonalizedKnowledgeBase';
-import EnhancedPersonalizedKnowledgeBase from './components/EnhancedPersonalizedKnowledgeBase';
-import DebugKnowledgeBase from './components/DebugKnowledgeBase';
-import SimpleKnowledgeBase from './components/SimpleKnowledgeBase';
-import BeautifulKnowledgeBase from './components/BeautifulKnowledgeBase';
+import React, { useState, useEffect } from 'react';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { doc, getDoc, setDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { auth, db } from './firebase';
+
+// Import all components
 import ModernKnowledgeBase from './components/ModernKnowledgeBase';
-import SmartCoachOnboarding from './components/SmartCoachOnboarding';
-import SmartOnboardingSystem from './components/SmartOnboardingSystem';
-import dataService from './services/dataService';
+import AdminProvisioning from './components/AdminProvisioning';
+import CoachWelcome from './components/CoachWelcome';
+import AdminDashboard from './components/AdminDashboard';
+import AnalyticsDashboard from './components/AnalyticsDashboard';
+import EmailManager from './components/EmailManager';
+import FirebaseTest from './components/FirebaseTest';
 import { 
-  StarIcon, IdentityIcon, PassionIcon, ServiceIcon, 
-  TargetIcon, BookIcon, ComputerIcon, VideoIcon, 
-  TrophyIcon, CheckIcon, PlayIcon, CalendarIcon, 
-  ClockIcon, UserIcon, ChartIcon, DocumentIcon, 
-  DollarIcon, ArrowRightIcon, ArrowLeftIcon, EyeIcon, CloseIcon,
-  ICON_COLORS 
+  UserIcon, ChartIcon, SendIcon, ICON_COLORS 
 } from './components/Icons';
 
 // Brand Logo Components
-const IvylevelLogo = ({ style = {} }) => (
-  <svg style={{height: '48px', ...style}} width="16" height="24" viewBox="0 0 16 24" fill="none">
-    <path d="M8.76172 11.3337V15.0312C9.15499 11.8118 11.8963 9.31723 15.2198 9.31723V16.6968C15.2198 20.294 12.305 23.2088 8.70775 23.2088V21.1076C3.96925 21.0767 0.136818 17.2289 0.136818 12.4865V2.70879C4.89845 2.70879 8.76172 6.56821 8.76172 11.3337Z" fill="#FF4A23"/>
-    <path d="M7.78311 3.32667L8.29085 3.04763C8.9667 2.6762 9.5221 2.11907 9.89143 1.44207L10.1688 0.933643L10.4462 1.43917C10.8178 2.11642 11.3759 2.67289 12.0542 3.04261L12.5618 3.31929L12.057 3.5961C11.3785 3.96814 10.8212 4.52722 10.4513 5.20685L10.1761 5.71233L9.89774 5.20538C9.52591 4.52826 8.96772 3.97196 8.28935 3.60243L7.78311 3.32667Z" fill="#FF4A23"/>
-  </svg>
-);
-
-const IvylevelLogoSmall = ({ style = {} }) => (
-  <svg style={{height: '32px', ...style}} width="16" height="24" viewBox="0 0 16 24" fill="none">
-    <path d="M8.76172 11.3337V15.0312C9.15499 11.8118 11.8963 9.31723 15.2198 9.31723V16.6968C15.2198 20.294 12.305 23.2088 8.70775 23.2088V21.1076C3.96925 21.0767 0.136818 17.2289 0.136818 12.4865V2.70879C4.89845 2.70879 8.76172 6.56821 8.76172 11.3337Z" fill="#FF4A23"/>
-    <path d="M7.78311 3.32667L8.29085 3.04763C8.9667 2.6762 9.5221 2.11907 9.89143 1.44207L10.1688 0.933643L10.4462 1.43917C10.8178 2.11642 11.3759 2.67289 12.0542 3.04261L12.5618 3.31929L12.057 3.5961C11.3785 3.96814 10.8212 4.52722 10.4513 5.20685L10.1761 5.71233L9.89774 5.20538C9.52591 4.52826 8.96772 3.97196 8.28935 3.60243L7.78311 3.32667Z" fill="#FF4A23"/>
-  </svg>
-);
-
 const IvylevelFullLogo = ({ style = {} }) => (
   <svg style={{width: '92px', height: '27px', ...style}} viewBox="0 0 92 27" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M9.34866 11.2647V15.0609C9.75237 11.7555 12.5671 9.19429 15.9792 9.19429V16.771C15.9792 20.4644 12.9866 23.457 9.29325 23.457V21.2997C4.42835 21.2681 0.493347 17.3173 0.493347 12.4482V2.4093C5.382 2.4093 9.34866 6.37184 9.34866 11.2647Z" fill="#FE4A22"/>
@@ -50,832 +32,243 @@ const IvylevelFullLogo = ({ style = {} }) => (
   </svg>
 );
 
-// Mock Auth Context - Simulates Firebase Auth
-export const AuthContext = createContext({});
-
-// Mock database - stores data in memory during session
-const mockDatabase = {
-  users: {
-    'admin-uid': {
-      id: 'admin-uid',
-      email: 'admin@ivylevel.com',
-      name: 'Admin User',
-      role: 'admin',
-      createdAt: new Date().toISOString()
-    },
-    'kelvin-uid': {
-      id: 'kelvin-uid',
-      email: 'kelvin@ivylevel.com',
-      name: 'Kelvin Nguyen',
-      role: 'coach',
-      status: 'active',
-      createdAt: new Date().toISOString(),
-      student: {
-        name: 'Abhi',
-        grade: '11th Grade',
-        focusArea: 'Computer Science & Business',
-        culturalBackground: 'South Asian',
-        school: 'High School',
-        targetSchools: ['MIT', 'Stanford', 'Harvard', 'Princeton'],
-        strengths: ['Math competitions', 'Robotics', 'Leadership'],
-        challenges: ['Essay writing', 'Time management']
-      },
-      progress: {
-        welcome: { completed: false },
-        mastery: { completed: false, score: 0 },
-        technical: { completed: false },
-        simulation: { completed: false, score: 0 },
-        certification: { completed: false }
-      }
-    },
-    'noor-uid': {
-      id: 'noor-uid',
-      email: 'noor@ivylevel.com',
-      name: 'Noor Patel',
-      role: 'coach',
-      status: 'active',
-      createdAt: new Date().toISOString(),
-      students: [
-        {
-          name: 'Beya',
-          grade: '11th Grade',
-          focusArea: 'Liberal Arts',
-          culturalBackground: 'Middle Eastern',
-          targetSchools: ['Yale', 'Columbia', 'Brown'],
-          strengths: ['Creative writing', 'Cultural awareness'],
-          challenges: ['STEM courses', 'Standardized tests']
-        },
-        {
-          name: 'Hiba',
-          grade: '10th Grade',
-          focusArea: 'Pre-med',
-          culturalBackground: 'Middle Eastern',
-          targetSchools: ['Johns Hopkins', 'Duke', 'Northwestern'],
-          strengths: ['Science olympiads', 'Community service'],
-          challenges: ['Leadership roles', 'Public speaking']
-        }
-      ],
-      student: {
-        name: 'Beya & Hiba',
-        grade: '11th & 10th Grade',
-        focusArea: 'Liberal Arts & Pre-med',
-        culturalBackground: 'Middle Eastern'
-      },
-      progress: {
-        welcome: { completed: false },
-        mastery: { completed: false, score: 0 },
-        technical: { completed: false },
-        simulation: { completed: false, score: 0 },
-        certification: { completed: false }
-      }
-    },
-    'jamie-uid': {
-      id: 'jamie-uid',
-      email: 'jamie@ivylevel.com',
-      name: 'Jamie Thompson',
-      role: 'coach',
-      status: 'active',
-      createdAt: new Date().toISOString(),
-      student: {
-        name: 'Zainab',
-        grade: '11th Grade',
-        focusArea: 'BioMed',
-        culturalBackground: 'South Asian',
-        school: 'High School',
-        targetSchools: ['Johns Hopkins', 'Duke', 'UPenn', 'Cornell'],
-        strengths: ['Biology research', 'Volunteer work'],
-        challenges: ['Average academics', 'Confidence', 'Essay writing']
-      },
-      progress: {
-        welcome: { completed: false },
-        mastery: { completed: false, score: 0 },
-        technical: { completed: false },
-        simulation: { completed: false, score: 0 },
-        certification: { completed: false }
-      }
-    }
-  },
-  credentials: {
-    'admin@ivylevel.com': { password: 'Admin123!', uid: 'admin-uid' },
-    'kelvin@ivylevel.com': { password: 'Coach123!', uid: 'kelvin-uid' },
-    'noor@ivylevel.com': { password: 'Coach123!', uid: 'noor-uid' },
-    'jamie@ivylevel.com': { password: 'Coach123!', uid: 'jamie-uid' }
-  }
-};
-
-const AuthProvider = ({ children }) => {
+function App() {
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  
-  const login = async (email, password) => {
-    try {
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const creds = mockDatabase.credentials[email];
-      if (!creds || creds.password !== password) {
-        return { success: false, error: 'Invalid email or password' };
+  const [loading, setLoading] = useState(true);
+  const [view, setView] = useState('login');
+  const [showAdminProvisioning, setShowAdminProvisioning] = useState(false);
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [showEmailManager, setShowEmailManager] = useState(false);
+  const [loginError, setLoginError] = useState('');
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        setUser(firebaseUser);
+        // Load user data from Firestore
+        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+        if (userDoc.exists()) {
+          setUserData({ id: firebaseUser.uid, ...userDoc.data() });
+          
+          // Check if coach needs welcome experience
+          const userData = userDoc.data();
+          if (userData.role === 'coach' && userData.status === 'provisioned' && !userData.onboardingStarted) {
+            setView('coach-welcome');
+          } else {
+            setView('home');
+          }
+        } else {
+          // Create user document if it doesn't exist
+          const newUserData = {
+            email: firebaseUser.email,
+            name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
+            role: firebaseUser.email.includes('admin') ? 'admin' : 'coach',
+            createdAt: new Date().toISOString()
+          };
+          await setDoc(doc(db, 'users', firebaseUser.uid), newUserData);
+          setUserData({ id: firebaseUser.uid, ...newUserData });
+          setView('home');
+        }
+      } else {
+        setUser(null);
+        setUserData(null);
+        setView('login');
       }
-      
-      const userInfo = mockDatabase.users[creds.uid];
-      setUser({ uid: creds.uid, email: email });
-      setUserData(userInfo);
-      
-      // Update last login
-      mockDatabase.users[creds.uid].lastLogin = new Date().toISOString();
-      
-      return { success: true };
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const handleLogin = async (email, password) => {
+    try {
+      setLoginError('');
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      return { success: false, error: error.message };
+      setLoginError(error.message);
     }
   };
-  
-  const logout = async () => {
-    setUser(null);
-    setUserData(null);
-  };
-  
-  const updateProgress = (moduleId, data) => {
-    if (user && userData) {
-      mockDatabase.users[user.uid].progress[moduleId] = {
-        ...mockDatabase.users[user.uid].progress[moduleId],
-        ...data
-      };
-      setUserData({
-        ...userData,
-        progress: mockDatabase.users[user.uid].progress
-      });
-    }
-  };
-  
-  return (
-    <AuthContext.Provider value={{ 
-      user, 
-      userData, 
-      loading, 
-      login, 
-      logout,
-      updateProgress
-    }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
 
-const useAuth = () => useContext(AuthContext);
-
-// Login Page Component - Polished UI with Brand Colors
-const LoginPage = ({ onLogin }) => {
-  const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  
-  // Test credentials for easy access
-  const testCredentials = [
-    { email: 'admin@ivylevel.com', password: 'Admin123!', role: 'Admin' },
-    { email: 'kelvin@ivylevel.com', password: 'Coach123!', role: 'Coach (Kelvin)' },
-    { email: 'noor@ivylevel.com', password: 'Coach123!', role: 'Coach (Noor)' },
-    { email: 'jamie@ivylevel.com', password: 'Coach123!', role: 'Coach (Jamie)' }
-  ];
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    
-    const result = await login(email, password);
-    
-    if (result.success) {
-      onLogin();
-    } else {
-      setError(result.error);
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setView('login');
+    } catch (error) {
+      console.error('Logout error:', error);
     }
-    
-    setLoading(false);
   };
-  
-  const [showPassword, setShowPassword] = useState(false);
-  
-  return (
-    <div style={{minHeight: '100vh', background: 'linear-gradient(135deg, #FFE5DF, #F5E8E5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px'}}>
-      <div style={{maxWidth: '960px', width: '100%', display: 'flex', gap: '48px', alignItems: 'center'}}>
-        {/* Left Side - Login Form */}
-        <div style={{flex: 1, background: 'white', borderRadius: '16px', padding: '48px', boxShadow: '0 20px 40px rgba(100,20,50,0.1)'}}>
-          <div style={{textAlign: 'center', marginBottom: '32px'}}>
+
+  if (loading) {
+    return (
+      <div style={{ 
+        minHeight: '100vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        background: '#f8f9fa'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: '48px',
+            height: '48px',
+            border: '3px solid rgba(255, 74, 35, 0.1)',
+            borderTopColor: ICON_COLORS.primary,
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 16px'
+          }} />
+          <p>Loading...</p>
+        </div>
+        <style>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // Firebase Test View (for debugging)
+  if (window.location.pathname === '/test-firebase') {
+    return <FirebaseTest />;
+  }
+
+  // Login View
+  if (view === 'login') {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #FFE5DF 0%, #FFF9F7 100%)'
+      }}>
+        <div style={{
+          background: 'white',
+          padding: '48px',
+          borderRadius: '16px',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+          width: '100%',
+          maxWidth: '400px'
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
             <IvylevelFullLogo style={{ margin: '0 auto 24px' }} />
-            <h1 style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827', marginBottom: '8px'}}>Welcome Back</h1>
-            <p style={{color: '#6b7280'}}>Sign in to your Ivylevel Elite Coach account</p>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#641432' }}>
+              Welcome Back
+            </h2>
           </div>
           
-          <form onSubmit={handleSubmit}>
-            {error && (
-              <div style={{background: '#fee2e2', color: '#dc2626', padding: '12px', borderRadius: '8px', marginBottom: '16px', fontSize: '0.875rem'}}>
-                {error}
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            const email = e.target.email.value;
+            const password = e.target.password.value;
+            handleLogin(email, password);
+          }}>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+              style={{
+                width: '100%',
+                padding: '12px',
+                marginBottom: '16px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                fontSize: '1rem'
+              }}
+            />
+            
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+              style={{
+                width: '100%',
+                padding: '12px',
+                marginBottom: '24px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                fontSize: '1rem'
+              }}
+            />
+            
+            {loginError && (
+              <div style={{
+                color: '#ef4444',
+                fontSize: '0.875rem',
+                marginBottom: '16px',
+                textAlign: 'center'
+              }}>
+                {loginError}
               </div>
             )}
-            
-            <div style={{marginBottom: '20px'}}>
-              <label style={{display: 'block', marginBottom: '8px', fontWeight: '500', color: '#374151'}}>
-                Email Address
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
-                  outline: 'none',
-                  transition: 'border-color 0.2s'
-                }}
-                onFocus={(e) => e.target.style.borderColor = '#FF4A23'}
-                onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
-              />
-            </div>
-            
-            <div style={{marginBottom: '24px'}}>
-              <label style={{display: 'block', marginBottom: '8px', fontWeight: '500', color: '#374151'}}>
-                Password
-              </label>
-              <div style={{position: 'relative'}}>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    paddingRight: '48px',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px',
-                    fontSize: '1rem',
-                    outline: 'none',
-                    transition: 'border-color 0.2s'
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = '#FF4A23'}
-                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: 'absolute',
-                    right: '12px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    color: '#6b7280'
-                  }}
-                >
-                  {showPassword ? <CloseIcon size={20} color={ICON_COLORS.default} /> : <EyeIcon size={20} color={ICON_COLORS.default} />}
-                </button>
-              </div>
-            </div>
             
             <button
               type="submit"
-              disabled={loading}
               style={{
                 width: '100%',
-                padding: '16px',
-                background: loading ? '#9ca3af' : 'linear-gradient(135deg, #FF4A23, #FF6B47)',
+                padding: '12px',
+                background: ICON_COLORS.primary,
                 color: 'white',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                fontSize: '1.125rem',
                 border: 'none',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                transition: 'all 0.2s ease',
-                boxShadow: loading ? 'none' : '0 10px 20px rgba(255, 74, 35, 0.3)'
+                borderRadius: '8px',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer'
               }}
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              Sign In
             </button>
           </form>
           
-          {/* Test Credentials */}
-          <div style={{marginTop: '32px', borderTop: '1px solid #e5e7eb', paddingTop: '24px'}}>
-            <p style={{fontSize: '0.875rem', color: '#6b7280', marginBottom: '12px'}}>Demo Accounts:</p>
-            <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
-              {testCredentials.map((cred, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    setEmail(cred.email);
-                    setPassword(cred.password);
-                  }}
-                  style={{
-                    padding: '8px 12px',
-                    background: '#FFE5DF',
-                    borderRadius: '6px',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '0.75rem',
-                    color: '#641432',
-                    textAlign: 'left',
-                    transition: 'background 0.2s'
-                  }}
-                  onMouseEnter={(e) => e.target.style.background = '#FFC9BD'}
-                  onMouseLeave={(e) => e.target.style.background = '#FFE5DF'}
-                >
-                  <div style={{fontWeight: '600'}}>{cred.role}</div>
-                  <div>{cred.email} / {cred.password}</div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-        
-        {/* Right Side - Branding */}
-        <div style={{flex: 1}}>
-          <h2 style={{fontSize: '2.5rem', fontWeight: 'bold', color: '#641432', marginBottom: '16px'}}>
-            Ivylevel Elite Coach Portal
-          </h2>
-          <p style={{fontSize: '1.125rem', color: '#6b7280', lineHeight: '1.6', marginBottom: '32px'}}>
-            Join the exclusive network of coaches helping students achieve their Ivy League dreams.
-          </p>
-          
-          <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
-            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <div style={{width: '48px', height: '48px', background: '#FFE5DF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <BookIcon size={24} color={ICON_COLORS.primary} />
-              </div>
-              <div>
-                <h3 style={{fontWeight: '600', color: '#111827'}}>Comprehensive Training</h3>
-                <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Master the Ivylevel methodology in 48 hours</p>
-              </div>
-            </div>
-            
-            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <div style={{width: '48px', height: '48px', background: '#FFE5DF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <ServiceIcon size={24} color={ICON_COLORS.primary} />
-              </div>
-              <div>
-                <h3 style={{fontWeight: '600', color: '#111827'}}>Impact Lives</h3>
-                <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Guide students to their dream colleges</p>
-              </div>
-            </div>
-            
-            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <div style={{width: '48px', height: '48px', background: '#FFE5DF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <DollarIcon size={24} color={ICON_COLORS.primary} />
-              </div>
-              <div>
-                <h3 style={{fontWeight: '600', color: '#111827'}}>Earn $25,000+</h3>
-                <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Build a rewarding coaching career</p>
-              </div>
-            </div>
+          {/* Debug link - remove in production */}
+          <div style={{ marginTop: '24px', textAlign: 'center' }}>
+            <a 
+              href="/test-firebase" 
+              style={{ 
+                fontSize: '0.875rem', 
+                color: '#6b7280',
+                textDecoration: 'underline'
+              }}
+            >
+              Test Firebase Connection
+            </a>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-// Training Module Components
-const TrainingModules = ({ userData, onComplete }) => {
-  const { updateProgress } = useAuth();
-  const [currentModule, setCurrentModule] = useState(0);
-  const [moduleData, setModuleData] = useState({});
-  
-  const modules = [
-    { id: 'welcome', name: 'Welcome & Commitment', icon: <TargetIcon size={20} color={ICON_COLORS.default} /> },
-    { id: 'mastery', name: 'Student Mastery', icon: <BookIcon size={20} color={ICON_COLORS.default} /> },
-    { id: 'technical', name: 'Technical Setup', icon: <ComputerIcon size={20} color={ICON_COLORS.default} /> },
-    { id: 'simulation', name: 'Session Practice', icon: <VideoIcon size={20} color={ICON_COLORS.default} /> },
-    { id: 'certification', name: 'Final Certification', icon: <TrophyIcon size={20} color={ICON_COLORS.default} /> }
-  ];
-  
-  const handleModuleComplete = (moduleId, data = {}) => {
-    updateProgress(moduleId, { completed: true, ...data });
-    if (currentModule < modules.length - 1) {
-      setCurrentModule(currentModule + 1);
-    } else {
-      onComplete();
-    }
-  };
-  
-  // Sample quiz questions for mastery module
-  const masteryQuestions = [
-    {
-      id: 1,
-      question: "What is the primary goal of the IvyLevel coaching methodology?",
-      options: [
-        "To guarantee admission to Ivy League schools",
-        "To help students discover and articulate their unique value proposition",
-        "To write essays for students",
-        "To increase test scores only"
-      ],
-      correct: 1
-    },
-    {
-      id: 2,
-      question: "When working with a pre-med student, what should be your primary focus?",
-      options: [
-        "Only improving their science grades",
-        "Building a compelling narrative around their healthcare passion and experiences",
-        "Telling them to volunteer at any hospital",
-        "Focusing solely on MCAT preparation"
-      ],
-      correct: 1
-    },
-    {
-      id: 3,
-      question: "How should you handle cultural differences in coaching sessions?",
-      options: [
-        "Ignore them and treat all students the same",
-        "Actively listen and incorporate cultural perspectives into the student's narrative",
-        "Tell students to hide their cultural background",
-        "Only focus on American values"
-      ],
-      correct: 1
-    }
-  ];
-  
-  const [quizAnswers, setQuizAnswers] = useState({});
-  const [showQuizResults, setShowQuizResults] = useState(false);
-  
-  const calculateQuizScore = () => {
-    let correct = 0;
-    masteryQuestions.forEach(q => {
-      if (quizAnswers[q.id] === q.correct) correct++;
-    });
-    return Math.round((correct / masteryQuestions.length) * 100);
-  };
-  
-  const renderModule = () => {
-    const module = modules[currentModule];
-    
-    switch (module.id) {
-      case 'welcome':
-        return (
-          <div>
-            <h2 style={{fontSize: '2rem', fontWeight: 'bold', marginBottom: '24px', color: '#641432'}}>
-              Welcome to IvyLevel Elite Coaching
-            </h2>
-            <div style={{background: 'linear-gradient(135deg, #FF4A23, #FF6B47)', borderRadius: '12px', padding: '32px', color: 'white', marginBottom: '24px'}}>
-              <p style={{fontSize: '1.125rem', lineHeight: '1.6', marginBottom: '16px'}}>
-                You're about to embark on a transformative journey that will impact countless student lives.
-              </p>
-              <p style={{fontSize: '1.125rem', lineHeight: '1.6'}}>
-                Your assigned student, <strong>{userData.student.name}</strong>, is counting on your expertise 
-                to guide them to their dream college.
-              </p>
-            </div>
-            <button
-              onClick={() => handleModuleComplete('welcome')}
-              style={{
-                padding: '16px 32px',
-                background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
-                color: 'white',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                fontSize: '1.125rem',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              I'm Ready to Make a Difference
-            </button>
-          </div>
-        );
-        
-      case 'mastery':
-        return (
-          <div>
-            <h2 style={{fontSize: '2rem', fontWeight: 'bold', marginBottom: '24px', color: '#641432'}}>
-              Student Mastery Assessment
-            </h2>
-            {!showQuizResults ? (
-              <div>
-                {masteryQuestions.map((q, idx) => (
-                  <div key={q.id} style={{marginBottom: '24px', padding: '24px', background: '#f9fafb', borderRadius: '8px'}}>
-                    <p style={{fontWeight: '600', marginBottom: '16px'}}>{idx + 1}. {q.question}</p>
-                    {q.options.map((option, optIdx) => (
-                      <label key={optIdx} style={{display: 'block', marginBottom: '8px', cursor: 'pointer'}}>
-                        <input
-                          type="radio"
-                          name={`question-${q.id}`}
-                          value={optIdx}
-                          onChange={() => setQuizAnswers({...quizAnswers, [q.id]: optIdx})}
-                          style={{marginRight: '8px'}}
-                        />
-                        {option}
-                      </label>
-                    ))}
-                  </div>
-                ))}
-                <button
-                  onClick={() => {
-                    const score = calculateQuizScore();
-                    setShowQuizResults(true);
-                    handleModuleComplete('mastery', { score });
-                  }}
-                  disabled={Object.keys(quizAnswers).length < masteryQuestions.length}
-                  style={{
-                    padding: '16px 32px',
-                    background: Object.keys(quizAnswers).length < masteryQuestions.length ? '#9ca3af' : 'linear-gradient(135deg, #FF4A23, #FF6B47)',
-                    color: 'white',
-                    borderRadius: '8px',
-                    fontWeight: 'bold',
-                    fontSize: '1.125rem',
-                    border: 'none',
-                    cursor: Object.keys(quizAnswers).length < masteryQuestions.length ? 'not-allowed' : 'pointer'
-                  }}
-                >
-                  Submit Assessment
-                </button>
-              </div>
-            ) : (
-              <div style={{textAlign: 'center'}}>
-                <div style={{fontSize: '3rem', fontWeight: 'bold', color: calculateQuizScore() >= 80 ? '#FF4A23' : '#dc2626', marginBottom: '16px'}}>
-                  {calculateQuizScore()}%
-                </div>
-                <p style={{fontSize: '1.125rem', marginBottom: '24px'}}>
-                  {calculateQuizScore() >= 80 ? 'Excellent work! You understand our methodology.' : 'Please review the materials and try again.'}
-                </p>
-                <button
-                  onClick={() => {
-                    if (calculateQuizScore() >= 80) {
-                      setCurrentModule(currentModule + 1);
-                    } else {
-                      setShowQuizResults(false);
-                      setQuizAnswers({});
-                    }
-                  }}
-                  style={{
-                    padding: '16px 32px',
-                    background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
-                    color: 'white',
-                    borderRadius: '8px',
-                    fontWeight: 'bold',
-                    fontSize: '1.125rem',
-                    border: 'none',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {calculateQuizScore() >= 80 ? 'Continue to Next Module' : 'Try Again'}
-                </button>
-              </div>
-            )}
-          </div>
-        );
-        
-      case 'technical':
-        return (
-          <div>
-            <h2 style={{fontSize: '2rem', fontWeight: 'bold', marginBottom: '24px', color: '#641432'}}>
-              Technical Setup & Tools
-            </h2>
-            <div style={{display: 'grid', gap: '16px', marginBottom: '24px'}}>
-              <div style={{padding: '24px', background: '#f9fafb', borderRadius: '8px', border: '2px solid #e5e7eb'}}>
-                <h3 style={{fontWeight: '600', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                  <CheckIcon size={20} color={ICON_COLORS.success} /> Zoom Professional Account
-                </h3>
-                <p style={{color: '#6b7280'}}>Required for extended coaching sessions</p>
-              </div>
-              <div style={{padding: '24px', background: '#f9fafb', borderRadius: '8px', border: '2px solid #e5e7eb'}}>
-                <h3 style={{fontWeight: '600', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                  <CheckIcon size={20} color={ICON_COLORS.success} /> Google Workspace Access
-                </h3>
-                <p style={{color: '#6b7280'}}>For collaborative document editing</p>
-              </div>
-              <div style={{padding: '24px', background: '#f9fafb', borderRadius: '8px', border: '2px solid #e5e7eb'}}>
-                <h3 style={{fontWeight: '600', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                  <CheckIcon size={20} color={ICON_COLORS.success} /> IvyLevel Platform Login
-                </h3>
-                <p style={{color: '#6b7280'}}>Your coaching dashboard and resources</p>
-              </div>
-            </div>
-            <button
-              onClick={() => handleModuleComplete('technical')}
-              style={{
-                padding: '16px 32px',
-                background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
-                color: 'white',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                fontSize: '1.125rem',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              All Systems Ready
-            </button>
-          </div>
-        );
-        
-      case 'simulation':
-        return (
-          <div>
-            <h2 style={{fontSize: '2rem', fontWeight: 'bold', marginBottom: '24px', color: '#641432'}}>
-              Practice Session Simulation
-            </h2>
-            <div style={{background: '#FFE5DF', borderRadius: '12px', padding: '24px', marginBottom: '24px'}}>
-              <p style={{fontWeight: '600', marginBottom: '16px'}}>Scenario:</p>
-              <p style={{lineHeight: '1.6'}}>
-                {userData.student.name} feels overwhelmed by the college application process and doesn't know where to start. 
-                They have strong academics but struggle to articulate their unique story.
-              </p>
-            </div>
-            <div style={{marginBottom: '24px'}}>
-              <p style={{fontWeight: '600', marginBottom: '8px'}}>How would you approach this first session?</p>
-              <textarea
-                placeholder="Describe your approach..."
-                style={{
-                  width: '100%',
-                  minHeight: '150px',
-                  padding: '12px',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
-                  fontSize: '1rem'
-                }}
-              />
-            </div>
-            <button
-              onClick={() => handleModuleComplete('simulation', { score: 85 })}
-              style={{
-                padding: '16px 32px',
-                background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
-                color: 'white',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                fontSize: '1.125rem',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              Submit Response
-            </button>
-          </div>
-        );
-        
-      case 'certification':
-        return (
-          <div style={{textAlign: 'center'}}>
-            <div style={{marginBottom: '24px'}}>
-              <TrophyIcon size={64} color={ICON_COLORS.primary} />
-            </div>
-            <h2 style={{fontSize: '2rem', fontWeight: 'bold', marginBottom: '16px', color: '#641432'}}>
-              Congratulations!
-            </h2>
-            <p style={{fontSize: '1.125rem', marginBottom: '32px', color: '#6b7280'}}>
-              You are now a Certified IvyLevel Elite Coach
-            </p>
-            <div style={{background: 'linear-gradient(135deg, #FF4A23, #FF6B47)', borderRadius: '12px', padding: '32px', color: 'white', marginBottom: '24px', maxWidth: '400px', margin: '0 auto 24px'}}>
-              <p style={{fontWeight: '600', marginBottom: '8px'}}>Your First Student:</p>
-              <p style={{fontSize: '1.25rem', fontWeight: 'bold'}}>{userData.student.name}</p>
-              <p>{userData.student.grade} • {userData.student.focusArea}</p>
-            </div>
-            <button
-              onClick={() => handleModuleComplete('certification')}
-              style={{
-                padding: '16px 32px',
-                background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
-                color: 'white',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                fontSize: '1.125rem',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              Begin Coaching Journey
-            </button>
-          </div>
-        );
-        
-      default:
-        return null;
-    }
-  };
-  
-  const completedCount = Object.values(userData.progress || {}).filter(p => p.completed).length;
-  const progressPercent = (completedCount / modules.length) * 100;
-  
-  return (
-    <div style={{minHeight: '100vh', background: '#f9fafb', padding: '24px'}}>
-      <div style={{maxWidth: '800px', margin: '0 auto'}}>
-        {/* Progress Bar */}
-        <div style={{marginBottom: '32px'}}>
-          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px'}}>
-            <h3 style={{fontWeight: '600', color: '#374151'}}>Training Progress</h3>
-            <span style={{fontSize: '0.875rem', color: '#6b7280'}}>{completedCount} of {modules.length} modules</span>
-          </div>
-          <div style={{height: '8px', background: '#e5e7eb', borderRadius: '4px', overflow: 'hidden'}}>
-            <div style={{
-              height: '100%',
-              background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
-              width: `${progressPercent}%`,
-              transition: 'width 0.3s ease'
-            }} />
-          </div>
-        </div>
-        
-        {/* Module Navigation */}
-        <div style={{display: 'flex', gap: '8px', marginBottom: '32px', overflowX: 'auto'}}>
-          {modules.map((module, idx) => {
-            const isCompleted = userData.progress?.[module.id]?.completed;
-            const isCurrent = idx === currentModule;
-            
-            return (
-              <button
-                key={module.id}
-                onClick={() => isCompleted || isCurrent ? setCurrentModule(idx) : null}
-                style={{
-                  padding: '8px 16px',
-                  background: isCompleted ? '#10b981' : isCurrent ? '#FF4A23' : '#e5e7eb',
-                  color: isCompleted || isCurrent ? 'white' : '#6b7280',
-                  borderRadius: '8px',
-                  border: 'none',
-                  cursor: isCompleted || isCurrent ? 'pointer' : 'not-allowed',
-                  fontSize: '0.875rem',
-                  whiteSpace: 'nowrap',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                <span>{module.icon}</span>
-                <span>{module.name}</span>
-                {isCompleted && <CheckIcon size={16} color={ICON_COLORS.white} />}
-              </button>
-            );
-          })}
-        </div>
-        
-        {/* Module Content */}
-        <div style={{background: 'white', borderRadius: '12px', padding: '32px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)'}}>
-          {renderModule()}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Main App Component
-function App() {
-  const { user, userData, logout } = useAuth();
-  const [view, setView] = useState('home');
-  const [realData, setRealData] = useState({
-    coaches: [],
-    videos: [],
-    stats: {}
-  });
-
-  useEffect(() => {
-    loadRealData();
-  }, []);
-
-  const loadRealData = async () => {
-    try {
-      const [coaches, stats, videos] = await Promise.all([
-        dataService.getCoaches(),
-        dataService.getPlatformStats(),
-        dataService.getIndexedVideos()
-      ]);
-      setRealData({ coaches, videos, stats });
-    } catch (error) {
-      console.error('Error loading data:', error);
-    }
-  };
-
-  if (!user) {
-    return <LoginPage onLogin={() => setView('home')} />;
+    );
   }
 
-  // Coach Training View
-  if (view === 'training' && userData.role === 'coach') {
-    return <TrainingModules userData={userData} onComplete={() => setView('home')} />;
+  // Coach Welcome View
+  if (view === 'coach-welcome') {
+    return (
+      <CoachWelcome 
+        coachId={userData?.id}
+        onComplete={() => setView('home')}
+      />
+    );
   }
 
-  // Home Dashboard - Enhanced with new features
+  // Home Dashboard
   if (view === 'home') {
     return (
       <div style={{minHeight: '100vh', background: '#f9fafb'}}>
         {/* Header */}
         <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
           <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <IvylevelFullLogo />
-            </div>
+            <IvylevelFullLogo />
             <div style={{display: 'flex', alignItems: 'center', gap: '24px'}}>
               <div style={{textAlign: 'right'}}>
                 <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Welcome back</div>
-                <div style={{fontWeight: '600', color: '#641432'}}>{userData.name}</div>
+                <div style={{fontWeight: '600', color: '#641432'}}>{userData?.name}</div>
               </div>
               <button
-                onClick={() => logout()}
+                onClick={handleLogout}
                 style={{
                   padding: '8px 16px',
                   background: '#FFE5DF',
@@ -895,196 +288,135 @@ function App() {
         {/* Main Content */}
         <div style={{maxWidth: '1200px', margin: '0 auto', padding: '32px 24px'}}>
           <h1 style={{fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '32px', textAlign: 'center', color: '#641432'}}>
-            Welcome to Ivylevel Elite Coach Portal
+            IvyLevel Coach Portal
           </h1>
 
-          {/* Feature Cards - Reordered for proper user journey */}
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px'}}>
-            
-            {/* STEP 1: Smart Onboarding - First card for new coaches */}
-            <div
-              onClick={() => setView('smart-onboarding')}
+          {/* Admin Controls */}
+          {userData?.role === 'admin' && (
+            <div style={{ marginBottom: '32px', textAlign: 'center', display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setShowAdminProvisioning(true)}
+                style={{
+                  padding: '12px 24px',
+                  background: '#641432',
+                  color: 'white',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                <UserIcon size={20} color="white" />
+                Add New Coach
+              </button>
+              <button
+                onClick={() => setShowAdminDashboard(true)}
+                style={{
+                  padding: '12px 24px',
+                  background: ICON_COLORS.primary,
+                  color: 'white',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                <ChartIcon size={20} color="white" />
+                Admin Dashboard
+              </button>
+              <button
+                onClick={() => setShowAnalytics(true)}
+                style={{
+                  padding: '12px 24px',
+                  background: '#3b82f6',
+                  color: 'white',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                <ChartIcon size={20} color="white" />
+                Analytics
+              </button>
+              <button
+                onClick={() => setShowEmailManager(true)}
+                style={{
+                  padding: '12px 24px',
+                  background: '#22c55e',
+                  color: 'white',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                <SendIcon size={20} color="white" />
+                Email Manager
+              </button>
+            </div>
+          )}
+
+          {/* Video Library Button */}
+          <div style={{ textAlign: 'center' }}>
+            <button
+              onClick={() => setView('videos')}
               style={{
+                padding: '16px 32px',
                 background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
                 color: 'white',
                 borderRadius: '12px',
-                padding: '32px',
+                border: 'none',
                 cursor: 'pointer',
-                transition: 'transform 0.2s',
-                boxShadow: '0 20px 40px rgba(255, 74, 35, 0.3)',
-                position: 'relative',
-                overflow: 'hidden'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              <div style={{
-                position: 'absolute',
-                top: '-20px',
-                right: '-20px',
-                width: '100px',
-                height: '100px',
-                background: 'rgba(255,255,255,0.1)',
-                borderRadius: '50%'
-              }} />
-              <div style={{marginBottom: '16px'}}>
-                <TargetIcon size={48} color={ICON_COLORS.white} />
-              </div>
-              <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px'}}>
-                1. Smart Onboarding System
-              </h3>
-              <p style={{opacity: 0.9, marginBottom: '12px'}}>
-                Get started quickly with tech setup & essential coaching prep
-              </p>
-              <div style={{
-                background: 'rgba(255,255,255,0.2)',
-                padding: '8px',
-                borderRadius: '4px',
-                fontSize: '0.875rem',
-                marginTop: '16px'
-              }}>
-                <strong>Start Here:</strong> Automated onboarding replaces manual process
-              </div>
-            </div>
-
-            {/* STEP 2: Coach Training & Certification */}
-            <div
-              onClick={() => setView('training')}
-              style={{
-                background: 'white',
-                borderRadius: '12px',
-                padding: '32px',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                border: '2px solid #FFE5DF',
-                boxShadow: '0 10px 20px rgba(100,20,50,0.05)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#FF4A23';
-                e.currentTarget.style.transform = 'scale(1.02)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#FFE5DF';
-                e.currentTarget.style.transform = 'scale(1)';
+                fontSize: '1.125rem',
+                fontWeight: '600',
+                boxShadow: '0 10px 20px rgba(255, 74, 35, 0.2)'
               }}
             >
-              <div style={{marginBottom: '16px'}}>
-                <TrophyIcon size={48} color={ICON_COLORS.primary} />
-              </div>
-              <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px', color: '#641432'}}>
-                2. Training & Certification
-              </h3>
-              <p style={{color: '#6b7280'}}>
-                Complete 5 modules with quizzes to prepare for your first session
-              </p>
-              <div style={{marginTop: '16px', fontSize: '0.875rem', color: '#FF4A23', fontWeight: '600'}}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  {userData.role === 'coach' && userData.progress ? 
-                    `Module ${Object.keys(userData.progress).filter(m => userData.progress[m].completed).length + 1} of 5` : 
-                    'Begin Training'}
-                  <ArrowRightIcon size={16} color={ICON_COLORS.primary} />
-                </span>
-              </div>
-            </div>
-
-            {/* STEP 3: Personalized Knowledge Base - Ongoing resource */}
-            <div
-              onClick={() => setView('enhanced-kb')}
-              style={{
-                background: 'white',
-                borderRadius: '12px',
-                padding: '32px',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                border: '2px solid #FFE5DF',
-                boxShadow: '0 10px 20px rgba(100,20,50,0.05)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#FF4A23';
-                e.currentTarget.style.transform = 'scale(1.02)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#FFE5DF';
-                e.currentTarget.style.transform = 'scale(1)';
-              }}
-            >
-              <div style={{marginBottom: '16px'}}>
-                <BookIcon size={48} color={ICON_COLORS.primary} />
-              </div>
-              <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px', color: '#641432'}}>
-                3. Knowledge Base & Resources
-              </h3>
-              <p style={{color: '#6b7280'}}>
-                Access 316+ sessions with AI insights for ongoing support
-              </p>
-              <div style={{
-                display: 'flex',
-                gap: '8px',
-                marginTop: '16px',
-                fontSize: '0.875rem'
-              }}>
-                <span style={{
-                  background: '#f3f4f6',
-                  padding: '4px 8px',
-                  borderRadius: '4px',
-                  color: '#6b7280',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px'
-                }}>
-                  <StarIcon size={14} color="#6b7280" />
-                  AI-Powered
-                </span>
-                <span style={{
-                  background: '#f3f4f6',
-                  padding: '4px 8px',
-                  borderRadius: '4px',
-                  color: '#6b7280',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px'
-                }}>
-                  <VideoIcon size={14} color="#6b7280" />
-                  {realData.videos.length} Sessions
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Section */}
-          <div style={{marginTop: '48px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px'}}>
-            <div style={{background: 'white', padding: '24px', borderRadius: '8px', textAlign: 'center', border: '1px solid #FFE5DF'}}>
-              <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#FF4A23'}}>{realData.coaches.length}</div>
-              <div style={{color: '#6b7280', fontSize: '0.875rem'}}>Active Coaches</div>
-            </div>
-            <div style={{background: 'white', padding: '24px', borderRadius: '8px', textAlign: 'center', border: '1px solid #FFE5DF'}}>
-              <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#641432'}}>{realData.stats.activeStudents || 0}</div>
-              <div style={{color: '#6b7280', fontSize: '0.875rem'}}>Students</div>
-            </div>
-            <div style={{background: 'white', padding: '24px', borderRadius: '8px', textAlign: 'center', border: '1px solid #FFE5DF'}}>
-              <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#16a34a'}}>{realData.videos.length}</div>
-              <div style={{color: '#6b7280', fontSize: '0.875rem'}}>Training Videos</div>
-            </div>
-            <div style={{background: 'white', padding: '24px', borderRadius: '8px', textAlign: 'center', border: '1px solid #FFE5DF'}}>
-              <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#FF4A23'}}>95%</div>
-              <div style={{color: '#6b7280', fontSize: '0.875rem'}}>Success Rate</div>
-            </div>
+              Access Video Library
+            </button>
           </div>
         </div>
+
+        {/* Admin Provisioning Modal */}
+        {showAdminProvisioning && <AdminProvisioning onClose={() => setShowAdminProvisioning(false)} />}
+        
+        {/* Admin Dashboard Modal */}
+        {showAdminDashboard && <AdminDashboard onClose={() => setShowAdminDashboard(false)} />}
+        
+        {/* Analytics Dashboard Modal */}
+        {showAnalytics && <AnalyticsDashboard onClose={() => setShowAnalytics(false)} />}
+        
+        {/* Email Manager Modal */}
+        {showEmailManager && <EmailManager onClose={() => setShowEmailManager(false)} />}
       </div>
     );
   }
 
-  // Enhanced Knowledge Base View - Now with personalized hero coaches
-  if (view === 'enhanced-kb') {
+  // Video Library View
+  if (view === 'videos') {
     return (
       <div style={{minHeight: '100vh', background: '#f9fafb'}}>
         {/* Header */}
         <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
           <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <IvylevelFullLogo />
-            </div>
+            <IvylevelFullLogo />
             <button
               onClick={() => setView('home')}
               style={{
@@ -1106,51 +438,7 @@ function App() {
     );
   }
 
-  // Smart Onboarding System View - New automated onboarding
-  if (view === 'smart-onboarding') {
-    return (
-      <div style={{minHeight: '100vh', background: '#f9fafb'}}>
-        {/* Header */}
-        <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
-          <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <IvylevelFullLogo />
-            </div>
-            <button
-              onClick={() => setView('home')}
-              style={{
-                padding: '8px 16px',
-                background: '#FFE5DF',
-                color: '#641432',
-                borderRadius: '6px',
-                border: 'none',
-                cursor: 'pointer',
-                fontWeight: '500'
-              }}
-            >
-              Back to Dashboard
-            </button>
-          </div>
-        </div>
-        <SmartOnboardingSystem 
-          currentUser={userData} 
-          onComplete={() => {
-            alert('Onboarding complete! You\'re ready to start coaching.');
-            setView('home');
-          }}
-        />
-      </div>
-    );
-  }
-
   return null;
 }
 
-// Wrap App with AuthProvider
-export default function AppWithAuth() {
-  return (
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  );
-}
+export default App;

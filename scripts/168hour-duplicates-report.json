@@ -1,0 +1,635 @@
+{
+  "timestamp": "2025-07-11T19:35:34.814Z",
+  "total168HourSessions": 10,
+  "duplicateGroups": {
+    "Aditi_Kavya": [
+      {
+        "id": "I2dnKOK4QkmksNdpZhhO",
+        "student": "Kavya",
+        "coach": "Aditi",
+        "title": "Aditi & Kavya - 168 Hour Scheduling",
+        "driveId": "1HvYHFnExnNE-omQ3QSjT50AwUP3k_2Ev",
+        "filename": "Coaching_168_B_Aditi_Kavya_Wk02_2024-07-07_M_28ea38f8ca85510dU_28ea38f8ca85510d.mp4",
+        "fullData": {
+          "driveId": "1HvYHFnExnNE-omQ3QSjT50AwUP3k_2Ev",
+          "fileSize": 0,
+          "folderPath": "Ivylevel Knowledge Base/Students/Kavya/Coaching_B_Aditi_Kavya_Wk02_2024-07-07_M_28ea38f8ca85510dU_28ea38f8ca85510d",
+          "week": "Week 02",
+          "sessionDate": "2024-07-07",
+          "type": "Coaching",
+          "duration": "5:00",
+          "uploadDate": {
+            "_seconds": 1751883929,
+            "_nanoseconds": 131000000
+          },
+          "modifiedDate": {
+            "_seconds": 1751883929,
+            "_nanoseconds": 131000000
+          },
+          "indexed": true,
+          "source": "google-drive",
+          "viewCount": 0,
+          "lastViewed": null,
+          "indexedAt": {
+            "_seconds": 1751944083,
+            "_nanoseconds": 324000000
+          },
+          "indexingMethod": "admin_sdk_production",
+          "reindexedAt": {
+            "_seconds": 1752229392,
+            "_nanoseconds": 617000000
+          },
+          "category": "student_sessions",
+          "parsedWeek": "02",
+          "dataVersion": "4.0",
+          "fixedAt": {
+            "_seconds": 1752230582,
+            "_nanoseconds": 316000000
+          },
+          "originalTitle": "B & Aditi - Week 02 (2024-07-07)",
+          "parsingConfidence": "high",
+          "parsedCoach": "Aditi",
+          "properTitle": "Aditi & Kavya - Week 02",
+          "dataSource": "B",
+          "parsedStudent": "Kavya",
+          "is168HourSession": true,
+          "filename": "Coaching_168_B_Aditi_Kavya_Wk02_2024-07-07_M_28ea38f8ca85510dU_28ea38f8ca85510d.mp4",
+          "168HourIdentification": {
+            "confidence": "HIGH",
+            "score": 90,
+            "signals": [
+              "Session is 14 days after game plan (typical range)",
+              "Session is 1-2 weeks after game plan (ideal timing)",
+              "Week number is 2",
+              "Long session duration: 5:00",
+              "Category is student_sessions"
+            ],
+            "identifiedAt": {
+              "_seconds": 1752256921,
+              "_nanoseconds": 417000000
+            }
+          },
+          "sessionType": "168_hour_scheduling",
+          "title": "Aditi & Kavya - 168 Hour Scheduling",
+          "tags": [
+            "b",
+            "aditi",
+            "general coaching",
+            "168-hour",
+            "scheduling",
+            "time-management"
+          ]
+        }
+      },
+      {
+        "id": "oaMoztqyWJp0lI31r2IT",
+        "student": "Kavya",
+        "coach": "Aditi",
+        "title": "Aditi & Kavya - 168 Hour Scheduling",
+        "driveId": "1xYo7wH4Jj4XB1irkMLbW3ijE-fWKn4In",
+        "filename": "Coaching_168_B_Aditi_Kavya_Wk02_2024-07-07_M_28ea38f8ca85510dU_28ea38f8ca85510d.mp4",
+        "fullData": {
+          "driveId": "1xYo7wH4Jj4XB1irkMLbW3ijE-fWKn4In",
+          "fileSize": 0,
+          "folderPath": "Ivylevel Knowledge Base/Students/Kavya/Coaching_B_Aditi_Kavya_Wk02_2024-07-07_M_28ea38f8ca85510dU_28ea38f8ca85510d",
+          "week": "Week 02",
+          "sessionDate": "2024-07-07",
+          "type": "Coaching",
+          "duration": "5:00",
+          "uploadDate": {
+            "_seconds": 1751883928,
+            "_nanoseconds": 365000000
+          },
+          "modifiedDate": {
+            "_seconds": 1751883928,
+            "_nanoseconds": 365000000
+          },
+          "indexed": true,
+          "source": "google-drive",
+          "viewCount": 0,
+          "lastViewed": null,
+          "indexedAt": {
+            "_seconds": 1751944083,
+            "_nanoseconds": 449000000
+          },
+          "indexingMethod": "admin_sdk_production",
+          "reindexedAt": {
+            "_seconds": 1752229393,
+            "_nanoseconds": 762000000
+          },
+          "category": "student_sessions",
+          "parsedWeek": "02",
+          "dataVersion": "4.0",
+          "fixedAt": {
+            "_seconds": 1752230583,
+            "_nanoseconds": 975000000
+          },
+          "originalTitle": "B & Aditi - Week 02 (2024-07-07)",
+          "parsingConfidence": "high",
+          "parsedCoach": "Aditi",
+          "properTitle": "Aditi & Kavya - Week 02",
+          "dataSource": "B",
+          "parsedStudent": "Kavya",
+          "is168HourSession": true,
+          "filename": "Coaching_168_B_Aditi_Kavya_Wk02_2024-07-07_M_28ea38f8ca85510dU_28ea38f8ca85510d.mp4",
+          "168HourIdentification": {
+            "confidence": "HIGH",
+            "score": 90,
+            "signals": [
+              "Session is 14 days after game plan (typical range)",
+              "Session is 1-2 weeks after game plan (ideal timing)",
+              "Week number is 2",
+              "Long session duration: 5:00",
+              "Category is student_sessions"
+            ],
+            "identifiedAt": {
+              "_seconds": 1752256921,
+              "_nanoseconds": 819000000
+            }
+          },
+          "sessionType": "168_hour_scheduling",
+          "title": "Aditi & Kavya - 168 Hour Scheduling",
+          "tags": [
+            "b",
+            "aditi",
+            "general coaching",
+            "168-hour",
+            "scheduling",
+            "time-management"
+          ]
+        }
+      }
+    ],
+    "Jenny_Arshiya": [
+      {
+        "id": "XJfJ8xzXzEVynx06jL20",
+        "student": "Arshiya",
+        "coach": "Jenny",
+        "title": "Jenny & Arshiya - 168 Hour Scheduling",
+        "driveId": "1kh1qEsVQMtrsWS9eZzdVLxBEAFATOYly",
+        "filename": "Coaching_168_B_Jenny_Arshiya_Wk02_2024-09-29_M_075e4e2713d52509U_075e4e2713d52509.mp4",
+        "fullData": {
+          "driveId": "1kh1qEsVQMtrsWS9eZzdVLxBEAFATOYly",
+          "fileSize": 0,
+          "folderPath": "Ivylevel Knowledge Base/Students/Arshiya/Coaching_B_Jenny_Arshiya_Wk02_2024-09-29_M_075e4e2713d52509U_075e4e2713d52509",
+          "week": "Week 02",
+          "sessionDate": "2024-09-29",
+          "type": "Coaching",
+          "duration": "5:00",
+          "uploadDate": {
+            "_seconds": 1751881077,
+            "_nanoseconds": 231000000
+          },
+          "modifiedDate": {
+            "_seconds": 1751881077,
+            "_nanoseconds": 231000000
+          },
+          "indexed": true,
+          "source": "google-drive",
+          "viewCount": 0,
+          "lastViewed": null,
+          "indexedAt": {
+            "_seconds": 1751944134,
+            "_nanoseconds": 94000000
+          },
+          "indexingMethod": "admin_sdk_production",
+          "reindexedAt": {
+            "_seconds": 1752229392,
+            "_nanoseconds": 617000000
+          },
+          "category": "student_sessions",
+          "parsedWeek": "02",
+          "dataVersion": "4.0",
+          "fixedAt": {
+            "_seconds": 1752230583,
+            "_nanoseconds": 975000000
+          },
+          "originalTitle": "B & Jenny - Week 02 (2024-09-29)",
+          "parsingConfidence": "high",
+          "parsedCoach": "Jenny",
+          "properTitle": "Jenny & Arshiya - Week 02",
+          "dataSource": "B",
+          "parsedStudent": "Arshiya",
+          "is168HourSession": true,
+          "filename": "Coaching_168_B_Jenny_Arshiya_Wk02_2024-09-29_M_075e4e2713d52509U_075e4e2713d52509.mp4",
+          "168HourIdentification": {
+            "confidence": "HIGH",
+            "score": 75,
+            "signals": [
+              "Session is 15 days after game plan (typical range)",
+              "Week number is 2",
+              "Long session duration: 5:00",
+              "Category is student_sessions"
+            ],
+            "identifiedAt": {
+              "_seconds": 1752256922,
+              "_nanoseconds": 877000000
+            }
+          },
+          "sessionType": "168_hour_scheduling",
+          "title": "Jenny & Arshiya - 168 Hour Scheduling",
+          "tags": [
+            "b",
+            "jenny",
+            "general coaching",
+            "168-hour",
+            "scheduling",
+            "time-management"
+          ]
+        }
+      },
+      {
+        "id": "whmKBzLcX39wcMeQCO7y",
+        "student": "Arshiya",
+        "coach": "Jenny",
+        "title": "Jenny & Arshiya - 168 Hour Scheduling",
+        "driveId": "1YKtxmRkcC-ybEZ5hR9rEmPDhe__EN7Jp",
+        "filename": "Coaching_168_B_Jenny_Arshiya_Wk02_2024-09-29_M_075e4e2713d52509U_075e4e2713d52509.mp4",
+        "fullData": {
+          "driveId": "1YKtxmRkcC-ybEZ5hR9rEmPDhe__EN7Jp",
+          "fileSize": 0,
+          "folderPath": "Ivylevel Knowledge Base/Students/Arshiya/Coaching_B_Jenny_Arshiya_Wk02_2024-09-29_M_075e4e2713d52509U_075e4e2713d52509",
+          "week": "Week 02",
+          "sessionDate": "2024-09-29",
+          "type": "Coaching",
+          "duration": "5:00",
+          "uploadDate": {
+            "_seconds": 1751881078,
+            "_nanoseconds": 422000000
+          },
+          "modifiedDate": {
+            "_seconds": 1751881078,
+            "_nanoseconds": 422000000
+          },
+          "indexed": true,
+          "source": "google-drive",
+          "viewCount": 0,
+          "lastViewed": null,
+          "indexedAt": {
+            "_seconds": 1751944133,
+            "_nanoseconds": 970000000
+          },
+          "indexingMethod": "admin_sdk_production",
+          "reindexedAt": {
+            "_seconds": 1752229393,
+            "_nanoseconds": 762000000
+          },
+          "category": "student_sessions",
+          "parsedWeek": "02",
+          "dataVersion": "4.0",
+          "fixedAt": {
+            "_seconds": 1752230583,
+            "_nanoseconds": 975000000
+          },
+          "originalTitle": "B & Jenny - Week 02 (2024-09-29)",
+          "parsingConfidence": "high",
+          "parsedCoach": "Jenny",
+          "properTitle": "Jenny & Arshiya - Week 02",
+          "dataSource": "B",
+          "parsedStudent": "Arshiya",
+          "is168HourSession": true,
+          "filename": "Coaching_168_B_Jenny_Arshiya_Wk02_2024-09-29_M_075e4e2713d52509U_075e4e2713d52509.mp4",
+          "168HourIdentification": {
+            "confidence": "HIGH",
+            "score": 75,
+            "signals": [
+              "Session is 15 days after game plan (typical range)",
+              "Week number is 2",
+              "Long session duration: 5:00",
+              "Category is student_sessions"
+            ],
+            "identifiedAt": {
+              "_seconds": 1752256922,
+              "_nanoseconds": 528000000
+            }
+          },
+          "sessionType": "168_hour_scheduling",
+          "title": "Jenny & Arshiya - 168 Hour Scheduling",
+          "tags": [
+            "b",
+            "jenny",
+            "general coaching",
+            "168-hour",
+            "scheduling",
+            "time-management"
+          ]
+        }
+      }
+    ],
+    "Marissa_Iqra": [
+      {
+        "id": "iho7tZA2hTPgJfdE1LDp",
+        "student": "Iqra",
+        "coach": "Marissa",
+        "title": "Marissa & Iqra - 168 Hour Scheduling",
+        "driveId": "1MxELQb0aL250mRztzqwu1Ybv3xkvtvT6",
+        "filename": "Coaching_168_B_Marissa_Iqra_Wk02_2024-04-22_M_7d3e887285be45d9U_7d3e887285be45d9.mp4",
+        "fullData": {
+          "driveId": "1MxELQb0aL250mRztzqwu1Ybv3xkvtvT6",
+          "fileSize": 0,
+          "folderPath": "Ivylevel Knowledge Base/Students/Iqra/Coaching_B_Marissa_Iqra_Wk02_2024-04-22_M_7d3e887285be45d9U_7d3e887285be45d9",
+          "week": "Week 02",
+          "sessionDate": "2024-04-22",
+          "type": "Coaching",
+          "duration": "5:00",
+          "uploadDate": {
+            "_seconds": 1751884448,
+            "_nanoseconds": 717000000
+          },
+          "modifiedDate": {
+            "_seconds": 1751884448,
+            "_nanoseconds": 717000000
+          },
+          "indexed": true,
+          "source": "google-drive",
+          "viewCount": 0,
+          "lastViewed": null,
+          "indexedAt": {
+            "_seconds": 1751944072,
+            "_nanoseconds": 939000000
+          },
+          "indexingMethod": "admin_sdk_production",
+          "reindexedAt": {
+            "_seconds": 1752229393,
+            "_nanoseconds": 762000000
+          },
+          "category": "student_sessions",
+          "parsedWeek": "02",
+          "dataVersion": "4.0",
+          "fixedAt": {
+            "_seconds": 1752230583,
+            "_nanoseconds": 975000000
+          },
+          "originalTitle": "B & Marissa - Week 02 (2024-04-22)",
+          "parsingConfidence": "high",
+          "parsedCoach": "Marissa",
+          "properTitle": "Marissa & Iqra - Week 02",
+          "dataSource": "B",
+          "parsedStudent": "Iqra",
+          "is168HourSession": true,
+          "filename": "Coaching_168_B_Marissa_Iqra_Wk02_2024-04-22_M_7d3e887285be45d9U_7d3e887285be45d9.mp4",
+          "168HourIdentification": {
+            "confidence": "HIGH",
+            "score": 75,
+            "signals": [
+              "Session is 19 days after game plan (typical range)",
+              "Week number is 2",
+              "Long session duration: 5:00",
+              "Category is student_sessions"
+            ],
+            "identifiedAt": {
+              "_seconds": 1752256923,
+              "_nanoseconds": 248000000
+            }
+          },
+          "sessionType": "168_hour_scheduling",
+          "title": "Marissa & Iqra - 168 Hour Scheduling",
+          "tags": [
+            "b",
+            "marissa",
+            "general coaching",
+            "168-hour",
+            "scheduling",
+            "time-management"
+          ]
+        }
+      },
+      {
+        "id": "jKtNFmEHNR4Zkw42xASg",
+        "student": "Iqra",
+        "coach": "Marissa",
+        "title": "Marissa & Iqra - 168 Hour Scheduling",
+        "driveId": "1UvfVwYY26xO2FpXnFMtOSuUBmghJ8htx",
+        "filename": "Coaching_168_B_Marissa_Iqra_Wk02_2024-04-22_M_7d3e887285be45d9U_7d3e887285be45d9.mp4",
+        "fullData": {
+          "driveId": "1UvfVwYY26xO2FpXnFMtOSuUBmghJ8htx",
+          "fileSize": 0,
+          "folderPath": "Ivylevel Knowledge Base/Students/Iqra/Coaching_B_Marissa_Iqra_Wk02_2024-04-22_M_7d3e887285be45d9U_7d3e887285be45d9",
+          "week": "Week 02",
+          "sessionDate": "2024-04-22",
+          "type": "Coaching",
+          "duration": "5:00",
+          "uploadDate": {
+            "_seconds": 1751884447,
+            "_nanoseconds": 931000000
+          },
+          "modifiedDate": {
+            "_seconds": 1751884447,
+            "_nanoseconds": 931000000
+          },
+          "indexed": true,
+          "source": "google-drive",
+          "viewCount": 0,
+          "lastViewed": null,
+          "indexedAt": {
+            "_seconds": 1751944073,
+            "_nanoseconds": 61000000
+          },
+          "indexingMethod": "admin_sdk_production",
+          "reindexedAt": {
+            "_seconds": 1752229393,
+            "_nanoseconds": 762000000
+          },
+          "category": "student_sessions",
+          "parsedWeek": "02",
+          "dataVersion": "4.0",
+          "fixedAt": {
+            "_seconds": 1752230583,
+            "_nanoseconds": 975000000
+          },
+          "originalTitle": "B & Marissa - Week 02 (2024-04-22)",
+          "parsingConfidence": "high",
+          "parsedCoach": "Marissa",
+          "properTitle": "Marissa & Iqra - Week 02",
+          "dataSource": "B",
+          "parsedStudent": "Iqra",
+          "is168HourSession": true,
+          "filename": "Coaching_168_B_Marissa_Iqra_Wk02_2024-04-22_M_7d3e887285be45d9U_7d3e887285be45d9.mp4",
+          "168HourIdentification": {
+            "confidence": "HIGH",
+            "score": 75,
+            "signals": [
+              "Session is 19 days after game plan (typical range)",
+              "Week number is 2",
+              "Long session duration: 5:00",
+              "Category is student_sessions"
+            ],
+            "identifiedAt": {
+              "_seconds": 1752256923,
+              "_nanoseconds": 640000000
+            }
+          },
+          "sessionType": "168_hour_scheduling",
+          "title": "Marissa & Iqra - 168 Hour Scheduling",
+          "tags": [
+            "b",
+            "marissa",
+            "general coaching",
+            "168-hour",
+            "scheduling",
+            "time-management"
+          ]
+        }
+      }
+    ],
+    "Juli_Ananyaa": [
+      {
+        "id": "kXdiJqwx3pmKEtofNiMo",
+        "student": "Ananyaa",
+        "coach": "Juli",
+        "title": "Juli & Ananyaa - 168 Hour Scheduling",
+        "driveId": "1bsoxsfFAD8NI41J8KAhQ_G-y4eCry2vy",
+        "filename": "Coaching_168_B_Juli_Ananyaa_Wk02_2024-09-20_M_462fa32201864459U_462fa32201864459.mp4",
+        "fullData": {
+          "driveId": "1bsoxsfFAD8NI41J8KAhQ_G-y4eCry2vy",
+          "fileSize": 0,
+          "folderPath": "Ivylevel Knowledge Base/Students/Ananyaa/Coaching_B_Juli_Ananyaa_Wk02_2024-09-20_M_462fa32201864459U_462fa32201864459",
+          "week": "Week 02",
+          "sessionDate": "2024-09-20",
+          "type": "Coaching",
+          "duration": "5:00",
+          "uploadDate": {
+            "_seconds": 1751880947,
+            "_nanoseconds": 718000000
+          },
+          "modifiedDate": {
+            "_seconds": 1751880947,
+            "_nanoseconds": 718000000
+          },
+          "indexed": true,
+          "source": "google-drive",
+          "viewCount": 0,
+          "lastViewed": null,
+          "indexedAt": {
+            "_seconds": 1751944137,
+            "_nanoseconds": 645000000
+          },
+          "indexingMethod": "admin_sdk_production",
+          "reindexedAt": {
+            "_seconds": 1752229393,
+            "_nanoseconds": 762000000
+          },
+          "category": "student_sessions",
+          "parsedWeek": "02",
+          "dataVersion": "4.0",
+          "fixedAt": {
+            "_seconds": 1752230583,
+            "_nanoseconds": 975000000
+          },
+          "originalTitle": "B & Juli - Week 02 (2024-09-20)",
+          "parsingConfidence": "high",
+          "parsedCoach": "Juli",
+          "properTitle": "Juli & Ananyaa - Week 02",
+          "dataSource": "B",
+          "parsedStudent": "Ananyaa",
+          "is168HourSession": true,
+          "filename": "Coaching_168_B_Juli_Ananyaa_Wk02_2024-09-20_M_462fa32201864459U_462fa32201864459.mp4",
+          "168HourIdentification": {
+            "confidence": "HIGH",
+            "score": 90,
+            "signals": [
+              "Session is 14 days after game plan (typical range)",
+              "Session is 1-2 weeks after game plan (ideal timing)",
+              "Week number is 2",
+              "Long session duration: 5:00",
+              "Category is student_sessions"
+            ],
+            "identifiedAt": {
+              "_seconds": 1752256921,
+              "_nanoseconds": 7000000
+            }
+          },
+          "sessionType": "168_hour_scheduling",
+          "title": "Juli & Ananyaa - 168 Hour Scheduling",
+          "tags": [
+            "b",
+            "juli",
+            "general coaching",
+            "168-hour",
+            "scheduling",
+            "time-management"
+          ]
+        }
+      },
+      {
+        "id": "tnNi6AKIXwlXzjEPQi3c",
+        "student": "Ananyaa",
+        "coach": "Juli",
+        "title": "Juli & Ananyaa - 168 Hour Scheduling",
+        "driveId": "1q_CRYwabeDkGE0k1IdUyMmiSp_4_ftje",
+        "filename": "Coaching_168_B_Juli_Ananyaa_Wk02_2024-09-20_M_462fa32201864459U_462fa32201864459.mp4",
+        "fullData": {
+          "driveId": "1q_CRYwabeDkGE0k1IdUyMmiSp_4_ftje",
+          "fileSize": 0,
+          "folderPath": "Ivylevel Knowledge Base/Students/Ananyaa/Coaching_B_Juli_Ananyaa_Wk02_2024-09-20_M_462fa32201864459U_462fa32201864459",
+          "week": "Week 02",
+          "sessionDate": "2024-09-20",
+          "type": "Coaching",
+          "duration": "5:00",
+          "uploadDate": {
+            "_seconds": 1751880948,
+            "_nanoseconds": 541000000
+          },
+          "modifiedDate": {
+            "_seconds": 1751880948,
+            "_nanoseconds": 541000000
+          },
+          "indexed": true,
+          "source": "google-drive",
+          "viewCount": 0,
+          "lastViewed": null,
+          "indexedAt": {
+            "_seconds": 1751944137,
+            "_nanoseconds": 520000000
+          },
+          "indexingMethod": "admin_sdk_production",
+          "reindexedAt": {
+            "_seconds": 1752229393,
+            "_nanoseconds": 762000000
+          },
+          "category": "student_sessions",
+          "parsedWeek": "02",
+          "dataVersion": "4.0",
+          "fixedAt": {
+            "_seconds": 1752230583,
+            "_nanoseconds": 975000000
+          },
+          "originalTitle": "B & Juli - Week 02 (2024-09-20)",
+          "parsingConfidence": "high",
+          "parsedCoach": "Juli",
+          "properTitle": "Juli & Ananyaa - Week 02",
+          "dataSource": "B",
+          "parsedStudent": "Ananyaa",
+          "is168HourSession": true,
+          "filename": "Coaching_168_B_Juli_Ananyaa_Wk02_2024-09-20_M_462fa32201864459U_462fa32201864459.mp4",
+          "168HourIdentification": {
+            "confidence": "HIGH",
+            "score": 90,
+            "signals": [
+              "Session is 14 days after game plan (typical range)",
+              "Session is 1-2 weeks after game plan (ideal timing)",
+              "Week number is 2",
+              "Long session duration: 5:00",
+              "Category is student_sessions"
+            ],
+            "identifiedAt": {
+              "_seconds": 1752256920,
+              "_nanoseconds": 635000000
+            }
+          },
+          "sessionType": "168_hour_scheduling",
+          "title": "Juli & Ananyaa - 168 Hour Scheduling",
+          "tags": [
+            "b",
+            "juli",
+            "general coaching",
+            "168-hour",
+            "scheduling",
+            "time-management"
+          ]
+        }
+      }
+    ]
+  },
+  "totalDuplicatesToRemove": 4
+}

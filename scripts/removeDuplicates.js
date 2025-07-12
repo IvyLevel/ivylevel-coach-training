@@ -1,122 +1,143 @@
-const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, getDocs, deleteDoc, doc } = require('firebase/firestore');
+const admin = require('firebase-admin');
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '..', '.env.local') });
+const fs = require('fs');
+const readline = require('readline');
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
-};
+// Initialize Firebase Admin
+const serviceAccount = require(path.join(__dirname, '..', 'serviceAccountKey.json'));
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://ivylevel-coach-training.firebaseio.com"
+});
+
+const db = admin.firestore();
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+function askQuestion(question) {
+  return new Promise(resolve => {
+    rl.question(question, answer => {
+      resolve(answer);
+    });
+  });
+}
 
 async function removeDuplicates() {
-  console.log('🔍 Starting duplicate removal process...\n');
+  console.log('🧹 Duplicate Removal Tool for indexed_videos\n');
   
   try {
-    // Get all indexed videos
-    const snapshot = await getDocs(collection(db, 'indexed_videos'));
-    console.log(`Total documents: ${snapshot.size}\n`);
+    // Check if duplicates report exists
+    const reportPath = path.join(__dirname, 'duplicates-report.json');
+    if (!fs.existsSync(reportPath)) {
+      console.log('❌ No duplicates report found. Please run findDuplicates.js first.');
+      return;
+    }
     
-    // Group by driveId to find duplicates
-    const driveIdGroups = {};
-    const filenameGroups = {};
+    // Load duplicates report
+    const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+    console.log(`📊 Loaded duplicate report from: ${report.timestamp}`);
+    console.log(`Total duplicates to remove: ${report.duplicateSummary.totalDuplicatesToRemove}\n`);
     
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const driveId = data.driveId;
-      const filename = data.filename;
-      
-      // Group by driveId
-      if (driveId) {
-        if (!driveIdGroups[driveId]) {
-          driveIdGroups[driveId] = [];
-        }
-        driveIdGroups[driveId].push({ id: doc.id, ...data });
-      } else if (filename) {
-        // If no driveId, group by filename
-        if (!filenameGroups[filename]) {
-          filenameGroups[filename] = [];
-        }
-        filenameGroups[filename].push({ id: doc.id, ...data });
+    if (report.duplicateSummary.totalDuplicatesToRemove === 0) {
+      console.log('✅ No duplicates to remove!');
+      return;
+    }
+    
+    // Create backup before removal
+    console.log('💾 Creating backup before removal...');
+    const backupData = [];
+    const duplicatesToRemove = [];
+    
+    Object.entries(report.duplicates).forEach(([driveId, docs]) => {
+      // Keep the first document, remove the rest
+      for (let i = 1; i < docs.length; i++) {
+        duplicatesToRemove.push({
+          id: docs[i].id,
+          data: docs[i].data
+        });
+        backupData.push({
+          documentId: docs[i].id,
+          driveId: driveId,
+          data: docs[i].data
+        });
       }
     });
     
-    // Find documents to delete (keep the first one, delete the rest)
-    const toDelete = [];
+    // Save backup
+    const backupPath = path.join(__dirname, '..', 'backups', `duplicates-backup-${Date.now()}.json`);
+    fs.writeFileSync(backupPath, JSON.stringify(backupData, null, 2));
+    console.log(`✅ Backup saved to: ${backupPath}\n`);
     
-    // Process driveId duplicates
-    for (const [driveId, docs] of Object.entries(driveIdGroups)) {
-      if (docs.length > 1) {
-        console.log(`Found ${docs.length} duplicates for Drive ID: ${driveId}`);
-        console.log(`  Keeping: ${docs[0].filename} (ID: ${docs[0].id})`);
-        
-        // Keep the first one, mark others for deletion
-        for (let i = 1; i < docs.length; i++) {
-          toDelete.push(docs[i].id);
-          console.log(`  Deleting: ${docs[i].filename} (ID: ${docs[i].id})`);
-        }
-        console.log('');
-      }
+    // Show what will be removed
+    console.log('📋 Documents to be removed:');
+    duplicatesToRemove.slice(0, 10).forEach(doc => {
+      console.log(`- ${doc.id}: ${doc.data.title || 'Untitled'} (${doc.data.student || 'Unknown student'})`);
+    });
+    if (duplicatesToRemove.length > 10) {
+      console.log(`... and ${duplicatesToRemove.length - 10} more\n`);
     }
     
-    // Process filename duplicates (only for those without driveId)
-    for (const [filename, docs] of Object.entries(filenameGroups)) {
-      // Only process if all docs in this group have no driveId
-      const allNoDriveId = docs.every(doc => !doc.driveId);
-      if (allNoDriveId && docs.length > 1) {
-        console.log(`Found ${docs.length} duplicates for filename: ${filename} (no Drive ID)`);
-        console.log(`  Keeping: ID: ${docs[0].id}`);
-        
-        // Keep the first one, mark others for deletion
-        for (let i = 1; i < docs.length; i++) {
-          if (!toDelete.includes(docs[i].id)) {
-            toDelete.push(docs[i].id);
-            console.log(`  Deleting: ID: ${docs[i].id}`);
-          }
-        }
-        console.log('');
-      }
+    // Confirm removal
+    const answer = await askQuestion(`\n⚠️  Are you sure you want to remove ${duplicatesToRemove.length} duplicate documents? (yes/no): `);
+    
+    if (answer.toLowerCase() !== 'yes') {
+      console.log('❌ Removal cancelled.');
+      return;
     }
     
-    if (toDelete.length === 0) {
-      console.log('✅ No duplicates found to remove!');
-      process.exit(0);
-    }
+    // Remove duplicates
+    console.log('\n🗑️  Removing duplicates...');
+    let removed = 0;
+    let errors = 0;
     
-    // Confirm before deletion
-    console.log(`\n⚠️  Found ${toDelete.length} duplicate documents to delete.`);
-    console.log('\nThis script is in DRY RUN mode. To actually delete duplicates, uncomment the deletion code below.\n');
-    
-    // UNCOMMENT THE FOLLOWING LINES TO ACTUALLY DELETE DUPLICATES
-    /*
-    console.log('Starting deletion...\n');
-    
-    for (const docId of toDelete) {
+    // Process in batches to avoid overwhelming Firestore
+    const batchSize = 100;
+    for (let i = 0; i < duplicatesToRemove.length; i += batchSize) {
+      const batch = db.batch();
+      const currentBatch = duplicatesToRemove.slice(i, i + batchSize);
+      
+      currentBatch.forEach(doc => {
+        const docRef = db.collection('indexed_videos').doc(doc.id);
+        batch.delete(docRef);
+      });
+      
       try {
-        await deleteDoc(doc(db, 'indexed_videos', docId));
-        console.log(`✓ Deleted document: ${docId}`);
+        await batch.commit();
+        removed += currentBatch.length;
+        console.log(`Progress: ${removed}/${duplicatesToRemove.length} documents removed`);
       } catch (error) {
-        console.error(`✗ Failed to delete document ${docId}:`, error.message);
+        console.error(`❌ Error removing batch: ${error.message}`);
+        errors += currentBatch.length;
       }
     }
     
-    console.log(`\n✅ Deletion complete! Removed ${toDelete.length} duplicate documents.`);
-    */
+    console.log('\n✅ Duplicate removal complete!');
+    console.log(`- Successfully removed: ${removed} documents`);
+    console.log(`- Errors: ${errors} documents`);
     
-    console.log('To proceed with deletion, edit this script and uncomment the deletion code.');
+    // Verify removal
+    console.log('\n🔍 Verifying removal...');
+    const verifySnapshot = await db.collection('indexed_videos').get();
+    console.log(`Total documents remaining: ${verifySnapshot.size}`);
+    console.log(`Expected: ${report.totalDocuments - removed}`);
     
-    process.exit(0);
+    if (verifySnapshot.size === report.totalDocuments - removed) {
+      console.log('✅ Verification passed!');
+    } else {
+      console.log('⚠️  Document count mismatch. Please run findDuplicates.js again to check.');
+    }
+    
   } catch (error) {
-    console.error('Error:', error);
-    process.exit(1);
+    console.error('❌ Error removing duplicates:', error);
+  } finally {
+    rl.close();
+    await admin.app().delete();
   }
 }
 
+// Run the script
 removeDuplicates();

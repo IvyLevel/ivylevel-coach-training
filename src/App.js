@@ -11,7 +11,8 @@ import AdminDashboard from './components/AdminDashboard';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
 import EmailManager from './components/EmailManager';
 import { 
-  UserIcon, ChartIcon, SendIcon, ICON_COLORS 
+  UserIcon, ChartIcon, SendIcon, BookIcon, StarIcon, 
+  TrophyIcon, TargetIcon, ICON_COLORS 
 } from './components/Icons';
 
 // Brand Logo Components
@@ -130,95 +131,176 @@ function App() {
     );
   }
 
-  // Login View
+  // Login View - Beautiful branded design
   if (view === 'login') {
+    const testCredentials = [
+      { email: 'admin@ivylevel.com', password: 'AdminIvy2024!', role: 'Admin' },
+      { email: 'kelvin@ivylevel.com', password: 'Coach123!', role: 'Coach (Kelvin)' },
+      { email: 'noor@ivylevel.com', password: 'Coach123!', role: 'Coach (Noor)' },
+      { email: 'jamie@ivylevel.com', password: 'Coach123!', role: 'Coach (Jamie)' }
+    ];
+
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(135deg, #FFE5DF 0%, #FFF9F7 100%)'
-      }}>
-        <div style={{
-          background: 'white',
-          padding: '48px',
-          borderRadius: '16px',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-          width: '100%',
-          maxWidth: '400px'
-        }}>
-          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <IvylevelFullLogo style={{ margin: '0 auto 24px' }} />
-            <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#641432' }}>
-              Welcome Back
-            </h2>
+      <div style={{minHeight: '100vh', background: 'linear-gradient(135deg, #FFE5DF, #F5E8E5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px'}}>
+        <div style={{maxWidth: '960px', width: '100%', display: 'flex', gap: '48px', alignItems: 'center'}}>
+          {/* Left Side - Login Form */}
+          <div style={{flex: 1, background: 'white', borderRadius: '16px', padding: '48px', boxShadow: '0 20px 40px rgba(100,20,50,0.1)'}}>
+            <div style={{textAlign: 'center', marginBottom: '32px'}}>
+              <IvylevelFullLogo style={{ margin: '0 auto 24px' }} />
+              <h1 style={{fontSize: '2rem', fontWeight: 'bold', color: '#111827', marginBottom: '8px'}}>Welcome Back</h1>
+              <p style={{color: '#6b7280'}}>Sign in to your Ivylevel Elite Coach account</p>
+            </div>
+            
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              const email = e.target.email.value;
+              const password = e.target.password.value;
+              handleLogin(email, password);
+            }}>
+              {loginError && (
+                <div style={{background: '#fee2e2', color: '#dc2626', padding: '12px', borderRadius: '8px', marginBottom: '16px', fontSize: '0.875rem'}}>
+                  {loginError}
+                </div>
+              )}
+              
+              <div style={{marginBottom: '20px'}}>
+                <label style={{display: 'block', marginBottom: '8px', fontWeight: '500', color: '#374151'}}>
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '8px',
+                    fontSize: '1rem',
+                    outline: 'none',
+                    transition: 'border-color 0.2s'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = '#FF4A23'}
+                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+                />
+              </div>
+              
+              <div style={{marginBottom: '24px'}}>
+                <label style={{display: 'block', marginBottom: '8px', fontWeight: '500', color: '#374151'}}>
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '8px',
+                    fontSize: '1rem',
+                    outline: 'none',
+                    transition: 'border-color 0.2s'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = '#FF4A23'}
+                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+                />
+              </div>
+              
+              <button
+                type="submit"
+                style={{
+                  width: '100%',
+                  padding: '16px',
+                  background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
+                  color: 'white',
+                  borderRadius: '8px',
+                  fontWeight: 'bold',
+                  fontSize: '1.125rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 10px 20px rgba(255, 74, 35, 0.3)'
+                }}
+              >
+                Sign In
+              </button>
+            </form>
+            
+            {/* Test Credentials */}
+            <div style={{marginTop: '32px', borderTop: '1px solid #e5e7eb', paddingTop: '24px'}}>
+              <p style={{fontSize: '0.875rem', color: '#6b7280', marginBottom: '12px'}}>Demo Accounts:</p>
+              <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                {testCredentials.map((cred, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      document.querySelector('input[name="email"]').value = cred.email;
+                      document.querySelector('input[name="password"]').value = cred.password;
+                    }}
+                    style={{
+                      padding: '8px 12px',
+                      background: '#FFE5DF',
+                      borderRadius: '6px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '0.75rem',
+                      color: '#641432',
+                      textAlign: 'left',
+                      transition: 'background 0.2s'
+                    }}
+                    onMouseEnter={(e) => e.target.style.background = '#FFC9BD'}
+                    onMouseLeave={(e) => e.target.style.background = '#FFE5DF'}
+                  >
+                    <div style={{fontWeight: '600'}}>{cred.role}</div>
+                    <div>{cred.email} / {cred.password}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
           
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            const email = e.target.email.value;
-            const password = e.target.password.value;
-            handleLogin(email, password);
-          }}>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              required
-              style={{
-                width: '100%',
-                padding: '12px',
-                marginBottom: '16px',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                fontSize: '1rem'
-              }}
-            />
+          {/* Right Side - Branding */}
+          <div style={{flex: 1}}>
+            <h2 style={{fontSize: '2.5rem', fontWeight: 'bold', color: '#641432', marginBottom: '16px'}}>
+              Ivylevel Elite Coach Portal
+            </h2>
+            <p style={{fontSize: '1.125rem', color: '#6b7280', lineHeight: '1.6', marginBottom: '32px'}}>
+              Join the exclusive network of coaches helping students achieve their Ivy League dreams.
+            </p>
             
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-              style={{
-                width: '100%',
-                padding: '12px',
-                marginBottom: '24px',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                fontSize: '1rem'
-              }}
-            />
-            
-            {loginError && (
-              <div style={{
-                color: '#ef4444',
-                fontSize: '0.875rem',
-                marginBottom: '16px',
-                textAlign: 'center'
-              }}>
-                {loginError}
+            <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                <div style={{width: '48px', height: '48px', background: '#FFE5DF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <BookIcon size={24} color={ICON_COLORS.primary} />
+                </div>
+                <div>
+                  <h3 style={{fontWeight: '600', color: '#111827'}}>Comprehensive Training</h3>
+                  <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Master the Ivylevel methodology in 48 hours</p>
+                </div>
               </div>
-            )}
-            
-            <button
-              type="submit"
-              style={{
-                width: '100%',
-                padding: '12px',
-                background: ICON_COLORS.primary,
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '1rem',
-                fontWeight: '600',
-                cursor: 'pointer'
-              }}
-            >
-              Sign In
-            </button>
-          </form>
+              
+              <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                <div style={{width: '48px', height: '48px', background: '#FFE5DF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <StarIcon size={24} color={ICON_COLORS.primary} />
+                </div>
+                <div>
+                  <h3 style={{fontWeight: '600', color: '#111827'}}>Impact Lives</h3>
+                  <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Guide students to their dream colleges</p>
+                </div>
+              </div>
+              
+              <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                <div style={{width: '48px', height: '48px', background: '#FFE5DF', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <TrophyIcon size={24} color={ICON_COLORS.primary} />
+                </div>
+                <div>
+                  <h3 style={{fontWeight: '600', color: '#111827'}}>Earn $25,000+</h3>
+                  <p style={{fontSize: '0.875rem', color: '#6b7280'}}>Build a rewarding coaching career</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -234,89 +316,205 @@ function App() {
     );
   }
 
-  // Home Dashboard - Go directly to video library
+  // Home Dashboard - Different views for admin vs coach
   if (view === 'home') {
+    // Admin Dashboard
+    if (userData?.role === 'admin') {
+      return (
+        <div style={{minHeight: '100vh', background: '#f9fafb'}}>
+          {/* Header */}
+          <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
+            <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+              <IvylevelFullLogo />
+              <div style={{display: 'flex', alignItems: 'center', gap: '24px'}}>
+                <div style={{textAlign: 'right'}}>
+                  <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Welcome back</div>
+                  <div style={{fontWeight: '600', color: '#641432'}}>{userData?.name}</div>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    padding: '8px 16px',
+                    background: '#FFE5DF',
+                    color: '#641432',
+                    borderRadius: '6px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontWeight: '500'
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Admin Content */}
+          <div style={{maxWidth: '1200px', margin: '0 auto', padding: '32px 24px'}}>
+            <h1 style={{fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '32px', textAlign: 'center', color: '#641432'}}>
+              Admin Dashboard
+            </h1>
+
+            {/* Admin Feature Cards */}
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px'}}>
+              {/* Add New Coach */}
+              <div
+                onClick={() => setShowAdminProvisioning(true)}
+                style={{
+                  background: 'linear-gradient(135deg, #641432, #8B1538)',
+                  color: 'white',
+                  borderRadius: '12px',
+                  padding: '32px',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s',
+                  boxShadow: '0 20px 40px rgba(100, 20, 50, 0.3)'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <UserIcon size={48} color="white" />
+                <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginTop: '16px', marginBottom: '8px'}}>
+                  Add New Coach
+                </h3>
+                <p style={{opacity: 0.9}}>
+                  Provision new coaches with AI-powered analysis
+                </p>
+              </div>
+
+              {/* Coach Dashboard */}
+              <div
+                onClick={() => setShowAdminDashboard(true)}
+                style={{
+                  background: 'white',
+                  borderRadius: '12px',
+                  padding: '32px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  border: '2px solid #FFE5DF',
+                  boxShadow: '0 10px 20px rgba(100,20,50,0.05)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#FF4A23';
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#FFE5DF';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                <ChartIcon size={48} color={ICON_COLORS.primary} />
+                <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginTop: '16px', marginBottom: '8px', color: '#641432'}}>
+                  Coach Management
+                </h3>
+                <p style={{color: '#6b7280'}}>
+                  Monitor coach readiness and performance
+                </p>
+              </div>
+
+              {/* Analytics */}
+              <div
+                onClick={() => setShowAnalytics(true)}
+                style={{
+                  background: 'white',
+                  borderRadius: '12px',
+                  padding: '32px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  border: '2px solid #FFE5DF',
+                  boxShadow: '0 10px 20px rgba(100,20,50,0.05)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#3b82f6';
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#FFE5DF';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                <ChartIcon size={48} color="#3b82f6" />
+                <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginTop: '16px', marginBottom: '8px', color: '#641432'}}>
+                  Analytics
+                </h3>
+                <p style={{color: '#6b7280'}}>
+                  Platform insights and performance metrics
+                </p>
+              </div>
+
+              {/* Email Manager */}
+              <div
+                onClick={() => setShowEmailManager(true)}
+                style={{
+                  background: 'white',
+                  borderRadius: '12px',
+                  padding: '32px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  border: '2px solid #FFE5DF',
+                  boxShadow: '0 10px 20px rgba(100,20,50,0.05)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#22c55e';
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#FFE5DF';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                <SendIcon size={48} color="#22c55e" />
+                <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginTop: '16px', marginBottom: '8px', color: '#641432'}}>
+                  Email Manager
+                </h3>
+                <p style={{color: '#6b7280'}}>
+                  Automated communications and templates
+                </p>
+              </div>
+
+              {/* Knowledge Base */}
+              <div
+                onClick={() => setView('videos')}
+                style={{
+                  background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
+                  color: 'white',
+                  borderRadius: '12px',
+                  padding: '32px',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s',
+                  boxShadow: '0 20px 40px rgba(255, 74, 35, 0.3)'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <BookIcon size={48} color="white" />
+                <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginTop: '16px', marginBottom: '8px'}}>
+                  Knowledge Base
+                </h3>
+                <p style={{opacity: 0.9}}>
+                  Access video library and resources
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Admin Modals */}
+          {showAdminProvisioning && <AdminProvisioning onClose={() => setShowAdminProvisioning(false)} />}
+          {showAdminDashboard && <AdminDashboard onClose={() => setShowAdminDashboard(false)} />}
+          {showAnalytics && <AnalyticsDashboard onClose={() => setShowAnalytics(false)} />}
+          {showEmailManager && <EmailManager onClose={() => setShowEmailManager(false)} />}
+        </div>
+      );
+    }
+
+    // Coach Home - 3 Card Layout
     return (
       <div style={{minHeight: '100vh', background: '#f9fafb'}}>
-        {/* Header with admin controls */}
+        {/* Header */}
         <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
           <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <IvylevelFullLogo />
-            <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
-              {/* Admin Controls in Header */}
-              {userData?.role === 'admin' && (
-                <>
-                  <button
-                    onClick={() => setShowAdminProvisioning(true)}
-                    title="Add New Coach"
-                    style={{
-                      padding: '8px 12px',
-                      background: 'transparent',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      color: '#641432'
-                    }}
-                  >
-                    <UserIcon size={18} color="#641432" />
-                    <span style={{fontSize: '0.875rem'}}>Add Coach</span>
-                  </button>
-                  <button
-                    onClick={() => setShowAdminDashboard(true)}
-                    title="Admin Dashboard"
-                    style={{
-                      padding: '8px 12px',
-                      background: 'transparent',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      color: '#641432'
-                    }}
-                  >
-                    <ChartIcon size={18} color="#641432" />
-                    <span style={{fontSize: '0.875rem'}}>Dashboard</span>
-                  </button>
-                  <button
-                    onClick={() => setShowAnalytics(true)}
-                    title="Analytics"
-                    style={{
-                      padding: '8px',
-                      background: 'transparent',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: '#641432'
-                    }}
-                  >
-                    <ChartIcon size={18} color="#3b82f6" />
-                  </button>
-                  <button
-                    onClick={() => setShowEmailManager(true)}
-                    title="Email Manager"
-                    style={{
-                      padding: '8px',
-                      background: 'transparent',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: '#641432'
-                    }}
-                  >
-                    <SendIcon size={18} color="#22c55e" />
-                  </button>
-                </>
-              )}
-              <div style={{textAlign: 'right', borderLeft: '1px solid #e5e7eb', paddingLeft: '16px'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '24px'}}>
+              <div style={{textAlign: 'right'}}>
                 <div style={{fontSize: '0.875rem', color: '#6b7280'}}>Welcome back</div>
                 <div style={{fontWeight: '600', color: '#641432'}}>{userData?.name}</div>
               </div>
@@ -337,19 +535,177 @@ function App() {
             </div>
           </div>
         </div>
-        
-        {/* Main Video Library */}
-        <ModernKnowledgeBase />
 
-        {/* Admin Modals */}
-        {showAdminProvisioning && <AdminProvisioning onClose={() => setShowAdminProvisioning(false)} />}
-        {showAdminDashboard && <AdminDashboard onClose={() => setShowAdminDashboard(false)} />}
-        {showAnalytics && <AnalyticsDashboard onClose={() => setShowAnalytics(false)} />}
-        {showEmailManager && <EmailManager onClose={() => setShowEmailManager(false)} />}
+        {/* Main Content */}
+        <div style={{maxWidth: '1200px', margin: '0 auto', padding: '32px 24px'}}>
+          <h1 style={{fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '32px', textAlign: 'center', color: '#641432'}}>
+            Welcome to Ivylevel Elite Coach Portal
+          </h1>
+
+          {/* Feature Cards - 3 Card Layout */}
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px'}}>
+            
+            {/* STEP 1: Smart Onboarding */}
+            <div
+              onClick={() => alert('Smart Onboarding coming soon!')}
+              style={{
+                background: 'linear-gradient(135deg, #FF4A23, #FF6B47)',
+                color: 'white',
+                borderRadius: '12px',
+                padding: '32px',
+                cursor: 'pointer',
+                transition: 'transform 0.2s',
+                boxShadow: '0 20px 40px rgba(255, 74, 35, 0.3)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              <div style={{marginBottom: '16px'}}>
+                <TargetIcon size={48} color="white" />
+              </div>
+              <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px'}}>
+                1. Smart Onboarding System
+              </h3>
+              <p style={{opacity: 0.9, marginBottom: '12px'}}>
+                Get started quickly with tech setup & essential coaching prep
+              </p>
+              <div style={{
+                background: 'rgba(255,255,255,0.2)',
+                padding: '8px',
+                borderRadius: '4px',
+                fontSize: '0.875rem',
+                marginTop: '16px'
+              }}>
+                <strong>Start Here:</strong> Automated onboarding replaces manual process
+              </div>
+            </div>
+
+            {/* STEP 2: Training & Certification */}
+            <div
+              onClick={() => alert('Training module coming soon!')}
+              style={{
+                background: 'white',
+                borderRadius: '12px',
+                padding: '32px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                border: '2px solid #FFE5DF',
+                boxShadow: '0 10px 20px rgba(100,20,50,0.05)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#FF4A23';
+                e.currentTarget.style.transform = 'scale(1.02)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = '#FFE5DF';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              <div style={{marginBottom: '16px'}}>
+                <TrophyIcon size={48} color={ICON_COLORS.primary} />
+              </div>
+              <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px', color: '#641432'}}>
+                2. Training & Certification
+              </h3>
+              <p style={{color: '#6b7280'}}>
+                Complete 5 modules with quizzes to prepare for your first session
+              </p>
+              <div style={{marginTop: '16px', fontSize: '0.875rem', color: '#FF4A23', fontWeight: '600'}}>
+                Begin Training →
+              </div>
+            </div>
+
+            {/* STEP 3: Knowledge Base */}
+            <div
+              onClick={() => setView('videos')}
+              style={{
+                background: 'white',
+                borderRadius: '12px',
+                padding: '32px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                border: '2px solid #FFE5DF',
+                boxShadow: '0 10px 20px rgba(100,20,50,0.05)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#FF4A23';
+                e.currentTarget.style.transform = 'scale(1.02)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = '#FFE5DF';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              <div style={{marginBottom: '16px'}}>
+                <BookIcon size={48} color={ICON_COLORS.primary} />
+              </div>
+              <h3 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px', color: '#641432'}}>
+                3. Knowledge Base & Resources
+              </h3>
+              <p style={{color: '#6b7280'}}>
+                Access 316+ sessions with AI insights for ongoing support
+              </p>
+              <div style={{
+                display: 'flex',
+                gap: '8px',
+                marginTop: '16px',
+                fontSize: '0.875rem'
+              }}>
+                <span style={{
+                  background: '#f3f4f6',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  color: '#6b7280'
+                }}>
+                  AI-Powered
+                </span>
+                <span style={{
+                  background: '#f3f4f6',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  color: '#6b7280'
+                }}>
+                  316+ Sessions
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
+
+  // Video Library View
+  if (view === 'videos') {
+    return (
+      <div style={{minHeight: '100vh', background: '#f9fafb'}}>
+        {/* Header */}
+        <div style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 24px'}}>
+          <div style={{maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+            <IvylevelFullLogo />
+            <button
+              onClick={() => setView('home')}
+              style={{
+                padding: '8px 16px',
+                background: '#FFE5DF',
+                color: '#641432',
+                borderRadius: '6px',
+                border: 'none',
+                cursor: 'pointer',
+                fontWeight: '500'
+              }}
+            >
+              Back to Dashboard
+            </button>
+          </div>
+        </div>
+        <ModernKnowledgeBase />
+      </div>
+    );
+  }
 
   return null;
 }
